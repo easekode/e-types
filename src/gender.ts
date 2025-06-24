@@ -1,7 +1,7 @@
-import { z } from "zod";
+import { z } from 'zod';
 export enum Gender {
-  Male = "Male",
-  Female = "Female",
+  Male = 'Male',
+  Female = 'Female',
 }
 
 export const GenderSchema = z.nativeEnum(Gender);

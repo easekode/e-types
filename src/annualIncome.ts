@@ -1,11 +1,11 @@
-import { z } from "zod";
+import { z } from 'zod';
 
 export const IncomeUnitEnum = z.enum([
-  "Thousand",
-  "Lakh",
-  "Crore",
-  "Million",
-  "Billion",
+  'Thousand',
+  'Lakh',
+  'Crore',
+  'Million',
+  'Billion',
 ]);
 
 export const IncomeRangeSchema = z.object({

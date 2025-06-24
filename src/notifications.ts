@@ -18,25 +18,25 @@ export interface BaseNotification {
 }
 
 export type NotificationType =
-  | "info"
-  | "success"
-  | "warning"
-  | "error"
-  | "system"
-  | "user"
-  | "marketing"
-  | "security"
-  | "reminder";
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'system'
+  | 'user'
+  | 'marketing'
+  | 'security'
+  | 'reminder';
 
-export type NotificationPriority = "low" | "normal" | "high" | "urgent";
+export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent';
 
 export type NotificationStatus =
-  | "pending"
-  | "sent"
-  | "delivered"
-  | "read"
-  | "failed"
-  | "expired";
+  | 'pending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | 'failed'
+  | 'expired';
 
 // User notification
 export interface UserNotification extends BaseNotification {
@@ -71,7 +71,7 @@ export interface NotificationAction {
 // Push notification
 export interface PushNotification extends BaseNotification {
   deviceTokens: string[];
-  platform: "ios" | "android" | "web" | "all";
+  platform: 'ios' | 'android' | 'web' | 'all';
   payload: PushPayload;
   deliveryReceipt?: boolean;
   clickTracking?: boolean;
@@ -92,7 +92,7 @@ export interface PushPayload {
   thread?: string;
   collapseKey?: string;
   timeToLive?: number;
-  priority?: "normal" | "high";
+  priority?: 'normal' | 'high';
   restrictedPackageName?: string;
   dryRun?: boolean;
 }
@@ -117,7 +117,7 @@ export interface EmailAttachment {
   filename: string;
   content: string | ArrayBuffer | Uint8Array;
   contentType: string;
-  disposition?: "attachment" | "inline";
+  disposition?: 'attachment' | 'inline';
   contentId?: string;
 }
 
@@ -145,18 +145,18 @@ export interface InAppNotification extends BaseNotification {
   userId: string;
   component?: string;
   position?:
-    | "top"
-    | "bottom"
-    | "center"
-    | "top-left"
-    | "top-right"
-    | "bottom-left"
-    | "bottom-right";
+    | 'top'
+    | 'bottom'
+    | 'center'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right';
   duration?: number;
   dismissible?: boolean;
   sticky?: boolean;
   showCloseButton?: boolean;
-  animation?: "slide" | "fade" | "bounce" | "zoom";
+  animation?: 'slide' | 'fade' | 'bounce' | 'zoom';
 }
 
 // Notification settings
@@ -175,7 +175,7 @@ export interface NotificationChannel {
   sms: boolean;
   inApp: boolean;
   quietHours?: QuietHours;
-  frequency?: "immediate" | "daily" | "weekly" | "never";
+  frequency?: 'immediate' | 'daily' | 'weekly' | 'never';
 }
 
 export interface GlobalNotificationSettings {
@@ -201,7 +201,7 @@ export interface DeviceRegistration {
   id: string;
   userId: string;
   token: string;
-  platform: "ios" | "android" | "web";
+  platform: 'ios' | 'android' | 'web';
   appVersion: string;
   osVersion: string;
   deviceModel?: string;
@@ -218,7 +218,7 @@ export interface NotificationTemplate {
   title: string;
   body: string;
   variables: TemplateVariable[];
-  channels: ("email" | "push" | "sms" | "inApp")[];
+  channels: ('email' | 'push' | 'sms' | 'inApp')[];
   emailTemplate?: EmailTemplate;
   isActive: boolean;
   createdAt: string;
@@ -227,7 +227,7 @@ export interface NotificationTemplate {
 
 export interface TemplateVariable {
   name: string;
-  type: "string" | "number" | "boolean" | "date" | "url";
+  type: 'string' | 'number' | 'boolean' | 'date' | 'url';
   required: boolean;
   defaultValue?: any;
   description?: string;
@@ -242,14 +242,14 @@ export interface NotificationCampaign {
   audience: NotificationAudience;
   schedule: NotificationSchedule;
   variables: Record<string, any>;
-  channels: ("email" | "push" | "sms" | "inApp")[];
+  channels: ('email' | 'push' | 'sms' | 'inApp')[];
   status:
-    | "draft"
-    | "scheduled"
-    | "running"
-    | "completed"
-    | "paused"
-    | "cancelled";
+    | 'draft'
+    | 'scheduled'
+    | 'running'
+    | 'completed'
+    | 'paused'
+    | 'cancelled';
   stats: CampaignStats;
   createdBy: string;
   createdAt: string;
@@ -257,7 +257,7 @@ export interface NotificationCampaign {
 }
 
 export interface NotificationAudience {
-  type: "all" | "segment" | "users" | "roles";
+  type: 'all' | 'segment' | 'users' | 'roles';
   userIds?: string[];
   roles?: string[];
   segment?: AudienceSegment;
@@ -273,28 +273,28 @@ export interface AudienceSegment {
 export interface AudienceFilter {
   field: string;
   operator:
-    | "equals"
-    | "not_equals"
-    | "contains"
-    | "not_contains"
-    | "gt"
-    | "gte"
-    | "lt"
-    | "lte"
-    | "in"
-    | "not_in";
+    | 'equals'
+    | 'not_equals'
+    | 'contains'
+    | 'not_contains'
+    | 'gt'
+    | 'gte'
+    | 'lt'
+    | 'lte'
+    | 'in'
+    | 'not_in';
   value: any;
 }
 
 export interface NotificationSchedule {
-  type: "immediate" | "scheduled" | "recurring";
+  type: 'immediate' | 'scheduled' | 'recurring';
   sendAt?: string;
   recurring?: RecurringSchedule;
   timezone?: string;
 }
 
 export interface RecurringSchedule {
-  frequency: "daily" | "weekly" | "monthly" | "yearly";
+  frequency: 'daily' | 'weekly' | 'monthly' | 'yearly';
   interval: number;
   days?: number[]; // for weekly
   dayOfMonth?: number; // for monthly
@@ -342,20 +342,20 @@ export interface NotificationEvent {
 }
 
 export type NotificationEventType =
-  | "sent"
-  | "delivered"
-  | "opened"
-  | "clicked"
-  | "dismissed"
-  | "unsubscribed"
-  | "bounced"
-  | "failed";
+  | 'sent'
+  | 'delivered'
+  | 'opened'
+  | 'clicked'
+  | 'dismissed'
+  | 'unsubscribed'
+  | 'bounced'
+  | 'failed';
 
 // Notification providers
 export interface NotificationProvider {
   id: string;
   name: string;
-  type: "email" | "push" | "sms";
+  type: 'email' | 'push' | 'sms';
   config: ProviderConfig;
   isActive: boolean;
   isDefault: boolean;
