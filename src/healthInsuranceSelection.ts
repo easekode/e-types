@@ -20,7 +20,9 @@ export const HealthInsuranceMemberFormSchema = z.object({
   member: PolicyMemberSchema,
   age: MemberAgeSchema,
   pincode: PincodeSchema,
-  coverAmount: CoverAmountSchema
+  coverAmount: CoverAmountSchema,
 });
 
-export type HealthInsuranceMemberFormType = z.infer<typeof HealthInsuranceMemberFormSchema>;
+export type HealthInsuranceMemberFormType = z.infer<
+  typeof HealthInsuranceMemberFormSchema
+>;

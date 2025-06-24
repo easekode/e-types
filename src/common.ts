@@ -24,7 +24,8 @@ export type Omit<T, K extends keyof T> = Pick<T, Exclude<keyof T, K>>;
 export type PartialBy<T, K extends keyof T> = Omit<T, K> & Partial<Pick<T, K>>;
 
 // Make specific properties required
-export type RequiredBy<T, K extends keyof T> = Omit<T, K> & Required<Pick<T, K>>;
+export type RequiredBy<T, K extends keyof T> = Omit<T, K> &
+  Required<Pick<T, K>>;
 
 // Nullable type
 export type Nullable<T> = T | null;
@@ -77,16 +78,16 @@ export type If<C extends boolean, T, F> = C extends true ? T : F;
 // export type Uncapitalize<S extends string> = intrinsic;
 
 // Template literal types
-export type Join<T extends readonly string[], D extends string> = T extends readonly [
-  infer F,
-  ...infer R
-]
+export type Join<
+  T extends readonly string[],
+  D extends string
+> = T extends readonly [infer F, ...infer R]
   ? F extends string
     ? R extends readonly string[]
-      ? `${F}${R extends readonly [] ? '' : D}${Join<R, D>}`
+      ? `${F}${R extends readonly [] ? "" : D}${Join<R, D>}`
       : never
     : never
-  : '';
+  : "";
 
 // Object key types
 export type ObjectKeys<T> = keyof T;
@@ -96,9 +97,9 @@ export type ObjectEntries<T> = {
 }[keyof T];
 
 // Union to intersection
-export type UnionToIntersection<U> = (U extends any ? (k: U) => void : never) extends (
-  k: infer I
-) => void
+export type UnionToIntersection<U> = (
+  U extends any ? (k: U) => void : never
+) extends (k: infer I) => void
   ? I
   : never;
 
@@ -112,14 +113,16 @@ export type Constructor<T = {}> = new (...args: any[]) => T;
 export type AbstractConstructor<T = {}> = abstract new (...args: any[]) => T;
 
 // Function type
-export type Func<T extends readonly unknown[] = readonly unknown[], R = unknown> = (
-  ...args: T
-) => R;
+export type Func<
+  T extends readonly unknown[] = readonly unknown[],
+  R = unknown
+> = (...args: T) => R;
 
 // Async function type
-export type AsyncFunc<T extends readonly unknown[] = readonly unknown[], R = unknown> = (
-  ...args: T
-) => Promise<R>;
+export type AsyncFunc<
+  T extends readonly unknown[] = readonly unknown[],
+  R = unknown
+> = (...args: T) => Promise<R>;
 
 // Event handler type
 export type EventHandler<T = any> = (event: T) => void;
@@ -134,7 +137,13 @@ export type Predicate<T> = (value: T) => boolean;
 export type Comparator<T> = (a: T, b: T) => number;
 
 // Serializable types
-export type Serializable = string | number | boolean | null | SerializableObject | SerializableArray;
+export type Serializable =
+  | string
+  | number
+  | boolean
+  | null
+  | SerializableObject
+  | SerializableArray;
 export type SerializableObject = { [key: string]: Serializable };
 export type SerializableArray = Serializable[];
 

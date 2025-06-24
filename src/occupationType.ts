@@ -8,7 +8,7 @@ export enum OccupationTypeEnum {
   HOMEMAKER = "Homemaker",
   RETIRED = "Retired",
   STUDENT = "Student",
-  OTHER = "Other"
+  OTHER = "Other",
 }
 
 export const OccupationTypeSchema = z.nativeEnum(OccupationTypeEnum);

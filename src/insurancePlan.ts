@@ -1,5 +1,5 @@
 import { z } from "zod";
-import {OccupationTypeSchema } from "./occupationType";
+import { OccupationTypeSchema } from "./occupationType";
 import { IncomeRangeSchema } from "./annualIncome";
 import { YesNoSchema } from "./yesNo";
 
@@ -10,10 +10,7 @@ const PhoneNumberSchema = z
   .max(10, "Mobile number must be 10 digits")
   .regex(/^[6-9]\d{9}$/, "Invalid Indian mobile number");
 
-const emailSchema = z
-  .string()
-  .email()
-  .max(50, "Email too long");
+const emailSchema = z.string().email().max(50, "Email too long");
 
 // Main schema
 export const PersonalDetailsSchema = z.object({

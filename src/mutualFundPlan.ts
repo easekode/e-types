@@ -5,7 +5,7 @@ export enum GoalEnum {
   RETIREMENT = "Retirement",
   EDUCATION = "Education",
   TRAVEL = "Travel",
-  OTHER = "Other"
+  OTHER = "Other",
 }
 export const GoalSchema = z.nativeEnum(GoalEnum);
 export type GoalType = z.infer<typeof GoalSchema>;
@@ -15,7 +15,7 @@ export enum TenureEnum {
   THREE_YEARS = "3 Years",
   FIVE_YEARS = "5 Years",
   TEN_YEARS = "10 Years",
-  OTHER = "Other"
+  OTHER = "Other",
 }
 export const TenureSchema = z.nativeEnum(TenureEnum);
 export type TenureType = z.infer<typeof TenureSchema>;
