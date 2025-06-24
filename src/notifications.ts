@@ -17,20 +17,26 @@ export interface BaseNotification {
   expiresAt?: string;
 }
 
-export type NotificationType = 
-  | 'info' 
-  | 'success' 
-  | 'warning' 
-  | 'error' 
-  | 'system' 
-  | 'user' 
-  | 'marketing' 
-  | 'security' 
+export type NotificationType =
+  | 'info'
+  | 'success'
+  | 'warning'
+  | 'error'
+  | 'system'
+  | 'user'
+  | 'marketing'
+  | 'security'
   | 'reminder';
 
 export type NotificationPriority = 'low' | 'normal' | 'high' | 'urgent';
 
-export type NotificationStatus = 'pending' | 'sent' | 'delivered' | 'read' | 'failed' | 'expired';
+export type NotificationStatus =
+  | 'pending'
+  | 'sent'
+  | 'delivered'
+  | 'read'
+  | 'failed'
+  | 'expired';
 
 // User notification
 export interface UserNotification extends BaseNotification {
@@ -138,7 +144,14 @@ export interface SMSNotification extends BaseNotification {
 export interface InAppNotification extends BaseNotification {
   userId: string;
   component?: string;
-  position?: 'top' | 'bottom' | 'center' | 'top-left' | 'top-right' | 'bottom-left' | 'bottom-right';
+  position?:
+    | 'top'
+    | 'bottom'
+    | 'center'
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right';
   duration?: number;
   dismissible?: boolean;
   sticky?: boolean;
@@ -230,7 +243,13 @@ export interface NotificationCampaign {
   schedule: NotificationSchedule;
   variables: Record<string, any>;
   channels: ('email' | 'push' | 'sms' | 'inApp')[];
-  status: 'draft' | 'scheduled' | 'running' | 'completed' | 'paused' | 'cancelled';
+  status:
+    | 'draft'
+    | 'scheduled'
+    | 'running'
+    | 'completed'
+    | 'paused'
+    | 'cancelled';
   stats: CampaignStats;
   createdBy: string;
   createdAt: string;
@@ -253,7 +272,17 @@ export interface AudienceSegment {
 
 export interface AudienceFilter {
   field: string;
-  operator: 'equals' | 'not_equals' | 'contains' | 'not_contains' | 'gt' | 'gte' | 'lt' | 'lte' | 'in' | 'not_in';
+  operator:
+    | 'equals'
+    | 'not_equals'
+    | 'contains'
+    | 'not_contains'
+    | 'gt'
+    | 'gte'
+    | 'lt'
+    | 'lte'
+    | 'in'
+    | 'not_in';
   value: any;
 }
 
@@ -312,14 +341,14 @@ export interface NotificationEvent {
   metadata?: Record<string, any>;
 }
 
-export type NotificationEventType = 
-  | 'sent' 
-  | 'delivered' 
-  | 'opened' 
-  | 'clicked' 
-  | 'dismissed' 
-  | 'unsubscribed' 
-  | 'bounced' 
+export type NotificationEventType =
+  | 'sent'
+  | 'delivered'
+  | 'opened'
+  | 'clicked'
+  | 'dismissed'
+  | 'unsubscribed'
+  | 'bounced'
   | 'failed';
 
 // Notification providers
