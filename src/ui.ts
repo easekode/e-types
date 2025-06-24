@@ -9,6 +9,61 @@ export interface CSSProperties {
   [key: string]: any;
 }
 
+// UI Enums
+export enum ComponentSizeEnum {
+  XS = 'xs',
+  SM = 'sm',
+  MD = 'md',
+  LG = 'lg',
+  XL = 'xl'
+}
+
+export enum ComponentVariantEnum {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  SUCCESS = 'success',
+  WARNING = 'warning',
+  ERROR = 'error',
+  INFO = 'info',
+  NEUTRAL = 'neutral'
+}
+
+export enum ButtonVariant {
+  PRIMARY = 'primary',
+  SECONDARY = 'secondary',
+  OUTLINE = 'outline',
+  GHOST = 'ghost',
+  LINK = 'link'
+}
+
+export enum ThemeMode {
+  LIGHT = 'light',
+  DARK = 'dark',
+  SYSTEM = 'system'
+}
+
+// UI Constants
+export const UI_CONSTANTS = {
+  BREAKPOINTS: {
+    XS: 480,
+    SM: 768,
+    MD: 1024,
+    LG: 1280,
+    XL: 1920
+  },
+  Z_INDEX: {
+    DROPDOWN: 1000,
+    MODAL: 1010,
+    TOOLTIP: 1020,
+    OVERLAY: 1030
+  },
+  ANIMATION_DURATION: {
+    FAST: 150,
+    NORMAL: 300,
+    SLOW: 500
+  }
+} as const;
+
 // Base component props
 export interface BaseComponentProps {
   id?: string;

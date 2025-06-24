@@ -2,6 +2,39 @@
  * Authentication and Authorization Types
  */
 
+// Enums for runtime values
+export enum UserStatus {
+  ACTIVE = 'active',
+  INACTIVE = 'inactive',
+  SUSPENDED = 'suspended',
+  PENDING_VERIFICATION = 'pending_verification'
+}
+
+export enum AuthProvider {
+  LOCAL = 'local',
+  GOOGLE = 'google',
+  FACEBOOK = 'facebook',
+  APPLE = 'apple',
+  GITHUB = 'github'
+}
+
+export enum PermissionType {
+  READ = 'read',
+  WRITE = 'write',
+  DELETE = 'delete',
+  ADMIN = 'admin'
+}
+
+// Constants
+export const AUTH_CONSTANTS = {
+  MAX_LOGIN_ATTEMPTS: 5,
+  LOCKOUT_DURATION: 15 * 60 * 1000, // 15 minutes
+  JWT_EXPIRY: 24 * 60 * 60 * 1000, // 24 hours
+  REFRESH_TOKEN_EXPIRY: 7 * 24 * 60 * 60 * 1000, // 7 days
+  PASSWORD_MIN_LENGTH: 8,
+  SESSION_TIMEOUT: 30 * 60 * 1000 // 30 minutes
+} as const;
+
 export interface User {
   id: string;
   email: string;

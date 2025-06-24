@@ -22,7 +22,8 @@
     "noUnusedParameters": false,
     "exactOptionalPropertyTypes": false,
     "removeComments": false,
-    "preserveConstEnums": true
+    "preserveConstEnums": true,
+    "isolatedModules": false
   },
   "include": [
     "src/**/*"
