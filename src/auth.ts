@@ -2,6 +2,8 @@
  * Authentication and Authorization Types
  */
 
+import { z } from 'zod';
+
 // Enums for runtime values
 export enum UserStatus {
   ACTIVE = 'active',
@@ -9,6 +11,14 @@ export enum UserStatus {
   SUSPENDED = 'suspended',
   PENDING_VERIFICATION = 'pending_verification'
 }
+
+export enum UserRoleEnum {
+  ADMIN = 'ADMIN',
+  MANAGER = 'MANAGER',
+  AGENT = 'AGENT',
+  NONE = 'NONE'
+}
+
 
 export enum AuthProvider {
   LOCAL = 'local',
@@ -35,26 +45,29 @@ export const AUTH_CONSTANTS = {
   SESSION_TIMEOUT: 30 * 60 * 1000 // 30 minutes
 } as const;
 
-export interface User {
-  id: string;
-  email: string;
-  username?: string;
-  firstName: string;
-  lastName: string;
-  fullName?: string;
-  avatar?: string;
-  phone?: string;
-  dateOfBirth?: string;
-  isEmailVerified: boolean;
-  isPhoneVerified?: boolean;
-  isActive: boolean;
-  lastLoginAt?: string;
-  createdAt: string;
-  updatedAt: string;
-  roles: UserRole[];
-  permissions: Permission[];
-  profile?: UserProfile;
-}
+// User Schema based on Prisma model
+export const UserSchema = z.object({
+  id: z.string(),
+  email: z.string().email(),
+  password: z.string(),
+  firstName: z.string(),
+  lastName: z.string(),
+  role: z.nativeEnum(UserRoleEnum).default(UserRoleEnum.NONE),
+  isActive: z.boolean().default(true),
+  createdAt: z.union([z.string(), z.date()]).transform((val) => 
+    typeof val === 'string' ? new Date(val) : val
+  ),
+  updatedAt: z.union([z.string(), z.date()]).transform((val) => 
+    typeof val === 'string' ? new Date(val) : val
+  ),
+  refreshTokens: z.array(z.any()).optional(), // RefreshToken[] - you can define RefreshTokenSchema separately
+});
+
+export type User = z.infer<typeof UserSchema>;
+
+// Create and parse User data
+export const createUser = (data: unknown) => UserSchema.parse(data);
+export const createUserSafe = (data: unknown) => UserSchema.safeParse(data);
 
 export interface UserProfile {
   id: string;
@@ -93,7 +106,7 @@ export interface LoginRequest {
 }
 
 export interface LoginResponse {
-  user: User;
+  user: Omit<User, 'password'>;
   accessToken: string;
   refreshToken: string;
   expiresIn: number;
@@ -113,7 +126,7 @@ export interface RegisterRequest {
 }
 
 export interface RegisterResponse {
-  user: Omit<User, 'roles' | 'permissions'>;
+  user: Omit<User, 'refreshTokens'>;
   message: string;
   requiresVerification: boolean;
 }
