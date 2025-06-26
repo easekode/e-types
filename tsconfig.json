@@ -23,7 +23,7 @@
     "exactOptionalPropertyTypes": false,
     "removeComments": false,
     "preserveConstEnums": true,
-    "isolatedModules": false
+    "isolatedModules": true
   },
   "include": [
     "src/**/*"

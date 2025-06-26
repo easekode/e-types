@@ -3,36 +3,37 @@
  */
 
 import { z } from 'zod';
+import { mobileNumberSchema } from './mobile';
 
 // Enums for runtime values
 export enum UserStatus {
   ACTIVE = 'active',
   INACTIVE = 'inactive',
   SUSPENDED = 'suspended',
-  PENDING_VERIFICATION = 'pending_verification'
+  PENDING_VERIFICATION = 'pending_verification',
 }
 
 export enum UserRoleEnum {
   ADMIN = 'ADMIN',
   MANAGER = 'MANAGER',
   AGENT = 'AGENT',
-  NONE = 'NONE'
+  USER = 'USER',
+  NONE = 'NONE',
 }
-
 
 export enum AuthProvider {
   LOCAL = 'local',
   GOOGLE = 'google',
   FACEBOOK = 'facebook',
   APPLE = 'apple',
-  GITHUB = 'github'
+  GITHUB = 'github',
 }
 
 export enum PermissionType {
   READ = 'read',
   WRITE = 'write',
   DELETE = 'delete',
-  ADMIN = 'admin'
+  ADMIN = 'admin',
 }
 
 // Constants
@@ -42,7 +43,7 @@ export const AUTH_CONSTANTS = {
   JWT_EXPIRY: 24 * 60 * 60 * 1000, // 24 hours
   REFRESH_TOKEN_EXPIRY: 7 * 24 * 60 * 60 * 1000, // 7 days
   PASSWORD_MIN_LENGTH: 8,
-  SESSION_TIMEOUT: 30 * 60 * 1000 // 30 minutes
+  SESSION_TIMEOUT: 30 * 60 * 1000, // 30 minutes
 } as const;
 
 // User Schema based on Prisma model
@@ -52,14 +53,14 @@ export const UserSchema = z.object({
   password: z.string(),
   firstName: z.string(),
   lastName: z.string(),
-  role: z.nativeEnum(UserRoleEnum).default(UserRoleEnum.NONE),
+  role: z.nativeEnum(UserRoleEnum),
   isActive: z.boolean().default(true),
-  createdAt: z.union([z.string(), z.date()]).transform((val) => 
-    typeof val === 'string' ? new Date(val) : val
-  ),
-  updatedAt: z.union([z.string(), z.date()]).transform((val) => 
-    typeof val === 'string' ? new Date(val) : val
-  ),
+  createdAt: z
+    .union([z.string(), z.date()])
+    .transform(val => (typeof val === 'string' ? new Date(val) : val)),
+  updatedAt: z
+    .union([z.string(), z.date()])
+    .transform(val => (typeof val === 'string' ? new Date(val) : val)),
   refreshTokens: z.array(z.any()).optional(), // RefreshToken[] - you can define RefreshTokenSchema separately
 });
 
@@ -209,7 +210,12 @@ export interface AuthError {
   field?: string;
 }
 
-export type AuthStatus = 'idle' | 'loading' | 'authenticated' | 'unauthenticated' | 'error';
+export type AuthStatus =
+  | 'idle'
+  | 'loading'
+  | 'authenticated'
+  | 'unauthenticated'
+  | 'error';
 
 export interface AuthState {
   user: User | null;
@@ -253,3 +259,9 @@ export interface OAuthResponse {
   refreshToken: string;
   isNewUser: boolean;
 }
+
+export const LoginOtpRequest = z.object({
+  mobile: mobileNumberSchema,
+});
+
+export type LoginOtpRequestType = z.infer<typeof LoginOtpRequest>;
