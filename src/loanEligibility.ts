@@ -1,11 +1,11 @@
 import { z } from 'zod';
-import { OrganisationTypeSchema } from './organisationType';
+import { GovOrgTypeSchema } from './organizationType';
 
 // Main schema
 export const PersonalLoanEligibilitySchema = z.object({
-  organisationType: OrganisationTypeSchema,
+  organizationType: GovOrgTypeSchema,
   department: z.string().min(1, 'Department is required'),
-  organisationName: z.string().min(1, 'Organisation name is required'),
+  organizationName: z.string().min(1, 'Organization name is required'),
   salary: z
     .string()
     .min(1, 'Salary is required')
