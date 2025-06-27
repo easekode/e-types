@@ -4,6 +4,7 @@
 
 import { z } from 'zod';
 import { mobileNumberSchema } from './mobile';
+import { otpSchema } from './otp';
 
 // Enums for runtime values
 export enum UserStatus {
@@ -265,3 +266,9 @@ export const LoginOtpRequest = z.object({
 });
 
 export type LoginOtpRequestType = z.infer<typeof LoginOtpRequest>;
+export const signupMobileVerifySchema = z.object({
+  mobile: mobileNumberSchema,
+  otp: otpSchema,
+});
+
+export type SignupMobileVerify = z.infer<typeof signupMobileVerifySchema>;
