@@ -1,8 +1,8 @@
 import { z } from 'zod';
 
 export enum GovOrgTypeEnum {
-  GOVT = 'govt',
-  NON_GOV = 'non-govt',
+  GOVT = 'GOVT',
+  NON_GOV = 'NON_GOV',
 }
 
 export const GovOrgTypeSchema = z.nativeEnum(GovOrgTypeEnum);
