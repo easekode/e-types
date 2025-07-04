@@ -1,5 +1,4 @@
 import { z } from 'zod';
-import { GovOrgTypeSchema, GovOrgTypeEnum } from './organizationType';
 // Loan Type Enum
 export enum LoanTypeEnum {
   PERSONAL_LOAN = 'PERSONAL_LOAN',
@@ -14,17 +13,54 @@ export enum LoanTypeEnum {
 export const LoanTypeSchema = z.nativeEnum(LoanTypeEnum);
 export type LoanType = z.infer<typeof LoanTypeSchema>;
 
+export enum GovOrgTypeEnum {
+  GOVT = 'GOVT',
+  NON_GOV = 'NON_GOV',
+}
+
+export const GovOrgTypeSchema = z.nativeEnum(GovOrgTypeEnum);
+export type GovOrgType = z.infer<typeof GovOrgTypeSchema>;
+
 export enum DepartmentEnum {
   EDUCATION = 'EDUCATION',
   BANKING = 'BANKING',
+  BBC_CORPORATES = 'BBC CORPORATES',
+  BPO = 'BPO',
+  CENTRAL_GOVT = 'CENTRAL GOVT',
+  DEFENCE = 'DEFENCE',
+  GEMS_JEWELLERY = 'GEMS & JEWELLERY',
+  GOVERNMENT = 'GOVERNMENT',
   HOSPITAL = 'HOSPITAL',
   INSURANCE = 'INSURANCE',
+  ITES = 'ITES',
+  JOURNALIST = 'JOURNALIST',
+  MANUFACTURING = 'MANUFACTURING',
+  METALS = 'METALS',
+  MINING = 'MINING',
+  NBC = 'NBC',
+  POLICE = 'POLICE',
   RAILWAY = 'RAILWAY',
+  REAL_STATE = 'REAL STATE',
+  SERVICE = 'SERVICE',
+  SOFTWARE = 'SOFTWARE',
+  STAFFING = 'STAFFING',
+  STATE_GOVT = 'STATE GOVT',
+  STOCK_BROKING = 'STOCK BROKING',
+  TRADING = 'TRADING',
   OTHERS = 'OTHERS',
 }
 
 export const DepartmentSchema = z.nativeEnum(DepartmentEnum);
 export type Department = z.infer<typeof DepartmentSchema>;
+
+export enum SalutationEnum {
+  MR = 'MR',
+  MRS = 'MRS',
+  MS = 'MS',
+}
+
+export const SalutationSchema = z.nativeEnum(SalutationEnum);
+export type Salutation = z.infer<typeof SalutationSchema>;
 
 // Opted Eligibility Schema
 export const optedEligibilitySchema = z.object({
@@ -39,11 +75,12 @@ export type OptedEligibility = z.infer<typeof optedEligibilitySchema>;
 
 export const leadSchema = z.object({
   // Step 1: Personal Information
+  salutation: SalutationSchema.optional(), // <-- now optional for multi-step flexibility
   name: z.string().min(1, 'Name is required').optional(),
   phone: z
     .string()
     .min(1, 'Phone number is required')
-    .regex(/^\d{10}$/, 'Phone number must be 10 digits')
+    .regex(/^[0-9]{10}$/, 'Phone number must be 10 digits')
     .optional(),
   email: z.string().email('Invalid email address').optional(),
   dob: z
@@ -88,7 +125,7 @@ export const leadSchema = z.object({
   salarySlip: z.string().min(1, 'Salary slip is required').optional(),
 
   // Lead Management
-  isSubmitted: z.boolean().optional().default(false),
+  isSubmitted: z.boolean().default(false),
   status: z
     .enum(['NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 'LOST'])
     .optional(),
