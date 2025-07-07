@@ -68,6 +68,7 @@ export type OptedEligibility = z.infer<typeof optedEligibilitySchema>;
 
 export const leadSchema = z.object({
   // Step 1: Personal Information
+  userId: z.string().optional(),
   salutation: SalutationSchema.optional(), // <-- now optional for multi-step flexibility
   name: z.string().min(1, 'Name is required').optional(),
   phone: z
