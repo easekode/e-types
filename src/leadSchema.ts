@@ -116,6 +116,40 @@ export const leadSchema = z.object({
   eligibilityList: z.array(optedEligibilitySchema).optional(),
 });
 
+export const leadPersonalInfoSchema = leadSchema
+  .extend({
+    salutation: SalutationSchema,
+    name: z.string().min(1, 'Name is required'),
+    phone: z
+      .string()
+      .min(1, 'Phone number is required')
+      .regex(/^[0-9]{10}$/, 'Phone number must be 10 digits'),
+    dob: DateObjOrString,
+    pinCode: z
+      .string()
+      .min(1, 'Pin code is required')
+      .regex(/^[0-9]{6}$/, 'Pin code must be 6 digits'),
+    salary: z.number().min(1, 'Monthly Salary is required'),
+    hasExistingLoan: z.boolean(),
+    monthlyEmiAmount: z
+      .number()
+      .min(1, 'Monthly EMI amount is required')
+      .optional(),
+  })
+  .refine(
+    data => {
+      if (data.hasExistingLoan) {
+        return data.monthlyEmiAmount !== undefined && data.monthlyEmiAmount > 0;
+      }
+      return true;
+    },
+    {
+      message: 'Monthly EMI amount is required when hasExistingLoan is true',
+      path: ['monthlyEmiAmount'],
+    },
+  );
+
+export type LeadPersonalInfo = z.infer<typeof leadParamsSchema>;
 export const leadParamsSchema = z.object({
   id: z.string().cuid('Invalid lead ID'),
 });
