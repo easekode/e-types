@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { GovOrgTypeSchema, GovOrgTypeEnum } from './organizationType';
+import { DateObjOrString } from './date';
 // Loan Type Enum
 export enum LoanTypeEnum {
   PERSONAL_LOAN = 'PERSONAL_LOAN',
@@ -46,15 +47,11 @@ export const leadSchema = z.object({
     .regex(/^\d{10}$/, 'Phone number must be 10 digits')
     .optional(),
   email: z.string().email('Invalid email address').optional(),
-  dob: z
-    .string()
-    .min(1, 'Date of Birth is required')
-    .regex(/^\d{2}-\d{2}-\d{4}$/, 'Invalid date format (dd-mm-yyyy)')
-    .optional(),
+  dob: DateObjOrString.optional(),
   pan: z
     .string()
     .min(1, 'PAN number is required')
-    .regex(/[A-Z]{5}[0-9]{4}[A-Z]{1}/, 'Invalid PAN format')
+    .regex(/^[A-Z]{5}[0-9]{4}[A-Z]$/, 'Invalid PAN format')
     .optional(),
   pinCode: z
     .string()
@@ -63,15 +60,10 @@ export const leadSchema = z.object({
     .optional(),
   hasExistingLoan: z.boolean().optional(),
   monthlyEmiAmount: z
-    .string()
+    .number()
     .min(1, 'Monthly EMI amount is required')
-    .regex(/^\d+$/, 'EMI must be numeric')
     .optional(),
-  salary: z
-    .string()
-    .min(1, 'Monthly Salary is required')
-    .regex(/^\d+$/, 'Salary must be numeric')
-    .optional(),
+  salary: z.number().min(1, 'Monthly Salary is required').optional(),
 
   // Step 2: Employment Details
   orgType: GovOrgTypeSchema.optional(), // GOVT / NON_GOV
@@ -80,11 +72,7 @@ export const leadSchema = z.object({
 
   // Loan Details
   loanType: LoanTypeSchema.optional(),
-  expectedAmount: z
-    .string()
-    .min(1, 'Expected amount is required')
-    .regex(/^\d+$/, 'Expected amount must be numeric')
-    .optional(),
+  expectedAmount: z.number().min(1, 'Expected amount is required').optional(),
   salarySlip: z.string().min(1, 'Salary slip is required').optional(),
 
   // Lead Management
