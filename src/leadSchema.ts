@@ -16,13 +16,13 @@ export const LoanTypeSchema = z.nativeEnum(LoanTypeEnum);
 export type LoanType = z.infer<typeof LoanTypeSchema>;
 
 export enum DepartmentEnum {
-  EDUCATION = 'EDUCATION',
   BANKING = 'BANKING',
-  BBC_CORPORATES = 'BBC CORPORATES',
+  BBG_CORPORATE = 'BBG CORPORATE',
   BPO = 'BPO',
-  CENTRAL_GOVT = 'CENTRAL GOVT',
-  DEFENCE = 'DEFENCE',
-  GEMS_JEWELLERY = 'GEMS & JEWELLERY',
+  CENTRAL_GOVERNMENT = 'CENTRAL GOVERNMENT',
+  DEFENSE = 'DEFENSE',
+  EDUCATION = 'EDUCATION',
+  GEMS_JEWELRY = 'GEMS AND JEWELRY',
   GOVERNMENT = 'GOVERNMENT',
   HOSPITAL = 'HOSPITAL',
   INSURANCE = 'INSURANCE',
@@ -31,17 +31,16 @@ export enum DepartmentEnum {
   MANUFACTURING = 'MANUFACTURING',
   METALS = 'METALS',
   MINING = 'MINING',
-  NBC = 'NBC',
+  NBFC = 'NBFC',
   POLICE = 'POLICE',
+  PREMIUM_INSTITUTES = 'PREMIUM INSTITUTES',
   RAILWAY = 'RAILWAY',
-  REAL_STATE = 'REAL STATE',
+  REAL_ESTATE = 'REAL ESTATE',
   SERVICE = 'SERVICE',
   SOFTWARE = 'SOFTWARE',
   STAFFING = 'STAFFING',
-  STATE_GOVT = 'STATE GOVT',
-  STOCK_BROKING = 'STOCK BROKING',
-  TRADING = 'TRADING',
-  OTHERS = 'OTHERS',
+  STATE_GOVERNMENT = 'STATE GOVERNMENT',
+  STOCK_BROKING = 'STOCK BROKING AND TRADING',
 }
 
 export const DepartmentSchema = z.nativeEnum(DepartmentEnum);
@@ -135,9 +134,13 @@ export const leadPersonalInfoSchema = leadSchema
       .number()
       .min(1, 'Monthly EMI amount is required')
       .optional(),
+    orgType: GovOrgTypeSchema,
+    department: DepartmentSchema,
+    employerName: z.string().min(1, 'Employer name is required'),
   })
   .refine(
     data => {
+      console.log('Validating lead personal info:', data);
       if (data.hasExistingLoan) {
         return data.monthlyEmiAmount !== undefined && data.monthlyEmiAmount > 0;
       }
@@ -149,7 +152,7 @@ export const leadPersonalInfoSchema = leadSchema
     },
   );
 
-export type LeadPersonalInfo = z.infer<typeof leadParamsSchema>;
+export type LeadPersonalInfo = z.infer<typeof leadPersonalInfoSchema>;
 export const leadParamsSchema = z.object({
   id: z.string().cuid('Invalid lead ID'),
 });
