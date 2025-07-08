@@ -47,9 +47,9 @@ export const DepartmentSchema = z.nativeEnum(DepartmentEnum);
 export type Department = z.infer<typeof DepartmentSchema>;
 
 export enum SalutationEnum {
-  MR = 'MR',
-  MRS = 'MRS',
-  MS = 'MS',
+  MR = 'Mr',
+  MS = 'Ms',
+  MRS = 'Mrs',
 }
 
 export const SalutationSchema = z.nativeEnum(SalutationEnum);
@@ -112,11 +112,13 @@ export const leadSchema = z.object({
     .optional(),
   source: z.string().optional(),
   notes: z.string().optional(),
+  optedEligibilityId: z.string().optional(),
   optedEligibility: optedEligibilitySchema.optional(),
   eligibilityList: z.array(optedEligibilitySchema).optional(),
 });
 
 export const leadPersonalInfoSchema = leadSchema
+  .partial()
   .extend({
     salutation: SalutationSchema,
     name: z.string().min(1, 'Name is required'),

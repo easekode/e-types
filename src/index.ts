@@ -5,4 +5,5 @@ export * from './otp';
 export * from './register';
 export * from './errorResponse';
 export * from './date';
-export * from './organizationType'
+export * from './organizationType';
+export * from './leadSchema';
