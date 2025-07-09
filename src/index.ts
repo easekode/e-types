@@ -7,3 +7,4 @@ export * from './errorResponse';
 export * from './date';
 export * from './organizationType';
 export * from './leadSchema';
+export * from './fileUpload';
