@@ -8,3 +8,4 @@ export * from './date';
 export * from './organizationType';
 export * from './leadSchema';
 export * from './fileUpload';
+export * from './masterData';
