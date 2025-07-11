@@ -1,6 +1,11 @@
 import { z } from 'zod';
 import { DateObjOrString } from './date';
 import { GovOrgTypeSchema } from './organizationType';
+import { BusinessTypeListEnum } from './businessTypeList';
+import { IndustryTypeEnum, IndustryTypeSchema } from './industryTypeList';
+import { gstSchema } from './gst';
+import { EmploymentTypeSchema } from './employmentType';
+import { udyamNoSchema } from './udyam';
 // Loan Type Enum
 export enum LoanTypeEnum {
   PERSONAL_LOAN = 'PERSONAL_LOAN',
@@ -115,6 +120,7 @@ export const leadSchema = z.object({
   optedEligibilityId: z.string().optional(),
   optedEligibility: optedEligibilitySchema.optional(),
   eligibilityList: z.array(optedEligibilitySchema).optional(),
+  applicationId: z.string().optional(),
 });
 
 export const leadPersonalInfoSchema = leadSchema
@@ -163,3 +169,93 @@ export const leadParamsSchema = z.object({
 export type LeadInput = z.infer<typeof leadSchema>;
 export type LeadParams = z.infer<typeof leadParamsSchema>;
 export const updateLeadSchema = leadSchema.partial();
+
+export const businessLoanSchema = leadSchema
+  .partial()
+  .extend({
+    employmentType: EmploymentTypeSchema,
+    salutation: SalutationSchema,
+    name: z.string().min(1, 'Name is required'),
+    phone: z
+      .string()
+      .min(1, 'Phone number is required')
+      .regex(/^[0-9]{10}$/, 'Phone number must be 10 digits'),
+    email: z.string().email('Invalid email address'),
+    dob: DateObjOrString,
+    pinCode: z
+      .string()
+      .min(1, 'Pin code is required')
+      .regex(/^[0-9]{6}$/, 'Pin code must be 6 digits'),
+    hasExistingLoan: z.boolean(),
+    monthlyEmiAmount: z
+      .number()
+      .min(1, 'Monthly EMI amount is required')
+      .optional(),
+    businessType: z.nativeEnum(BusinessTypeListEnum),
+    otherBusinessType: z.string().optional(),
+    enterpriseName: z.string().min(1, 'Enterprise name is required'),
+    industryType: IndustryTypeSchema,
+    otherIndustryType: z.string().optional(),
+    businessEstablishedDate: DateObjOrString,
+    bankingTurnoverGross: z.number(),
+    gstRegistered: z.boolean(),
+    gstNumber: gstSchema,
+    itrFilled: z.boolean(),
+    netProfit: z.number(),
+    annualTurnoverGross: z.number(),
+    hasUdyamRegistration: z.boolean(),
+    udyamNo: udyamNoSchema.optional(),
+    loanAmount: z.number(),
+    loanTenure: z.number().min(1, 'Loan tenure is required'),
+    loanEmi: z.number().gt(0, 'Loan EMI must be greater than 0'),
+    businessOwnershipDoc: z.string().optional(),
+  })
+  .refine(
+    data => {
+      if (
+        data.hasExistingLoan &&
+        (data.monthlyEmiAmount === undefined || data.monthlyEmiAmount <= 0)
+      ) {
+        return {
+          message:
+            'Please enter the monthly EMI amount if you have an existing loan.',
+        };
+      }
+      if (
+        data.businessType === BusinessTypeListEnum.OTHERS &&
+        (!data.otherBusinessType || data.otherBusinessType.trim() === '')
+      ) {
+        return { message: 'Please specify your business type.' };
+      }
+      if (
+        data.industryType === IndustryTypeEnum.OTHERS &&
+        (!data.otherIndustryType || data.otherIndustryType.trim() === '')
+      ) {
+        return { message: 'Please specify your industry type.' };
+      }
+      if (data.gstRegistered && !data.gstNumber) {
+        return { message: 'Please provide your GST number.' };
+      }
+      if (
+        data.itrFilled &&
+        (data.netProfit === undefined || data.annualTurnoverGross === undefined)
+      ) {
+        return {
+          message:
+            'Please provide both Net Profit and Annual Turnover Gross if ITR is filled.',
+        };
+      }
+      if (
+        data.hasUdyamRegistration &&
+        (!data.udyamNo || data.udyamNo.trim() === '')
+      ) {
+        return { message: 'Please provide your Udyam/Udyog number.' };
+      }
+      return true;
+    },
+    {
+      message:
+        'Validation failed: Please check all required conditional fields.',
+      path: [],
+    },
+  );
