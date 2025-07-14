@@ -9,3 +9,6 @@ export * from './organizationType';
 export * from './leadSchema';
 export * from './fileUpload';
 export * from './masterData';
+export * from './masterDataType';
+export * from './pincode';
+export * from './pan';
