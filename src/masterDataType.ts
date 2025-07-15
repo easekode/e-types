@@ -23,3 +23,6 @@ export type BusinessLoanMasterData = {
 };
 
 // You can add more master data exports here as needed
+export interface MasterData {
+  businessLoan: BusinessLoanMasterData;
+}
