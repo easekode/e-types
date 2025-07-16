@@ -148,7 +148,6 @@ export const leadPersonalInfoSchema = leadSchema
   })
   .refine(
     data => {
-      console.log('Validating lead personal info:', data);
       if (data.hasExistingLoan) {
         return data.monthlyEmiAmount !== undefined && data.monthlyEmiAmount > 0;
       }
@@ -187,17 +186,26 @@ export const businessLoanSchema = leadSchema.partial().extend({
     .min(1, 'Monthly EMI amount is required')
     .optional(),
   businessType: z.nativeEnum(BusinessTypeListEnum),
-  otherBusinessType: z.string().optional(),
+  otherBusinessType: z
+    .string()
+    .min(1, 'Please specify your business type.')
+    .optional(),
   enterpriseName: z.string().min(1, 'Enterprise name is required'),
   industryType: IndustryTypeSchema,
-  otherIndustryType: z.string().optional(),
+  otherIndustryType: z
+    .string()
+    .min(1, 'Please specify your industry type.')
+    .optional(),
   businessEstablishedDate: DateObjOrString,
   bankingTurnoverGross: z.number(),
   gstRegistered: z.boolean(),
-  gstNumber: gstSchema,
+  gstNumber: gstSchema.optional(),
   itrFilled: z.boolean(),
-  netProfit: z.number(),
-  annualTurnoverGross: z.number(),
+  netProfit: z.number().gt(0, 'Net Profit must be greater than 0').optional(),
+  annualTurnoverGross: z
+    .number()
+    .gt(0, 'Annual Turnover Gross must be greater than 0')
+    .optional(),
   hasUdyamRegistration: z.boolean(),
   udyamNo: udyamNoSchema.optional(),
   loanAmount: z
