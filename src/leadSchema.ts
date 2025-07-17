@@ -228,7 +228,7 @@ export const businessLoanSchema = leadSchema.partial().extend({
   monthlySalary: z.number().optional(),
   grossIncome: z.number().optional(),
   council: z.nativeEnum(CA_COUNCIL).optional(),
-  registrationData: DateObjOrString.optional(),
+  registrationDate: DateObjOrString.optional(),
 });
 
 export const businessLoanFormSchema = businessLoanSchema.superRefine(
