@@ -7,7 +7,6 @@ import { gstSchema } from './gst';
 import { EmploymentTypeSchema } from './employmentType';
 import { udyamNoSchema } from './udyam';
 import { loanAmtLimitSelfEmpBusiness } from './masterData';
-import { loanTenureSchema } from './masterDataType';
 import { pinCodeSchema } from './pincode';
 import { panSchema } from './pan';
 import {
@@ -219,7 +218,7 @@ export const businessLoanSchema = leadSchema.partial().extend({
     .number()
     .min(loanAmtLimitSelfEmpBusiness.min)
     .max(loanAmtLimitSelfEmpBusiness.max),
-  loanTenure: loanTenureSchema,
+  loanTenure: z.number(),
   loanEmi: z.number().gt(0, 'Loan EMI must be greater than 0'),
   businessOwnershipDoc: z.string().optional(),
   registrationDoc: z.string().optional(),

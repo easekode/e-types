@@ -1,4 +1,4 @@
-import { LoanConfig, tenuresInMonths } from '../masterDataType';
+import { LoanConfig } from '../masterDataType';
 import { BusinessLoanMasterData } from '../masterDataType';
 
 export const loanAmtLimitPersonal = Object.freeze({
@@ -16,12 +16,20 @@ export const loanAmtLimitSelfEmpPro = Object.freeze({
   max: 10000000, // 1 crore
 });
 
+export const personalLoanTenures = Object.freeze([12, 24, 36, 48, 60, 72, 84]);
+export const businessLoanTenuresSelfEmpBusiness = Object.freeze([
+  12, 24, 36, 48, 60, 72, 84,
+]);
+export const businessLoanTenuresSelfEmpPro = Object.freeze([
+  12, 24, 36, 48, 60, 72, 84, 96,
+]);
+
 export const personalLoanMasterData: Readonly<LoanConfig> = Object.freeze({
   interestRate: 12,
   minLoanAmount: loanAmtLimitPersonal.min,
   maxLoanAmount: loanAmtLimitPersonal.max,
   emiStartingFrom: 1099,
-  months: tenuresInMonths,
+  months: personalLoanTenures,
 });
 
 export const businessLoanMasterData: Readonly<BusinessLoanMasterData> =
@@ -31,13 +39,13 @@ export const businessLoanMasterData: Readonly<BusinessLoanMasterData> =
       minLoanAmount: loanAmtLimitSelfEmpBusiness.min,
       maxLoanAmount: loanAmtLimitSelfEmpBusiness.max,
       emiStartingFrom: 4653,
-      months: tenuresInMonths,
+      months: businessLoanTenuresSelfEmpBusiness,
     }),
     selfEmployedProfessional: Object.freeze({
       interestRate: 10.5,
       minLoanAmount: loanAmtLimitSelfEmpPro.min,
       maxLoanAmount: loanAmtLimitSelfEmpPro.max,
       emiStartingFrom: 1075,
-      months: tenuresInMonths,
+      months: businessLoanTenuresSelfEmpPro,
     }),
   });

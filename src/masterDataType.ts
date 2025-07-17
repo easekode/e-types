@@ -1,12 +1,11 @@
 // Master data for Business Loan
 import { z } from 'zod';
+import { personalLoanTenures } from './masterData';
 
-export const tenuresInMonths = Object.freeze([12, 24, 36, 48, 60, 72, 84]);
-
-export const loanTenureSchema = z
+export const personalLoanTenureSchema = z
   .number()
-  .refine(val => tenuresInMonths.includes(val), {
-    message: `Loan tenure must be one of: ${tenuresInMonths.join(', ')}`,
+  .refine(val => personalLoanTenures.includes(val), {
+    message: `Loan tenure must be one of: ${personalLoanTenures.join(', ')}`,
   });
 
 export type LoanConfig = {
