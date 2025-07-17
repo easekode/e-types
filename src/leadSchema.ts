@@ -214,10 +214,7 @@ export const businessLoanSchema = leadSchema.partial().extend({
     .optional(),
   hasUdyamRegistration: z.boolean(),
   udyamNo: udyamNoSchema.optional(),
-  loanAmount: z
-    .number()
-    .min(loanAmtLimitSelfEmpBusiness.min)
-    .max(loanAmtLimitSelfEmpBusiness.max),
+  loanAmount: z.number(),
   loanTenure: z.number(),
   loanEmi: z.number().gt(0, 'Loan EMI must be greater than 0'),
   businessOwnershipDoc: z.string().optional(),
