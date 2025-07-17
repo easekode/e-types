@@ -12,3 +12,4 @@ export * from './masterData';
 export * from './masterDataType';
 export * from './pincode';
 export * from './pan';
+export * from './profession';

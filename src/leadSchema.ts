@@ -10,6 +10,13 @@ import { loanAmtLimitSelfEmpBusiness } from './masterData';
 import { loanTenureSchema } from './masterDataType';
 import { pinCodeSchema } from './pincode';
 import { panSchema } from './pan';
+import {
+  CA_COUNCIL,
+  DEGREES,
+  ProfessionEnum,
+  SALARY_NON_SALARY,
+  SPECIALIZATION,
+} from './profession';
 // Loan Type Enum
 export enum LoanTypeEnum {
   PERSONAL_LOAN = 'PERSONAL_LOAN',
@@ -215,6 +222,17 @@ export const businessLoanSchema = leadSchema.partial().extend({
   loanTenure: loanTenureSchema,
   loanEmi: z.number().gt(0, 'Loan EMI must be greater than 0'),
   businessOwnershipDoc: z.string().optional(),
+  registrationDoc: z.string().optional(),
+  professionType: z.nativeEnum(ProfessionEnum).optional(),
+  otherProfessionType: z.string().optional(),
+  degree: z.nativeEnum(DEGREES).optional(),
+  otherDegree: z.string().optional(),
+  specialization: z.nativeEnum(SPECIALIZATION).optional(),
+  salaryNonSalary: z.nativeEnum(SALARY_NON_SALARY).optional(),
+  monthlySalary: z.number().optional(),
+  grossIncome: z.number().optional(),
+  council: z.nativeEnum(CA_COUNCIL).optional(),
+  registrationData: DateObjOrString.optional(),
 });
 
 export const businessLoanFormSchema = businessLoanSchema.superRefine(

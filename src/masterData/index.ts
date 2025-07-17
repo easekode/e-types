@@ -37,7 +37,7 @@ export const businessLoanMasterData: Readonly<BusinessLoanMasterData> =
       interestRate: 10.5,
       minLoanAmount: loanAmtLimitSelfEmpPro.min,
       maxLoanAmount: loanAmtLimitSelfEmpPro.max,
-      emiStartingFrom: 4653,
+      emiStartingFrom: 1075,
       months: tenuresInMonths,
     }),
   });
