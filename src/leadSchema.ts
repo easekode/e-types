@@ -210,7 +210,7 @@ export const businessLoanSchema = leadSchema.partial().extend({
   netProfit: z.number().gt(0, 'Net Profit must be greater than 0').optional(),
   annualTurnoverGross: z
     .number()
-    .gt(0, 'Annual Turnover Gross must be greater than 0')
+    .gt(0, 'Gross Annual Turnover must be greater than 0')
     .optional(),
   hasUdyamRegistration: z.boolean(),
   udyamNo: udyamNoSchema.optional(),
