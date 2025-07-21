@@ -77,6 +77,10 @@ export const optedEligibilitySchema = z.object({
   rate: z.number().positive('Rate must be positive'),
   amt: z.number().positive('Amount must be positive'),
   emi: z.number().positive('EMI must be positive'),
+  expectedAmt: z.number().positive('Expected amount must be positive'), // newly added
+  emiForExptAmt: z
+    .number()
+    .positive('EMI for expected amount must be positive'), // newly added
 });
 
 export type OptedEligibility = z.infer<typeof optedEligibilitySchema>;
