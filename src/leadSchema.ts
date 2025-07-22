@@ -117,7 +117,7 @@ export const leadSchema = z.object({
   // Loan Details
   loanType: LoanTypeSchema.optional(),
   expectedAmount: z.number().min(1, 'Expected amount is required').optional(),
-  salarySlip: z.string().min(1, 'Salary slip is required').optional(),
+  salarySlip: z.array(z.string()).optional(),
 
   // Lead Management
   isSubmitted: z.boolean().default(false),
@@ -221,8 +221,8 @@ export const businessLoanSchema = leadSchema.partial().extend({
   loanAmount: z.number(),
   loanTenure: z.number(),
   loanEmi: z.number().gt(0, 'Loan EMI must be greater than 0'),
-  businessOwnershipDoc: z.string().optional(),
-  registrationDoc: z.string().optional(),
+  businessOwnershipDoc: z.array(z.string()).optional(),
+  registrationDoc: z.array(z.string()).optional(),
   professionType: z.nativeEnum(ProfessionEnum).optional(),
   otherProfessionType: z.string().optional(),
   degree: z.nativeEnum(DEGREES).optional(),
