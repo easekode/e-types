@@ -53,8 +53,7 @@ export const UserSchema = z.object({
   email: z.string().email(),
   mobile: mobileNumberSchema,
   password: z.string(),
-  firstName: z.string(),
-  lastName: z.string(),
+  name: z.string(),
   role: z.nativeEnum(UserRoleEnum),
   isActive: z.boolean().default(true),
   createdAt: z
