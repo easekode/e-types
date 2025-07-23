@@ -14,3 +14,4 @@ export * from './pincode';
 export * from './pan';
 export * from './profession';
 export * from './goalType';
+export * from './investmentGoal';
