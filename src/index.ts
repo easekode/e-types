@@ -13,3 +13,4 @@ export * from './masterDataType';
 export * from './pincode';
 export * from './pan';
 export * from './profession';
+export * from './goalType';
