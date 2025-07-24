@@ -17,11 +17,13 @@ export const NewInvestmentGoalSchema = InvestmentGoalSchema.omit({
   user: true,
 });
 
-export const UpdateInvestmentGoalSchema = InvestmentGoalSchema.omit({
-  type: true,
-  userId: true,
-  user: true,
-});
+export const UpdateInvestmentGoalSchema = InvestmentGoalSchema.partial()
+  .omit({
+    type: true,
+    userId: true,
+    user: true,
+  })
+  .strict();
 
 export type NewInvestmentGoal = z.infer<typeof NewInvestmentGoalSchema>;
 export type UpdateInvestmentGoal = z.infer<typeof UpdateInvestmentGoalSchema>;
