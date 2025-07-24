@@ -49,3 +49,11 @@ export const businessLoanMasterData: Readonly<BusinessLoanMasterData> =
       months: businessLoanTenuresSelfEmpPro,
     }),
   });
+
+export const dashboard = Object.freeze({
+  personalLoan: { minRate: 10.5, maxRate: 24 },
+  businessLoan: { minRate: 11, maxRate: 20 },
+  propertyLoan: { minRate: 8.5, maxRate: 12 },
+  usedCarLoan: { minRate: 9.5, maxRate: 16 },
+  emiCalculator: { minRate: 8.5, maxRate: 12 },
+});

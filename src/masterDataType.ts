@@ -21,7 +21,18 @@ export type BusinessLoanMasterData = {
   readonly selfEmployedProfessional: LoanConfig;
 };
 
-// You can add more master data exports here as needed
+export interface DashboardLoanRate {
+  minRate: number;
+  maxRate: number;
+}
+
 export interface MasterData {
   businessLoan: BusinessLoanMasterData;
+  dashboard: {
+    personalLoan: DashboardLoanRate;
+    businessLoan: DashboardLoanRate;
+    propertyLoan: DashboardLoanRate;
+    usedCarLoan: DashboardLoanRate;
+    emiCalculator: DashboardLoanRate;
+  };
 }
