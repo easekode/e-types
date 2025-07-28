@@ -9,7 +9,7 @@ export const CarouselItemSchema = z.object({
   carouselId: z.string().uuid(),
   imageUrl: z.string().url(),
   ctaLabel: z.string().optional().nullable(),
-  ctaUrl: z.string().url().optional().nullable(),
+  ctaUrl: z.string().optional().nullable(),
   order: z.number(),
   extraElements: z.any().optional().nullable(),
   isActive: z.boolean(),
