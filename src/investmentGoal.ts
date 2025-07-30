@@ -10,11 +10,15 @@ export const InvestmentGoalSchema = z.object({
   description: z.string().optional(),
   userId: z.string(),
   user: UserSchema.optional(),
+  investedAmt: z.number(),
+  sipInstallment: z.number(),
 });
 
 export const NewInvestmentGoalSchema = InvestmentGoalSchema.omit({
   userId: true,
   user: true,
+  investedAmt: true,
+  sipInstallment: true,
 });
 
 export const UpdateInvestmentGoalSchema = InvestmentGoalSchema.partial()
