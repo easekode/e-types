@@ -2,6 +2,14 @@ import { z } from 'zod';
 import { InvestmentGoalType } from './goalType';
 import { UserSchema } from './auth';
 
+export enum InvestmentGoalStatus {
+  DRAFT = 'DRAFT',
+  ACTIVE = 'ACTIVE',
+  PAUSED = 'PAUSED',
+  COMPLETED = 'COMPLETED',
+  CANCELLED = 'CANCELLED',
+}
+
 export const InvestmentGoalSchema = z.object({
   type: z.nativeEnum(InvestmentGoalType),
   name: z.string(),
@@ -12,6 +20,7 @@ export const InvestmentGoalSchema = z.object({
   user: UserSchema.optional(),
   investedAmt: z.number(),
   sipInstallment: z.number(),
+  status: z.nativeEnum(InvestmentGoalStatus),
 });
 
 export const NewInvestmentGoalSchema = InvestmentGoalSchema.omit({
@@ -19,6 +28,7 @@ export const NewInvestmentGoalSchema = InvestmentGoalSchema.omit({
   user: true,
   investedAmt: true,
   sipInstallment: true,
+  status: true,
 });
 
 export const UpdateInvestmentGoalSchema = InvestmentGoalSchema.partial()
