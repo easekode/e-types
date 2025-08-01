@@ -1,0 +1,18 @@
+export enum MarketCapCategoryEnum {
+  LARGE_CAP = 'LARGE_CAP',
+  MID_CAP = 'MID_CAP',
+  SMALL_CAP = 'SMALL_CAP',
+  MICRO_CAP = 'MICRO_CAP',
+  NANO_CAP = 'NANO_CAP',
+  MULTI_CAP = 'MULTI_CAP',
+  FLEXI_CAP = 'FLEXI_CAP',
+}
+
+export enum RiskProfileEnum {
+  LOW = 'LOW',
+  MODERATELY_LOW = 'MODERATELY_LOW',
+  MODERATE = 'MODERATE',
+  MODERATELY_HIGH = 'MODERATELY_HIGH',
+  HIGH = 'HIGH',
+  VERY_HIGH = 'VERY_HIGH',
+}
