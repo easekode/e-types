@@ -16,3 +16,5 @@ export * from './profession';
 export * from './goalType';
 export * from './investmentGoal';
 export * from './carousel';
+export * from './marketCaps';
+export * from './marketCapCategory';
