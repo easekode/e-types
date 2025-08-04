@@ -18,3 +18,7 @@ export * from './investmentGoal';
 export * from './carousel';
 export * from './marketCaps';
 export * from './marketCapCategory';
+export * from './amc';
+export * from './mutualFund';
+export * from './healthPlan';
+export * from './termPlan';
