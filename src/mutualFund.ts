@@ -3,44 +3,57 @@ import { amcSchema } from './amc';
 import { MarketCapCategorySchema } from './marketCapCategory';
 import { RiskProfileEnum } from './marketCaps';
 import { DateObjOrString } from './date';
+import { mfPerformanceSchema } from './mfPerformance';
+import { mfPortfolioSchema } from './mfPortfolio';
 
-export const MutualFundSchema = z.object({
-  id: z.string(),
+export const fundManagerSchema = z.object({
+  display: z.string(),
+  managerId: z.string(),
   name: z.string(),
-  fundCode: z.string(),
-  amcId: z.string(),
-  amc: amcSchema.optional(),
-  categoryId: z.string(),
-  category: MarketCapCategorySchema.optional(),
-  riskProfile: z.nativeEnum(RiskProfileEnum),
-  minSipAmount: z.number(),
-  nav: z.number(), // Net Asset Value
-  isSipAvailable: z.boolean().default(true),
-  expenseRatio: z.number(), // e.g., 0.015 for 1.5%
-  rating: z.number().nullable().optional(), // out of 5 or 10
-  return1Yr: z.number().min(-100).max(100).nullable().optional(), // percentage, e.g. 8.3
-  return2Yr: z.number().min(-100).max(100).nullable().optional(),
-  return3Yr: z.number().min(-100).max(100).nullable().optional(),
-  return5Yr: z.number().min(-100).max(100).nullable().optional(),
-  fundManager: z.string().nullable().optional(),
-  inceptionDate: z.date().nullable().optional(),
-  aum: z.number().nullable().optional(), // value only
-  minLumpsumAmount: z.number().nullable().optional(),
-  createdAt: DateObjOrString,
-  updatedAt: DateObjOrString,
+  role: z.string(),
+  startDate: z.string(), // or z.coerce.date() if you want to parse as Date
+  tenure: z.string(), // or z.number().transform(String) if you want to coerce to string
 });
 
-export const NewMutualFundSchema = MutualFundSchema.omit({
+export const MutualFundSchemeSchema = z.object({
+  id: z.string(),
+  providerId: z.string(),
+  fundName: z.string(),
+  fundId: z.string(),
+  amcId: z.string(),
+  amc: amcSchema.optional(),
+  categoryIds: z.array(z.string()),
+  categories: z.array(MarketCapCategorySchema).optional(),
+  riskProfile: z.array(z.nativeEnum(RiskProfileEnum)),
+  minSipAmount: z.number(),
+  siSubsequentAmt: z.number(),
+  isSipAvailable: z.boolean().default(true),
+  expenseRatio: z.number(),
+  fundManager: z.array(fundManagerSchema),
+  minLumpsumAmount: z.number().nullable().optional(),
+  minSubsequentMultiple: z.number(),
+  maximumLumpsumAmount: z.number().nullable().optional(),
+  inceptionDate: z.date().nullable().optional(),
+  isActive: z.boolean(),
+  createdAt: DateObjOrString,
+  updatedAt: DateObjOrString,
+  latestPerformanceId: z.string().nullable().optional(),
+  latestPortfolioId: z.string().nullable().optional(),
+  latestPerformance: mfPerformanceSchema.optional(),
+  latestPortfolio: mfPortfolioSchema.optional(),
+});
+
+export const NewMutualFundSchema = MutualFundSchemeSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
 });
-export const UpdateMutualFundSchema = MutualFundSchema.omit({
+export const UpdateMutualFundSchema = MutualFundSchemeSchema.omit({
   id: true,
   createdAt: true,
   updatedAt: true,
 }).partial();
 
-export type MutualFund = z.infer<typeof MutualFundSchema>;
+export type MutualFund = z.infer<typeof MutualFundSchemeSchema>;
 export type NewMutualFund = z.infer<typeof NewMutualFundSchema>;
 export type UpdateMutualFund = z.infer<typeof UpdateMutualFundSchema>;
