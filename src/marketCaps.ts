@@ -6,6 +6,13 @@ export enum MarketCapCategoryEnum {
   NANO_CAP = 'NANO_CAP',
   MULTI_CAP = 'MULTI_CAP',
   FLEXI_CAP = 'FLEXI_CAP',
+  HYBRID = 'HYBRID',
+  ELSS = 'ELSS',
+  INDEX = 'INDEX',
+  SECTOR = 'SECTOR',
+  INTERNATIONAL = 'INTERNATIONAL',
+  OTHER = 'OTHER',
+  LARGE_MID_CAP = 'LARGE_MID_CAP',
 }
 
 export enum RiskProfileEnum {

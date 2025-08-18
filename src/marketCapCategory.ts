@@ -14,6 +14,8 @@ export const MarketCapCategorySchema = z.object({
     z.number().min(0, 'Minimum return rate must be non-negative'),
     z.number().min(0, 'Maximum return rate must be non-negative'),
   ]),
+  isActive: z.boolean(),
+  aliases: z.array(z.string()),
 });
 
 export const NewMarketCapCategorySchema = MarketCapCategorySchema.omit({});
