@@ -35,7 +35,6 @@ export function calculateSimpleHLV({
 
   // Ensure HLV is not negative
   hlv = Math.max(0, hlv);
-  hlv = hlv * 0.7; //using flat factor of 0.7
 
   // Convert rupees to crores
   const hlvInCrores = hlv / RUPEES_PER_CRORE;
