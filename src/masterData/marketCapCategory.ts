@@ -10,6 +10,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
       'Large cap companies are well-established, financially sound, and have a large market capitalization. They are considered stable investments.',
     riskProfile: RiskProfileEnum.LOW,
     returnRateRange: [6, 10],
+    isActive: true,
   },
   {
     id: 'ckz1l1a1a000002q1a1a1a1a2',
@@ -19,6 +20,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
       'Mid cap companies are in the growth phase and offer a balance between risk and return, with moderate market capitalization.',
     riskProfile: RiskProfileEnum.MODERATE,
     returnRateRange: [8, 14],
+    isActive: true,
   },
   {
     id: 'ckz1l1a1a000003q1a1a1a1a3',
@@ -28,6 +30,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
       'Small cap companies have high growth potential but are riskier and more volatile compared to large and mid cap companies.',
     riskProfile: RiskProfileEnum.HIGH,
     returnRateRange: [10, 20],
+    isActive: true,
   },
   {
     id: 'ckz1l1a1a000004q1a1a1a1a4',
@@ -37,6 +40,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
       'Flexi cap funds can invest in companies of any market capitalization, allowing fund managers flexibility to optimize returns.',
     riskProfile: RiskProfileEnum.MODERATE,
     returnRateRange: [7, 16],
+    isActive: true,
   },
   //   {
   //     id: 'ckz1l1a1a000005q1a1a1a1a5',
