@@ -23,3 +23,4 @@ export * from './mutualFund';
 export * from './healthPlan';
 export * from './termPlan';
 export * from './sipCalculator';
+export * from './syncStatus';
