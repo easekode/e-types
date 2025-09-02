@@ -1,9 +1,26 @@
 import { NewMarketCapCategory } from '../marketCapCategory';
 import { MarketCapCategoryEnum, RiskProfileEnum } from '../marketCaps';
 
+export const marketCapCatId = {
+  [MarketCapCategoryEnum.LARGE_CAP]: '100',
+  [MarketCapCategoryEnum.MID_CAP]: '103',
+  [MarketCapCategoryEnum.SMALL_CAP]: '104',
+  [MarketCapCategoryEnum.FLEXI_CAP]: 'ckz1l1a1a000004q1a1a1a1a4',
+  [MarketCapCategoryEnum.HYBRID]: 'ckz1l1a1a000005q1a1a1a1a5',
+  [MarketCapCategoryEnum.ELSS]: 'ckz1l1a1a000006q1a1a1a1a6',
+  [MarketCapCategoryEnum.INDEX]: 'ckz1l1a1a000007q1a1a1a1a7',
+  [MarketCapCategoryEnum.SECTOR]: 'ckz1l1a1a000008q1a1a1a1a8',
+  [MarketCapCategoryEnum.INTERNATIONAL]: 'ckz1l1a1a000009q1a1a1a1a9',
+  [MarketCapCategoryEnum.OTHER]: 'ckz1l1a1a00000aq1a1a1a1aa',
+  [MarketCapCategoryEnum.LARGE_MID_CAP]: '101',
+  [MarketCapCategoryEnum.MICRO_CAP]: 'ckz1l1a1a00000cq1a1a1a1ac',
+  [MarketCapCategoryEnum.NANO_CAP]: 'ckz1l1a1a00000dq1a1a1a1ad',
+  [MarketCapCategoryEnum.MULTI_CAP]: 'ckz1l1a1a00000eq1a1a1a1ae',
+};
+
 export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
   {
-    id: 'ckz1l1a1a000001q1a1a1a1a1',
+    id: marketCapCatId.LARGE_CAP,
     category: MarketCapCategoryEnum.LARGE_CAP,
     shortDescription: 'Stable large companies',
     longDescription:
@@ -14,7 +31,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     aliases: ['large', 'large-cap', 'largecap'],
   },
   {
-    id: 'ckz1l1a1a000002q1a1a1a1a2',
+    id: marketCapCatId.MID_CAP,
     category: MarketCapCategoryEnum.MID_CAP,
     shortDescription: 'Growing mid-sized companies',
     longDescription:
@@ -25,7 +42,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     aliases: ['mid', 'mid-cap', 'midcap'],
   },
   {
-    id: 'ckz1l1a1a000003q1a1a1a1a3',
+    id: marketCapCatId.SMALL_CAP,
     category: MarketCapCategoryEnum.SMALL_CAP,
     shortDescription: 'High growth potential',
     longDescription:
@@ -36,16 +53,33 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     aliases: ['small', 'small-cap', 'smallcap'],
   },
   {
-    id: 'ckz1l1a1a000004q1a1a1a1a4',
-    category: MarketCapCategoryEnum.FLEXI_CAP,
-    shortDescription: 'Flexible allocation',
+    id: marketCapCatId.LARGE_MID_CAP,
+    category: MarketCapCategoryEnum.LARGE_MID_CAP,
+    shortDescription: 'Blend of large and mid companies',
     longDescription:
-      'Flexi cap funds can invest in companies of any market capitalization, allowing fund managers flexibility to optimize returns.',
-    riskProfile: RiskProfileEnum.MODERATE,
+      'Large & Mid cap funds invest in a mix of large and mid cap companies, providing a balance of stability and growth potential.',
+    riskProfile: RiskProfileEnum.MODERATELY_HIGH,
     returnRateRange: [7, 16],
     isActive: true,
-    aliases: ['flexi', 'flexi-cap', 'flexicap'],
+    aliases: [
+      'large & mid',
+      'large and mid',
+      'large-mid',
+      'large mid',
+      'large/mid',
+    ],
   },
+  // {
+  //   id: 'ckz1l1a1a000004q1a1a1a1a4',
+  //   category: MarketCapCategoryEnum.FLEXI_CAP,
+  //   shortDescription: 'Flexible allocation',
+  //   longDescription:
+  //     'Flexi cap funds can invest in companies of any market capitalization, allowing fund managers flexibility to optimize returns.',
+  //   riskProfile: RiskProfileEnum.MODERATE,
+  //   returnRateRange: [7, 16],
+  //   isActive: true,
+  //   aliases: ['flexi', 'flexi-cap', 'flexicap'],
+  // },
   //   {
   //     id: 'ckz1l1a1a000005q1a1a1a1a5',
   //     category: MarketCapCategoryEnum.MICRO_CAP,
