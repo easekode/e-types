@@ -11,6 +11,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     riskProfile: RiskProfileEnum.LOW,
     returnRateRange: [6, 10],
     isActive: true,
+    aliases: ['large', 'large-cap', 'largecap'],
   },
   {
     id: 'ckz1l1a1a000002q1a1a1a1a2',
@@ -21,6 +22,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     riskProfile: RiskProfileEnum.MODERATE,
     returnRateRange: [8, 14],
     isActive: true,
+    aliases: ['mid', 'mid-cap', 'midcap'],
   },
   {
     id: 'ckz1l1a1a000003q1a1a1a1a3',
@@ -31,6 +33,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     riskProfile: RiskProfileEnum.HIGH,
     returnRateRange: [10, 20],
     isActive: true,
+    aliases: ['small', 'small-cap', 'smallcap'],
   },
   {
     id: 'ckz1l1a1a000004q1a1a1a1a4',
@@ -41,6 +44,7 @@ export const marketCapCategoriesSeed: NewMarketCapCategory[] = [
     riskProfile: RiskProfileEnum.MODERATE,
     returnRateRange: [7, 16],
     isActive: true,
+    aliases: ['flexi', 'flexi-cap', 'flexicap'],
   },
   //   {
   //     id: 'ckz1l1a1a000005q1a1a1a1a5',
