@@ -6,7 +6,6 @@ import { IndustryTypeEnum, IndustryTypeSchema } from './industryTypeList';
 import { gstSchema } from './gst';
 import { EmploymentTypeSchema } from './employmentType';
 import { udyamNoSchema } from './udyam';
-import { loanAmtLimitSelfEmpBusiness } from './masterData';
 import { pinCodeSchema } from './pincode';
 import { panSchema } from './pan';
 import {

@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /**
- * Common API Response Types
+ * Common API Response Types - using any types for flexible external API integration
  */
 
 // Enums for HTTP status codes
@@ -17,7 +18,7 @@ export enum HttpStatusCode {
   TOO_MANY_REQUESTS = 429,
   INTERNAL_SERVER_ERROR = 500,
   BAD_GATEWAY = 502,
-  SERVICE_UNAVAILABLE = 503
+  SERVICE_UNAVAILABLE = 503,
 }
 
 // API response status
@@ -25,13 +26,13 @@ export enum ApiStatus {
   SUCCESS = 'success',
   ERROR = 'error',
   LOADING = 'loading',
-  IDLE = 'idle'
+  IDLE = 'idle',
 }
 
 // Sort order enum
 export enum SortOrder {
   ASC = 'asc',
-  DESC = 'desc'
+  DESC = 'desc',
 }
 
 // API constants
@@ -40,7 +41,7 @@ export const API_CONSTANTS = {
   MAX_PAGE_SIZE: 100,
   DEFAULT_TIMEOUT: 30000,
   MAX_RETRIES: 3,
-  RATE_LIMIT_WINDOW: 60000 // 1 minute
+  RATE_LIMIT_WINDOW: 60000, // 1 minute
 } as const;
 
 export interface ApiResponse<T = any> {
@@ -136,10 +137,30 @@ export interface SearchParams {
 }
 
 // HTTP Methods
-export type HttpMethod = 'GET' | 'POST' | 'PUT' | 'PATCH' | 'DELETE' | 'HEAD' | 'OPTIONS';
+export type HttpMethod =
+  | 'GET'
+  | 'POST'
+  | 'PUT'
+  | 'PATCH'
+  | 'DELETE'
+  | 'HEAD'
+  | 'OPTIONS';
 
 // API Status codes
-export type ApiStatusCode = 200 | 201 | 204 | 400 | 401 | 403 | 404 | 409 | 422 | 429 | 500 | 502 | 503;
+export type ApiStatusCode =
+  | 200
+  | 201
+  | 204
+  | 400
+  | 401
+  | 403
+  | 404
+  | 409
+  | 422
+  | 429
+  | 500
+  | 502
+  | 503;
 
 export interface RequestConfig {
   method: HttpMethod;

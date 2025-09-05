@@ -1,6 +1,5 @@
 import { z } from 'zod';
 import { DateObjOrString } from './date';
-import { MarketCapCategorySchema } from './marketCapCategory';
 import { mfHoldingSchema } from './mfHolding';
 import { mfEquityAllocationSchema } from './mfEquitySectorAllocation';
 
