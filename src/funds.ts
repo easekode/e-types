@@ -1,18 +1,18 @@
 import { z } from 'zod';
 import { DateObjOrString } from './date';
 import { amcSchema } from './amc';
-import { MarketCapCategorySchema } from './marketCapCategory';
+// import { MarketCapCategorySchema } from './marketCapCategory';
 import { fundCategorySchema } from './fundCategory';
 import { fundReturnLatestSchema } from './fundReturnLatest';
 import { fundsRatingsSchema } from './fundsRatings';
 import { fundExpenseSchema } from './fundExpense';
 import { navSchema } from './nav';
-import { fundAumSchema } from './fundAum';
-import { holdingsSecurityLatestSchema } from './holdingsSecurityLatest';
-import { fundHoldingsSicSectorwiseImputedLatestSchema } from './fundHoldingsSicSectorwiseImputedLatest';
-import { fundManagerLatestSchema } from './fundManagerLatest';
-import { statsVariablesSchema } from './statsVariables';
-import { fundStyleboxSchema } from './fundStylebox';
+// import { fundAumSchema } from './fundAum';
+// import { holdingsSecurityLatestSchema } from './holdingsSecurityLatest';
+// import { fundHoldingsSicSectorwiseImputedLatestSchema } from './fundHoldingsSicSectorwiseImputedLatest';
+// import { fundManagerLatestSchema } from './fundManagerLatest';
+// import { statsVariablesSchema } from './statsVariables';
+// import { fundStyleboxSchema } from './fundStylebox';
 import { colourCodeSchema } from './colourCode';
 
 export const fundsSchema = z.object({
