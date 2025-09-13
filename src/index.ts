@@ -42,4 +42,4 @@ export * from './fundManagerLatest';
 export * from './statsVariables';
 export * from './fundStylebox';
 export * from './fundService';
-export * from './filter';
+export * from './fundApi';

@@ -72,13 +72,13 @@ export interface ValidationError {
   value?: any;
 }
 
-export interface PaginationParams {
-  page: number;
-  limit: number;
-  sort?: string;
-  order?: 'asc' | 'desc';
+export interface PaginationParams<T = Record<string, never>, S = string> {
+  limit?: number | string;
+  page?: number | string;
+  sortBy?: S;
+  sortDirection?: 'asc' | 'desc';
   search?: string;
-  filters?: Record<string, any>;
+  filter?: T;
 }
 
 export interface PaginatedResponse<T> {
