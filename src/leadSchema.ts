@@ -346,3 +346,14 @@ export const updateBusinessLoanSchema = businessLoanSchema
 export type BusinessLoan = z.infer<typeof businessLoanSchema>;
 export type NewBusinessLoan = z.infer<typeof newBusinessLoanSchema>;
 export type UpdateBusinessLoan = z.infer<typeof updateBusinessLoanSchema>;
+
+// New Lead type for API response
+export type Lead = LeadInput & {
+  id: string;
+  createdAt: string;
+  updatedAt: string;
+};
+
+// Lead sort fields for API/UI
+export const LEAD_SORT_FIELDS = ['createdAt'] as const;
+export type LeadSortBy = (typeof LEAD_SORT_FIELDS)[number];
