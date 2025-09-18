@@ -1,19 +1,21 @@
 import { z } from 'zod';
 import { DateObjOrString } from './date';
 import { amcSchema } from './amc';
-// import { MarketCapCategorySchema } from './marketCapCategory';
 import { fundCategorySchema } from './fundCategory';
 import { fundReturnLatestSchema } from './fundReturnLatest';
 import { fundsRatingsSchema } from './fundsRatings';
 import { fundExpenseSchema } from './fundExpense';
 import { navSchema } from './nav';
-// import { fundAumSchema } from './fundAum';
-// import { holdingsSecurityLatestSchema } from './holdingsSecurityLatest';
-// import { fundHoldingsSicSectorwiseImputedLatestSchema } from './fundHoldingsSicSectorwiseImputedLatest';
-// import { fundManagerLatestSchema } from './fundManagerLatest';
-// import { statsVariablesSchema } from './statsVariables';
-// import { fundStyleboxSchema } from './fundStylebox';
+import { fundAumSchema } from './fundAum';
+import { holdingsSecurityLatestSchema } from './holdingsSecurityLatest';
+import { fundHoldingsSicSectorwiseImputedLatestSchema } from './fundHoldingsSicSectorwiseImputedLatest';
+import { fundManagerLatestSchema } from './fundManagerLatest';
+import { statsVariablesSchema } from './statsVariables';
+import { fundStyleboxSchema } from './fundStylebox';
 import { colourCodeSchema } from './colourCode';
+import { compositionSchema } from './composition';
+import { rtaCodesSchema } from './rtaCodes';
+import { fundEventsSchema } from './fundEvents';
 
 export const fundsSchema = z.object({
   plan_id: z.string(),
@@ -104,23 +106,26 @@ export const fundsSchema = z.object({
   amc: amcSchema.optional(),
   marketCapCategory: fundCategorySchema.optional(),
   // related/nested entities
-  navRecords: navSchema.nullable().optional(),
+  navRecords: z.array(navSchema).nullable().optional(),
   fundReturns: fundReturnLatestSchema.nullable().optional(),
   fundRatings: fundsRatingsSchema.nullable().optional(),
-  fundExpenses: fundExpenseSchema.nullable().optional(),
+  fundExpenses: z.array(fundExpenseSchema).nullable().optional(),
   colourCode: colourCodeSchema.nullable().optional(),
-  // fundAum: z.array(fundAumSchema).nullable().optional(),
-  // holdingsSecurityLatest: z
-  //   .array(holdingsSecurityLatestSchema)
-  //   .nullable()
-  //   .optional(),
-  // fundHoldingsSicSectorwise: z
-  //   .array(fundHoldingsSicSectorwiseImputedLatestSchema)
-  //   .nullable()
-  //   .optional(),
-  // fundManagerLatest: fundManagerLatestSchema.nullable().optional(),
-  // statsVariables: statsVariablesSchema.nullable().optional(),
-  // fundStylebox: z.array(fundStyleboxSchema).nullable().optional(),
+  fundAum: z.array(fundAumSchema).nullable().optional(),
+  holdingsSecurityLatest: z
+    .array(holdingsSecurityLatestSchema)
+    .nullable()
+    .optional(),
+  fundHoldingsSicSectorwise: z
+    .array(fundHoldingsSicSectorwiseImputedLatestSchema)
+    .nullable()
+    .optional(),
+  fundManagerLatest: z.array(fundManagerLatestSchema).nullable().optional(),
+  statsVariables: statsVariablesSchema.nullable().optional(),
+  fundStylebox: z.array(fundStyleboxSchema).nullable().optional(),
+  composition: z.array(compositionSchema).nullable().optional(),
+  rtaCodes: z.array(rtaCodesSchema).nullable().optional(),
+  fundEvents: z.array(fundEventsSchema).nullable().optional(),
 });
 
 export const NewFundsSchema = fundsSchema.omit({
