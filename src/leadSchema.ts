@@ -15,6 +15,7 @@ import {
   SALARY_NON_SALARY,
   SPECIALIZATION,
 } from './profession';
+
 // Loan Type Enum
 export enum LoanTypeEnum {
   PERSONAL_LOAN = 'PERSONAL_LOAN',
@@ -69,6 +70,27 @@ export enum SalutationEnum {
 export const SalutationSchema = z.nativeEnum(SalutationEnum);
 export type Salutation = z.infer<typeof SalutationSchema>;
 
+// Lead status enum values (merged from src/types/leadSchema.ts)
+export const LEAD_STATUS = {
+  NEW: 'NEW',
+  CONTACTED: 'CONTACTED',
+  QUALIFIED: 'QUALIFIED',
+  CONVERTED: 'CONVERTED',
+  LOST: 'LOST',
+  NOT_QUALIFIED: 'NOT_QUALIFIED',
+} as const;
+
+export const leadStatusSchema = z.enum([
+  'NEW',
+  'CONTACTED',
+  'QUALIFIED',
+  'CONVERTED',
+  'LOST',
+  'NOT_QUALIFIED',
+]);
+
+export type LeadStatus = z.infer<typeof leadStatusSchema>;
+
 // Opted Eligibility Schema
 export const optedEligibilitySchema = z.object({
   id: z.string().min(1, 'ID is required'),
@@ -120,9 +142,7 @@ export const leadSchema = z.object({
 
   // Lead Management
   isSubmitted: z.boolean().default(false),
-  status: z
-    .enum(['NEW', 'CONTACTED', 'QUALIFIED', 'CONVERTED', 'LOST'])
-    .optional(),
+  status: leadStatusSchema.optional(),
   source: z.string().optional(),
   notes: z.string().optional(),
   optedEligibilityId: z.string().optional(),
@@ -135,6 +155,25 @@ export const leadWithMetaSchema = leadSchema.extend({
   id: z.string().cuid('Invalid lead ID'),
   createdAt: z.string(),
   updatedAt: z.string(),
+  // Extended with assignment and relations from src/types/leadSchema.ts
+  assignedToId: z.string().nullable().optional(),
+  user: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string().nullable(),
+      mobile: z.string(),
+    })
+    .nullable()
+    .optional(),
+  assignedTo: z
+    .object({
+      id: z.string(),
+      name: z.string(),
+      email: z.string().nullable(),
+    })
+    .nullable()
+    .optional(),
 });
 
 export const leadPersonalInfoSchema = leadSchema
@@ -150,7 +189,7 @@ export const leadPersonalInfoSchema = leadSchema
     pinCode: z
       .string()
       .min(1, 'Pin code is required')
-      .regex(/^[0-9]{6}$/, 'Pin code must be 6 digits'),
+      .regex(/^\d{6}$/, 'Pin code must be 6 digits'),
     salary: z.number().min(1, 'Monthly Salary is required'),
     hasExistingLoan: z.boolean(),
     monthlyEmiAmount: z
@@ -182,6 +221,47 @@ export const leadParamsSchema = z.object({
 export type LeadInput = z.infer<typeof leadSchema>;
 export type LeadParams = z.infer<typeof leadParamsSchema>;
 export const updateLeadSchema = leadSchema.partial();
+
+// Lead management schemas merged from src/types/leadSchema.ts
+export const leadFiltersSchema = z.object({
+  status: leadStatusSchema.optional(),
+  assignedToId: z.string().optional(),
+  source: z.string().optional(),
+  search: z.string().optional(),
+  page: z.number().min(1).optional(),
+  limit: z.number().min(1).max(100).optional(),
+});
+
+export const assignLeadSchema = z.object({
+  leadId: z.string().cuid('Invalid lead ID'),
+  agentId: z.string().cuid('Invalid agent ID'),
+});
+
+export const addLeadNoteSchema = z.object({
+  leadId: z.string().cuid('Invalid lead ID'),
+  note: z.string().min(1, 'Note is required'),
+});
+
+export const updateLeadStatusSchema = z.object({
+  leadId: z.string().cuid('Invalid lead ID'),
+  status: leadStatusSchema,
+});
+
+export const leadStatsSchema = z.object({
+  total: z.number(),
+  new: z.number(),
+  contacted: z.number(),
+  qualified: z.number(),
+  converted: z.number(),
+  lost: z.number(),
+  notQualified: z.number(),
+});
+
+export type LeadFiltersInput = z.infer<typeof leadFiltersSchema>;
+export type AssignLeadInput = z.infer<typeof assignLeadSchema>;
+export type AddLeadNoteInput = z.infer<typeof addLeadNoteSchema>;
+export type UpdateLeadStatusInput = z.infer<typeof updateLeadStatusSchema>;
+export type LeadStatsOutput = z.infer<typeof leadStatsSchema>;
 
 export const businessLoanSchema = leadSchema.partial().extend({
   employmentType: EmploymentTypeSchema,
