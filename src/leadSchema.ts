@@ -131,6 +131,12 @@ export const leadSchema = z.object({
   applicationId: z.string().optional(),
 });
 
+export const leadWithMetaSchema = leadSchema.extend({
+  id: z.string().cuid('Invalid lead ID'),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+});
+
 export const leadPersonalInfoSchema = leadSchema
   .partial()
   .extend({
@@ -347,13 +353,8 @@ export type BusinessLoan = z.infer<typeof businessLoanSchema>;
 export type NewBusinessLoan = z.infer<typeof newBusinessLoanSchema>;
 export type UpdateBusinessLoan = z.infer<typeof updateBusinessLoanSchema>;
 
-// New Lead type for API response
-export type Lead = LeadInput & {
-  id: string;
-  createdAt: string;
-  updatedAt: string;
-};
-
 // Lead sort fields for API/UI
 export const LEAD_SORT_FIELDS = ['createdAt'] as const;
 export type LeadSortBy = (typeof LEAD_SORT_FIELDS)[number];
+
+export type Lead = z.infer<typeof leadWithMetaSchema>;
