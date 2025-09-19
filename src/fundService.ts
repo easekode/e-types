@@ -244,6 +244,7 @@ export const fundServiceGetFundPortfolioResponseSchema = z.object({
       company: z.string(),
       security_name: z.string(),
       asset_percentage: z.number().nullable().optional(),
+      asset_date: z.string().nullable().optional(),
     }),
   ),
 });
@@ -298,6 +299,11 @@ export const fundServiceGetFundSectorAllocationResponseSchema = z.object({
       small_percentage: z.number().nullable().optional(),
       tiny_percentage: z.number().nullable().optional(),
       modified_ts: z.date(),
+    })
+    .nullable(),
+  allocationAmount: z
+    .object({
+      equity: z.number(),
     })
     .nullable(),
 });
