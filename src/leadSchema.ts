@@ -131,6 +131,12 @@ export const leadSchema = z.object({
   applicationId: z.string().optional(),
 });
 
+export const leadSchemaWId = leadSchema.extend({
+  id: z.string(),
+});
+
+export type LeadSchemaWId = z.infer<typeof leadSchemaWId>;
+
 export const leadPersonalInfoSchema = leadSchema
   .partial()
   .extend({
