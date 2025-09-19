@@ -38,4 +38,7 @@ export enum NAVIGATION {
   HLV_CALCULATOR = 'hlv-calculator',
   EMI_CALCULATOR = 'emi-calculator',
   COMMUNITIES_LIST = 'communities-list',
+  MY_PROFILE = 'my-profile',
+  MY_REQUESTS = 'my-requests',
+  REQUEST_DETAILS = 'request-details',
 }
