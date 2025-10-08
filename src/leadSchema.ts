@@ -222,6 +222,37 @@ export type LeadInput = z.infer<typeof leadSchema>;
 export type LeadParams = z.infer<typeof leadParamsSchema>;
 export const updateLeadSchema = leadSchema.partial();
 
+// Type for Lead data returned from API with included relations
+// This represents the structure when Lead is queried with relations
+export type LeadWithRelations = {
+  id: string;
+  name: string | null;
+  email: string | null;
+  phone: string | null;
+  status: string;
+  source: string | null;
+  expectedAmount: number | string | null; // Can be number or string from API serialization
+  notes: string | null;
+  assignedToId: string | null;
+  createdAt: string; // Dates are serialized as strings in API responses
+  updatedAt: string;
+  assignedTo?: {
+    id: string;
+    name: string;
+    email: string | null;
+  } | null;
+  user?: {
+    id: string;
+    name: string;
+    email: string | null;
+    mobile: string | null;
+  } | null;
+  _count?: {
+    leadNotes: number;
+    quotes: number;
+  };
+};
+
 // Lead management schemas merged from src/types/leadSchema.ts
 export const leadFiltersSchema = z.object({
   status: leadStatusSchema.optional(),
@@ -246,6 +277,23 @@ export const updateLeadStatusSchema = z.object({
   leadId: z.string().cuid('Invalid lead ID'),
   status: leadStatusSchema,
 });
+
+export const updateLeadInputSchema = z.object({
+  leadId: z.string().cuid('Invalid lead ID'),
+  name: z.string().min(1, 'Name is required').optional(),
+  email: z.string().email('Invalid email').optional(),
+  phone: z.string().optional(),
+  expectedAmount: z.union([z.number(), z.string()]).optional(),
+  source: z.string().optional(),
+  status: leadStatusSchema.optional(),
+  employerName: z.string().optional(),
+  salary: z.union([z.number(), z.string()]).optional(),
+  loanType: LoanTypeSchema.optional(),
+  hasExistingLoan: z.boolean().optional(),
+  monthlyEmiAmount: z.union([z.number(), z.string()]).optional(),
+});
+
+export type UpdateLeadInput = z.infer<typeof updateLeadInputSchema>;
 
 export const leadStatsSchema = z.object({
   total: z.number(),
