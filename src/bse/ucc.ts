@@ -14,6 +14,11 @@ import {
   UCCKYCType,
   UCCPaperlessFlag,
 } from './enums';
+import {
+  EmailDeclarationFlag,
+  MobileDeclarationFlag,
+} from './enums/declaration';
+import { NominationAuthenticationMode } from './enums/nomination';
 
 // Date validation helper for DD/MM/YYYY format
 const dateRegex = /^\d{2}\/\d{2}\/\d{4}$/;
@@ -182,8 +187,8 @@ export const UccRegistrationParamSchema = z.object({
       message: 'LEIValidityDate must be in DD/MM/YYYY format',
     })
     .optional(), // 110 - LEI Validity Date (DD/MM/YYYY)
-  MobileDeclarationFlag: z.string().max(2).optional(), // 111 - Mobile Declaration Flag
-  EmailDeclarationFlag: z.string().max(2).optional(), // 112 - Email Declaration Flag
+  MobileDeclarationFlag: z.nativeEnum(MobileDeclarationFlag), // 111 - Mobile Declaration Flag
+  EmailDeclarationFlag: z.nativeEnum(EmailDeclarationFlag), // 112 - Email Declaration Flag
   SecondHolderEmail: optionalEmail(50), // 113 - Second Holder Email
   SecondHolderEmailDeclaration: z.string().max(2).optional(), // 114 - Second Holder Email Declaration
   SecondHolderMobile: z.string().max(10).optional(), // 115 - Second Holder Mobile No
@@ -196,7 +201,7 @@ export const UccRegistrationParamSchema = z.object({
 
   // Nomination information (fields 118-120)
   NominationOpt: optionalEnum(UCCYesNoFlag), // 122 - Nomination Opt (Y/N)
-  NominationAuthenticationMode: z.string().max(1).optional(), // 123 - Nomination Auth Mode (W/E/O)
+  NominationAuthenticationMode: z.nativeEnum(NominationAuthenticationMode), // 123 - Nomination Auth Mode (W/E/O)
 
   // Nominee 1 information
   Nominee1Name: z.string().max(40).optional(), // 124 - Nominee 1 Name
@@ -270,18 +275,186 @@ export const UccRegistrationParamSchema = z.object({
   Nominee3Pin: z.string().max(15).optional(), // 173 - Nominee 3 Pin
   Nominee3Country: z.string().max(35).optional(), // 174 - Nominee 3 Country
 
+  // Nominee 4 information
+  Nominee4Name: z.string().max(40).optional(), // 175 - Nominee 4 Name
+  Nominee4Relationship: z.string().max(2).optional(), // 176 - Nominee 4 Relationship
+  Nominee4Applicable: z.string().max(5).optional(), // 177 - Nominee 4 Applicable (%)
+  Nominee4MinorFlag: optionalEnum(UCCYesNoFlag), // 178 - Nominee 4 Minor Flag (Y/N)
+  Nominee4DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee4DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 179 - Nominee 4 DOB (DD/MM/YYYY)
+  Nominee4Guardian: z.string().max(35).optional(), // 180 - Nominee 4 Guardian Name
+  Nominee4GuardianPAN: z.string().max(10).optional(), // 181 - Nominee 4 Guardian PAN
+  Nominee4IdentityType: z.string().max(1).optional(), // 182 - Nominee 4 Identity Type
+  Nominee4IDNo: z.string().optional(), // 183 - Nominee 4 ID No
+  Nominee4Email: optionalEmail(120), // 184 - Nominee 4 Email
+  Nominee4Mobile: z.string().max(15).optional(), // 185 - Nominee 4 Mobile
+  Nominee4Add1: z.string().max(40).optional(), // 186 - Nominee 4 Address 1
+  Nominee4Add2: z.string().max(40).optional(), // 187 - Nominee 4 Address 2
+  Nominee4Add3: z.string().max(40).optional(), // 188 - Nominee 4 Address 3
+  Nominee4City: z.string().max(35).optional(), // 189 - Nominee 4 City
+  Nominee4Pin: z.string().max(15).optional(), // 190 - Nominee 4 Pin
+  Nominee4Country: z.string().max(35).optional(), // 191 - Nominee 4 Country
+
+  // Nominee 5 information
+  Nominee5Name: z.string().max(40).optional(), // 192 - Nominee 5 Name
+  Nominee5Relationship: z.string().max(2).optional(), // 193 - Nominee 5 Relationship
+  Nominee5Applicable: z.string().max(5).optional(), // 194 - Nominee 5 Applicable (%)
+  Nominee5MinorFlag: optionalEnum(UCCYesNoFlag), // 195 - Nominee 5 Minor Flag (Y/N)
+  Nominee5DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee5DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 196 - Nominee 5 DOB (DD/MM/YYYY)
+  Nominee5Guardian: z.string().max(35).optional(), // 197 - Nominee 5 Guardian Name
+  Nominee5GuardianPAN: z.string().max(10).optional(), // 198 - Nominee 5 Guardian PAN
+  Nominee5IdentityType: z.string().max(1).optional(), // 199 - Nominee 5 Identity Type
+  Nominee5IDNo: z.string().optional(), // 200 - Nominee 5 ID No
+  Nominee5Email: optionalEmail(120), // 201 - Nominee 5 Email
+  Nominee5Mobile: z.string().max(15).optional(), // 202 - Nominee 5 Mobile
+  Nominee5Add1: z.string().max(40).optional(), // 203 - Nominee 5 Address 1
+  Nominee5Add2: z.string().max(40).optional(), // 204 - Nominee 5 Address 2
+  Nominee5Add3: z.string().max(40).optional(), // 205 - Nominee 5 Address 3
+  Nominee5City: z.string().max(35).optional(), // 206 - Nominee 5 City
+  Nominee5Pin: z.string().max(15).optional(), // 207 - Nominee 5 Pin
+  Nominee5Country: z.string().max(35).optional(), // 208 - Nominee 5 Country
+
+  // Nominee 6 information
+  Nominee6Name: z.string().max(40).optional(), // 209 - Nominee 6 Name
+  Nominee6Relationship: z.string().max(2).optional(), // 210 - Nominee 6 Relationship
+  Nominee6Applicable: z.string().max(5).optional(), // 211 - Nominee 6 Applicable (%)
+  Nominee6MinorFlag: optionalEnum(UCCYesNoFlag), // 212 - Nominee 6 Minor Flag (Y/N)
+  Nominee6DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee6DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 213 - Nominee 6 DOB (DD/MM/YYYY)
+  Nominee6Guardian: z.string().max(35).optional(), // 214 - Nominee 6 Guardian Name
+  Nominee6GuardianPAN: z.string().max(10).optional(), // 215 - Nominee 6 Guardian PAN
+  Nominee6IdentityType: z.string().max(1).optional(), // 216 - Nominee 6 Identity Type
+  Nominee6IDNo: z.string().optional(), // 217 - Nominee 6 ID No
+  Nominee6Email: optionalEmail(120), // 218 - Nominee 6 Email
+  Nominee6Mobile: z.string().max(15).optional(), // 219 - Nominee 6 Mobile
+  Nominee6Add1: z.string().max(40).optional(), // 220 - Nominee 6 Address 1
+  Nominee6Add2: z.string().max(40).optional(), // 221 - Nominee 6 Address 2
+  Nominee6Add3: z.string().max(40).optional(), // 222 - Nominee 6 Address 3
+  Nominee6City: z.string().max(35).optional(), // 223 - Nominee 6 City
+  Nominee6Pin: z.string().max(15).optional(), // 224 - Nominee 6 Pin
+  Nominee6Country: z.string().max(35).optional(), // 225 - Nominee 6 Country
+
+  // Nominee 7 information
+  Nominee7Name: z.string().max(40).optional(), // 226 - Nominee 7 Name
+  Nominee7Relationship: z.string().max(2).optional(), // 227 - Nominee 7 Relationship
+  Nominee7Applicable: z.string().max(5).optional(), // 228 - Nominee 7 Applicable (%)
+  Nominee7MinorFlag: optionalEnum(UCCYesNoFlag), // 229 - Nominee 7 Minor Flag (Y/N)
+  Nominee7DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee7DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 230 - Nominee 7 DOB (DD/MM/YYYY)
+  Nominee7Guardian: z.string().max(35).optional(), // 231 - Nominee 7 Guardian Name
+  Nominee7GuardianPAN: z.string().max(10).optional(), // 232 - Nominee 7 Guardian PAN
+  Nominee7IdentityType: z.string().max(1).optional(), // 233 - Nominee 7 Identity Type
+  Nominee7IDNo: z.string().optional(), // 234 - Nominee 7 ID No
+  Nominee7Email: optionalEmail(120), // 235 - Nominee 7 Email
+  Nominee7Mobile: z.string().max(15).optional(), // 236 - Nominee 7 Mobile
+  Nominee7Add1: z.string().max(40).optional(), // 237 - Nominee 7 Address 1
+  Nominee7Add2: z.string().max(40).optional(), // 238 - Nominee 7 Address 2
+  Nominee7Add3: z.string().max(40).optional(), // 239 - Nominee 7 Address 3
+  Nominee7City: z.string().max(35).optional(), // 240 - Nominee 7 City
+  Nominee7Pin: z.string().max(15).optional(), // 241 - Nominee 7 Pin
+  Nominee7Country: z.string().max(35).optional(), // 242 - Nominee 7 Country
+
+  // Nominee 8 information
+  Nominee8Name: z.string().max(40).optional(), // 243 - Nominee 8 Name
+  Nominee8Relationship: z.string().max(2).optional(), // 244 - Nominee 8 Relationship
+  Nominee8Applicable: z.string().max(5).optional(), // 245 - Nominee 8 Applicable (%)
+  Nominee8MinorFlag: optionalEnum(UCCYesNoFlag), // 246 - Nominee 8 Minor Flag (Y/N)
+  Nominee8DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee8DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 247 - Nominee 8 DOB (DD/MM/YYYY)
+  Nominee8Guardian: z.string().max(35).optional(), // 248 - Nominee 8 Guardian Name
+  Nominee8GuardianPAN: z.string().max(10).optional(), // 249 - Nominee 8 Guardian PAN
+  Nominee8IdentityType: z.string().max(1).optional(), // 250 - Nominee 8 Identity Type
+  Nominee8IDNo: z.string().optional(), // 251 - Nominee 8 ID No
+  Nominee8Email: optionalEmail(120), // 252 - Nominee 8 Email
+  Nominee8Mobile: z.string().max(15).optional(), // 253 - Nominee 8 Mobile
+  Nominee8Add1: z.string().max(40).optional(), // 254 - Nominee 8 Address 1
+  Nominee8Add2: z.string().max(40).optional(), // 255 - Nominee 8 Address 2
+  Nominee8Add3: z.string().max(40).optional(), // 256 - Nominee 8 Address 3
+  Nominee8City: z.string().max(35).optional(), // 257 - Nominee 8 City
+  Nominee8Pin: z.string().max(15).optional(), // 258 - Nominee 8 Pin
+  Nominee8Country: z.string().max(35).optional(), // 259 - Nominee 8 Country
+
+  // Nominee 9 information
+  Nominee9Name: z.string().max(40).optional(), // 260 - Nominee 9 Name
+  Nominee9Relationship: z.string().max(2).optional(), // 261 - Nominee 9 Relationship
+  Nominee9Applicable: z.string().max(5).optional(), // 262 - Nominee 9 Applicable (%)
+  Nominee9MinorFlag: optionalEnum(UCCYesNoFlag), // 263 - Nominee 9 Minor Flag (Y/N)
+  Nominee9DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee9DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 264 - Nominee 9 DOB (DD/MM/YYYY)
+  Nominee9Guardian: z.string().max(35).optional(), // 265 - Nominee 9 Guardian Name
+  Nominee9GuardianPAN: z.string().max(10).optional(), // 266 - Nominee 9 Guardian PAN
+  Nominee9IdentityType: z.string().max(1).optional(), // 267 - Nominee 9 Identity Type
+  Nominee9IDNo: z.string().optional(), // 268 - Nominee 9 ID No
+  Nominee9Email: optionalEmail(120), // 269 - Nominee 9 Email
+  Nominee9Mobile: z.string().max(15).optional(), // 270 - Nominee 9 Mobile
+  Nominee9Add1: z.string().max(40).optional(), // 271 - Nominee 9 Address 1
+  Nominee9Add2: z.string().max(40).optional(), // 272 - Nominee 9 Address 2
+  Nominee9Add3: z.string().max(40).optional(), // 273 - Nominee 9 Address 3
+  Nominee9City: z.string().max(35).optional(), // 274 - Nominee 9 City
+  Nominee9Pin: z.string().max(15).optional(), // 275 - Nominee 9 Pin
+  Nominee9Country: z.string().max(35).optional(), // 276 - Nominee 9 Country
+
+  // Nominee 10 information
+  Nominee10Name: z.string().max(40).optional(), // 277 - Nominee 10 Name
+  Nominee10Relationship: z.string().max(2).optional(), // 278 - Nominee 10 Relationship
+  Nominee10Applicable: z.string().max(5).optional(), // 279 - Nominee 10 Applicable (%)
+  Nominee10MinorFlag: optionalEnum(UCCYesNoFlag), // 280 - Nominee 10 Minor Flag (Y/N)
+  Nominee10DOB: z
+    .string()
+    .refine(dateValidation, {
+      message: 'Nominee10DOB must be in DD/MM/YYYY format',
+    })
+    .optional(), // 281 - Nominee 10 DOB (DD/MM/YYYY)
+  Nominee10Guardian: z.string().max(35).optional(), // 282 - Nominee 10 Guardian Name
+  Nominee10GuardianPAN: z.string().max(10).optional(), // 283 - Nominee 10 Guardian PAN
+  Nominee10IdentityType: z.string().max(1).optional(), // 284 - Nominee 10 Identity Type
+  Nominee10IDNo: z.string().optional(), // 285 - Nominee 10 ID No
+  Nominee10Email: optionalEmail(120), // 286 - Nominee 10 Email
+  Nominee10Mobile: z.string().max(15).optional(), // 287 - Nominee 10 Mobile
+  Nominee10Add1: z.string().max(40).optional(), // 288 - Nominee 10 Address 1
+  Nominee10Add2: z.string().max(40).optional(), // 289 - Nominee 10 Address 2
+  Nominee10Add3: z.string().max(40).optional(), // 290 - Nominee 10 Address 3
+  Nominee10City: z.string().max(35).optional(), // 291 - Nominee 10 City
+  Nominee10Pin: z.string().max(15).optional(), // 292 - Nominee 10 Pin
+  Nominee10Country: z.string().max(35).optional(), // 293 - Nominee 10 Country
+
   // Final SOA field
-  NomineeSOA: optionalEnum(UCCYesNoFlag), // 175 - Nominee SOA (Y/N)
+  NomineeSOA: optionalEnum(UCCYesNoFlag), // 294 - Nominee SOA (Y/N)
 
   // Filler fields
-  Filler1: z.string().max(50).optional(), // 176 - Filler 1
-  Filler2: z.string().max(50).optional(), // 177 - Filler 2
-  Filler3: z.string().max(50).optional(), // 178 - Filler 3
-  Filler4: z.string().max(50).optional(), // 179 - Filler 4
-  Filler5: z.string().max(50).optional(), // 180 - Filler 5
-  Filler6: z.string().max(50).optional(), // 181 - Filler 6
-  Filler7: z.string().max(50).optional(), // 182 - Filler 7
-  Filler8: z.string().max(50).optional(), // 183 - Filler 8
+  Filler1: z.string().max(50).optional(), // 295 - Filler 1
+  Filler2: z.string().max(50).optional(), // 296 - Filler 2
+  Filler3: z.string().max(50).optional(), // 297 - Filler 3
+  Filler4: z.string().max(50).optional(), // 298 - Filler 4
+  Filler5: z.string().max(50).optional(), // 299 - Filler 5
+  Filler6: z.string().max(50).optional(), // 300 - Filler 6
+  Filler7: z.string().max(50).optional(), // 301 - Filler 7
+  Filler8: z.string().max(50).optional(), // 302 - Filler 8
 });
 
 // New Enhanced UCC Registration Request Schema
