@@ -51,4 +51,4 @@ export {
 } from './uccRegistration';
 
 // Nomination Enums
-export { NominationOpt, NominationAuthMode } from './nomination';
+export { NominationOpt, NominationAuthenticationMode } from './nomination';
