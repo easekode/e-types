@@ -49,3 +49,4 @@ export * from './fundService';
 export * from './fundApi';
 export * from './userProfile';
 export * from './ifsc';
+export * from './order';
