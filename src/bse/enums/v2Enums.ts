@@ -321,47 +321,11 @@ export enum MISType {
 // ===============================
 // Webhook Events
 // ===============================
-export enum WebhookEventType {
-  UCC = 'UCC',
-  ORDER = 'ORDER',
-  SXP = 'SXP',
-  MANDATE = 'MANDATE',
-  NFT = 'NFT',
-  PAYMENT_GATEWAY = 'PAYMENT_GATEWAY'
-}
-
-export enum WebhookEvent {
-  UCC_NEW = 'ucc_new',
-  UCC_UPDATE = 'ucc_update',
-  UCC_APPROVED = 'ucc_approved',
-  UCC_REJECTED = 'ucc_rejected',
-  UCC_VERIFY = 'ucc_verify',
-  UCC_INACTIVE = 'ucc_inactive',
-  ORDER_NEW = 'order_new',
-  ORDER_UPDATE = 'order_update',
-  ORDER_CANCEL = 'order_cancel',
-  ORDER_MATCHED = 'matched',
-  ORDER_RTA_RESPONSE = 'order_rta_response',
-  ORDER_ALLOTTED = 'order_allotted',
-  ORDER_REDEEMED = 'order_redeemed',
-  ORDER_REFUND = 'order_refund',
-  ORDER_REJECTED = 'order_rejected',
-  SXP_REGISTERED = 'sxp_registered',
-  SXP_CANCELLED = 'sxp_cancelled',
-  SXP_PAUSED = 'sxp_paused',
-  SXP_RESUMED = 'sxp_resumed',
-  SXP_TOPUP = 'sxp_topup',
-  SXP_INSTALLMENT_GENERATED = 'sxp_installment_generated',
-  MANDATE_REGISTERED = 'mandate_registered',
-  MANDATE_UPDATED = 'mandate_updated',
-  MANDATE_CANCELLED = 'mandate_cancelled',
-  MANDATE_VERIFIED = 'mandate_verified',
-  MANDATE_LINKED = 'mandate_linked',
-  MANDATE_DELINKED = 'mandate_delinked',
-  PG_PAYMENT_INITIATED = 'pg_payment_initiated',
-  PG_PAYMENT_SUCCESS = 'pg_payment_success',
-  PG_PAYMENT_FAILED = 'pg_payment_failed'
-}
+// NOTE: WebhookEvent and WebhookEventCategory have been moved to WebhookEvent.ts
+// for better organization and comprehensive event coverage (96 events).
+// Import from: @/e-types/src/bse/enums/WebhookEvent
+// This file previously contained a subset (40 events) - now deprecated.
+// ===============================
 
 // ===============================
 // Error Codes
