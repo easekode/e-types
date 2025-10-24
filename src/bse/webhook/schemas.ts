@@ -25,9 +25,13 @@ const InvestorSchema = z.object({
 
 /**
  * Base action schema - all events have an `at` timestamp
+ * 
+ * Note: BSE sends timestamps in ISO 8601 format with timezone offset
+ * (e.g., "2025-10-24T12:00:00+0530")
+ * Using offset: true to accept timezone information
  */
 const BaseActionSchema = z.object({
-  at: z.string().datetime({ message: 'Invalid ISO 8601 datetime format' }),
+  at: z.string().datetime({ offset: true, message: 'Invalid ISO 8601 datetime format with timezone' }),
 });
 
 // ===============================
