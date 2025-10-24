@@ -41,4 +41,7 @@ export enum NAVIGATION {
   MY_PROFILE = 'my-profile',
   MY_REQUESTS = 'my-requests',
   REQUEST_DETAILS = 'request-details',
+  GOAL_COMMUNITY = 'goal-community',
+  GOAL_DETAILS = 'goal-details',
+  MUTUAL_FUND_SELECTION = 'mutual-fund-selection',
 }
