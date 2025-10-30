@@ -62,34 +62,34 @@ export const GroupMemberStatusEnum = z.enum(['active', 'pending', 'declined']);
 // CORE SCHEMAS
 // ============================================================================
 
-// Amount schema - matches mock data structure
-export const communityGoalAmountSchema = z.object({
-  title: z.string().optional(),
-  description: z.string().optional(),
-  value: z.number().positive(),
-  target: z.number().positive().optional(), // For backend tracking
-  current: z.number().min(0).optional(), // For backend tracking
-  currency: z.string().default('INR').optional(),
-});
-
-// Duration schema - matches mock data array of objects
-export const communityGoalDurationItemSchema = z.object({
-  title: z.string(),
-  value: z.number().positive(),
-  unit: z.string(), // 'days', 'nights', 'hours', etc.
-});
-
-export const communityGoalDurationSchema = z.array(
-  communityGoalDurationItemSchema,
-);
+// Duration display helper - formats days/nights for UI display
+export const formatDuration = (days: number, nights: number): string => {
+  return `${days} Day${days > 1 ? 's' : ''} / ${nights} Night${
+    nights > 1 ? 's' : ''
+  }`;
+};
 
 // ============================================================================
 // RELATED ENTITY SCHEMAS
 // ============================================================================
 
+// Agency schema - matches backend Prisma Agency model
+export const agencySchema = z.object({
+  id: z.string().cuid(),
+  name: z.string().min(1),
+  phone: z.string().min(1),
+  email: z.string().email(),
+  contactPerson: z.string().optional().nullable(),
+  website: z.string().url().optional().nullable(),
+  socialMedia: z.record(z.string()).optional().nullable(), // {facebook: "", instagram: "", twitter: ""}
+  isActive: z.boolean().default(true),
+  createdAt: z.date().or(z.string()),
+  updatedAt: z.date().or(z.string()),
+});
+
 // Category schema
 export const communityGoalCategorySchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   name: z.string().min(1),
   slug: z.string().min(1),
   description: z.string().optional().nullable(),
@@ -102,8 +102,8 @@ export const communityGoalCategorySchema = z.object({
 
 // SubCategory schema
 export const communityGoalSubCategorySchema = z.object({
-  id: z.string().uuid(),
-  categoryId: z.string().uuid(),
+  id: z.string().cuid(),
+  categoryId: z.string().cuid(),
   name: z.string().min(1),
   slug: z.string().min(1),
   description: z.string().optional().nullable(),
@@ -114,34 +114,117 @@ export const communityGoalSubCategorySchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
-// Itinerary schema - matches mock data structure
-export const communityGoalItinerarySchema = z.object({
-  id: z.string().uuid().optional(),
-  communityGoalId: z.string().uuid().optional(),
+// Itinerary Content Schema - Flexible CMS-style structure
+// All itinerary data is stored in a single JSON field for maximum flexibility
+export const itineraryContentSchema = z.object({
+  // Basic info
   day: z.number().int().positive(),
   title: z.string().min(1),
-  description: z.string(),
-  location: z.string().optional().nullable(),
-  startTime: z.string().optional().nullable(),
-  endTime: z.string().optional().nullable(),
-  imageUrl: z.string().optional().nullable(),
-  order: z.number().int().default(0).optional(),
-  // CMS-like flexible content field for rich itinerary data
-  // Format: {sections: [{type: "text|image|video|list", content: "..."}], metadata: {...}}
-  content: z.record(z.any()).optional().nullable(), // Optional JSONB field
+  description: z.string().optional(),
+  order: z.number().int().default(0),
+
+  // Time
+  startTime: z.string().optional(), // e.g., "09:00 AM"
+  endTime: z.string().optional(), // e.g., "05:00 PM"
+  duration: z.string().optional(), // e.g., "8 hours"
+
+  // Location
+  location: z.string().optional(),
+  coordinates: z
+    .object({
+      lat: z.number(),
+      lng: z.number(),
+    })
+    .optional(),
+
+  // Media
+  images: z.array(z.string().url()).optional(),
+  videos: z.array(z.string().url()).optional(),
+  coverImage: z.string().url().optional(),
+
+  // Rich content sections
+  sections: z
+    .array(
+      z.object({
+        type: z.enum([
+          'text',
+          'image',
+          'video',
+          'gallery',
+          'activity',
+          'meal',
+          'transport',
+        ]),
+        title: z.string().optional(),
+        content: z.any(),
+        order: z.number().int(),
+      }),
+    )
+    .optional(),
+
+  // Activities
+  activities: z
+    .array(
+      z.object({
+        time: z.string(),
+        title: z.string(),
+        description: z.string().optional(),
+        icon: z.string().optional(),
+        duration: z.string().optional(),
+      }),
+    )
+    .optional(),
+
+  // Meals
+  meals: z
+    .object({
+      breakfast: z.string().optional(),
+      lunch: z.string().optional(),
+      dinner: z.string().optional(),
+      notes: z.string().optional(),
+    })
+    .optional(),
+
+  // Transport
+  transport: z
+    .object({
+      mode: z.string().optional(),
+      details: z.string().optional(),
+      pickupTime: z.string().optional(),
+      dropoffTime: z.string().optional(),
+    })
+    .optional(),
+
+  // Custom fields (extensible)
+  customFields: z.record(z.any()).optional(),
+
+  // Meta
+  tags: z.array(z.string()).optional(),
+  highlights: z.array(z.string()).optional(),
+  notes: z.string().optional(),
+});
+
+// Itinerary schema - CMS-style with minimal fields
+// All content data is stored in the 'content' JSON field
+export const communityGoalItinerarySchema = z.object({
+  id: z.string().cuid().optional(),
+  communityGoalId: z.string().cuid().optional(),
+
+  // Publishing control
+  isActive: z.boolean().default(true),
+
+  // Flexible CMS content field - stores all itinerary data as JSON
+  content: itineraryContentSchema,
+
   createdAt: z.date().or(z.string()).optional(),
   updatedAt: z.date().or(z.string()).optional(),
 });
 
 // Available Date schema - matches backend Prisma schema
 export const communityGoalAvailableDateSchema = z.object({
-  id: z.string().uuid().optional(),
-  communityGoalId: z.string().uuid().optional(),
+  id: z.string().cuid().optional(),
+  communityGoalId: z.string().cuid().optional(),
   startDate: z.date().or(z.string()),
-  endDate: z.date().or(z.string()),
-  availableSlots: z.number().int().positive().optional().nullable(),
-  bookedSlots: z.number().int().min(0).default(0).optional(),
-  priceMultiplier: z.number().positive().optional().nullable(),
   notes: z.string().optional().nullable(),
   isActive: z.boolean().default(true).optional(),
   createdAt: z.date().or(z.string()).optional(),
@@ -150,8 +233,8 @@ export const communityGoalAvailableDateSchema = z.object({
 
 // Available Month schema - for month-based date selection
 export const communityGoalAvailableMonthSchema = z.object({
-  id: z.string().uuid().optional(),
-  communityGoalId: z.string().uuid().optional(),
+  id: z.string().cuid().optional(),
+  communityGoalId: z.string().cuid().optional(),
   year: z.number().int().min(2020).max(2100),
   month: z.number().int().min(1).max(12),
   isActive: z.boolean().default(true),
@@ -160,8 +243,8 @@ export const communityGoalAvailableMonthSchema = z.object({
 
 // Package/Pricing Tier schema - matches backend Prisma schema
 export const communityGoalPackageSchema = z.object({
-  id: z.string().uuid().optional(),
-  communityGoalId: z.string().uuid().optional(),
+  id: z.string().cuid().optional(),
+  communityGoalId: z.string().cuid().optional(),
   label: z.string().min(1), // "Standard", "Premium", "Deluxe"
   description: z.string().optional().nullable(),
   amount: z.number().positive(),
@@ -174,8 +257,8 @@ export const communityGoalPackageSchema = z.object({
 
 // Service schema - matches backend Prisma schema
 export const communityGoalServiceSchema = z.object({
-  id: z.string().uuid(),
-  communityGoalId: z.string().uuid(),
+  id: z.string().cuid(),
+  communityGoalId: z.string().cuid(),
   name: z.string().min(1),
   description: z.string().optional().nullable(),
   cost: z.number().optional().nullable(), // Null if included
@@ -186,19 +269,19 @@ export const communityGoalServiceSchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
-// Review schema - matches backend Prisma schema
+// Review schema - matches backend Prisma schema (commented out in Prisma)
 export const communityGoalReviewSchema = z.object({
-  id: z.string(),
-  communityGoalId: z.string().uuid(),
-  participationId: z.string().uuid(),
-  userId: z.string().uuid(),
+  id: z.string().cuid(),
+  communityGoalId: z.string().cuid(),
+  participationId: z.string().cuid(),
+  userId: z.string().cuid(),
   rating: z.number().int().min(1).max(5),
   title: z.string().optional().nullable(),
   comment: z.string().optional().nullable(),
   images: z.array(z.string()).default([]).optional(),
   videos: z.array(z.string()).default([]).optional(),
   status: ReviewStatusEnum.default('PENDING').optional(),
-  moderatedBy: z.string().uuid().optional().nullable(),
+  moderatedBy: z.string().cuid().optional().nullable(),
   moderatedAt: z.date().or(z.string()).optional().nullable(),
   moderationNotes: z.string().optional().nullable(),
   helpfulCount: z.number().int().min(0).default(0).optional(),
@@ -207,14 +290,14 @@ export const communityGoalReviewSchema = z.object({
   updatedAt: z.date().or(z.string()).optional(),
 });
 
-// Participation schema - matches backend Prisma schema
+// Participation schema - matches backend Prisma schema (commented out in Prisma)
 export const communityGoalParticipationSchema = z.object({
-  id: z.string().uuid(),
-  communityGoalId: z.string().uuid(),
-  userId: z.string().uuid(),
+  id: z.string().cuid(),
+  communityGoalId: z.string().cuid(),
+  userId: z.string().cuid(),
   status: ParticipationStatusEnum,
-  selectedDateId: z.string().uuid().optional().nullable(),
-  groupId: z.string().uuid().optional().nullable(),
+  selectedDateId: z.string().cuid().optional().nullable(),
+  groupId: z.string().cuid().optional().nullable(),
   totalCommitted: z.number().min(0).default(0),
   totalPaid: z.number().min(0).default(0),
   totalRefunded: z.number().min(0).default(0),
@@ -228,26 +311,26 @@ export const communityGoalParticipationSchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
-// Group schema - matches backend Prisma schema
+// Group schema - matches backend Prisma schema (removed inviteCode)
 export const communityGoalGroupSchema = z.object({
-  id: z.string().uuid(),
+  id: z.string().cuid(),
   name: z.string().min(1),
   description: z.string().optional().nullable(),
-  creatorId: z.string().uuid(),
-  communityGoalId: z.string().uuid().optional().nullable(),
+  creatorId: z.string().cuid(),
+  communityGoalId: z.string().cuid().optional().nullable(),
   maxMembers: z.number().int().positive().optional().nullable(),
   isPrivate: z.boolean().default(false),
-  inviteCode: z.string().optional().nullable(),
+  investmentGoalId: z.string().cuid().optional().nullable(), // 1:1 with InvestmentGoal for GROUP_GOAL
   createdAt: z.date().or(z.string()),
   updatedAt: z.date().or(z.string()),
 });
 
-// Invitation schema - matches backend Prisma schema
+// Invitation schema - matches backend Prisma schema (groupId now optional)
 export const communityGoalInvitationSchema = z.object({
-  id: z.string().uuid(),
-  groupId: z.string().uuid(),
-  inviterId: z.string().uuid(),
-  inviteeId: z.string().uuid().optional().nullable(),
+  id: z.string().cuid(),
+  groupId: z.string().cuid().optional().nullable(), // Optional during invitation creation
+  inviterId: z.string().cuid(),
+  inviteeId: z.string().cuid().optional().nullable(),
   inviteeEmail: z.string().email().optional().nullable(),
   inviteePhone: z.string().optional().nullable(),
   status: InvitationStatusEnum,
@@ -259,11 +342,11 @@ export const communityGoalInvitationSchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
-// Contribution schema - matches backend Prisma schema
+// Contribution schema - matches backend Prisma schema (commented out in Prisma)
 export const communityGoalContributionSchema = z.object({
-  id: z.string().uuid(),
-  participationId: z.string().uuid(),
-  userId: z.string().uuid(),
+  id: z.string().cuid(),
+  participationId: z.string().cuid(),
+  userId: z.string().cuid(),
   amount: z.number().positive(),
   status: ContributionStatusEnum,
   paymentMethod: z.string().optional().nullable(),
@@ -322,19 +405,23 @@ export const selectServicesSchema = z.object({
 // ============================================================================
 
 export const communityGoalSchema = z.object({
-  id: z.string().uuid(),
-  name: z.string().min(1), // Backend uses 'name', not 'title'
+  id: z.string().cuid(),
+  name: z.string().min(1),
   slug: z.string().min(1), // SEO-friendly URL
   description: z.string(),
 
   // Category and subcategory
-  categoryId: z.string().uuid(),
+  categoryId: z.string().cuid(),
   categoryName: z.string().optional(), // Denormalized for API responses
   category: z.string().optional(), // Alias for categoryId in some responses
 
   // Subcategory (optional second-level classification)
-  subCategoryId: z.string().uuid().optional().nullable(),
+  subCategoryId: z.string().cuid().optional().nullable(),
   subCategoryName: z.string().optional(), // Denormalized for API responses
+
+  // Agency providing this goal (REQUIRED in Prisma, not optional)
+  agencyId: z.string().cuid(),
+  agencyName: z.string().optional(), // Denormalized for API responses
 
   // Marketing copy
   subtitleShort: z.string().optional().nullable(),
@@ -346,9 +433,10 @@ export const communityGoalSchema = z.object({
   bannerVideoUrl: z.string().optional().nullable(),
   galleryImages: z.array(z.string()).default([]).optional(),
 
-  // Flexible duration structure (JSON array of duration options)
-  // Format: [{"title": "Short Term", "value": 6, "unit": "months"}, ...]
-  durationDetails: z.record(z.any()), // Backend stores as Json
+  // Duration (for filtering and queries)
+  // Standard travel industry format: "5 Days / 4 Nights"
+  days: z.number().int().positive(), // Number of days (e.g., 5 for a 5-day trip)
+  nights: z.number().int().min(0), // Number of nights (e.g., 4 for 4 nights stay)
 
   // Location and media
   city: z.string().optional().nullable(),
@@ -380,14 +468,15 @@ export const communityGoalSchema = z.object({
 
   // Admin-only fields (all optional for backward compatibility)
   internalNotes: z.string().optional().nullable(),
-  approvedBy: z.string().uuid().optional().nullable(),
+  approvedBy: z.string().cuid().optional().nullable(),
   approvedAt: z.date().or(z.string()).optional().nullable(),
   rejectionReason: z.string().optional().nullable(),
-  createdBy: z.string().uuid().optional().nullable(),
-  updatedBy: z.string().uuid().optional().nullable(),
 
-  // Organizer relation
-  organizerId: z.string().uuid().optional().nullable(),
+  // User who created this goal
+  createdBy: z.string().cuid().optional().nullable(),
+
+  // Last user who updated this goal
+  updatedBy: z.string().cuid().optional().nullable(),
 
   // Timestamps
   createdAt: z.date().or(z.string()).optional(),
@@ -400,6 +489,7 @@ export const communityGoalSchema = z.object({
 export const communityGoalWithRelationsSchema = communityGoalSchema.extend({
   category: communityGoalCategorySchema.optional(),
   subCategory: communityGoalSubCategorySchema.optional().nullable(),
+  agency: agencySchema.optional(), // Agency providing this goal
   itinerary: z.array(communityGoalItinerarySchema).default([]).optional(),
   availableDates: z
     .array(communityGoalAvailableDateSchema)
@@ -479,9 +569,11 @@ export const createCommunityGoalInputSchema = z.object({
   name: z.string().min(1, 'Name is required'),
   slug: z.string().min(1, 'Slug is required'),
   description: z.string().min(1, 'Description is required'),
-  categoryId: z.string().uuid('Valid category ID is required'),
-  subCategoryId: z.string().uuid().optional().nullable(),
-  durationDetails: z.record(z.any()),
+  categoryId: z.string().cuid('Valid category ID is required'),
+  subCategoryId: z.string().cuid().optional().nullable(),
+  agencyId: z.string().cuid('Valid agency ID is required'), // REQUIRED
+  days: z.number().int().positive('Days must be a positive number'),
+  nights: z.number().int().min(0, 'Nights must be zero or positive'),
   startDate: z.date().or(z.string()).optional(),
   endDate: z.date().or(z.string()).optional(),
   city: z.string().optional(),
@@ -505,14 +597,17 @@ export const updateCommunityGoalStatusInputSchema = z.object({
 
 // Filter and query schemas
 export const communityGoalFilterSchema = z.object({
-  categoryId: z.string().uuid().optional(),
+  categoryId: z.string().cuid().optional(),
+  subCategoryId: z.string().cuid().optional(),
+  agencyId: z.string().cuid().optional(), // Filter by agency
   status: CommunityGoalStatusEnum.optional(),
   isFeatured: z.boolean().optional(),
   minAmount: z.number().optional(),
   maxAmount: z.number().optional(),
   city: z.string().optional(),
   tags: z.array(z.string()).optional(),
-  createdBy: z.string().uuid().optional(),
+  createdBy: z.string().cuid().optional(),
+  updatedBy: z.string().cuid().optional(),
   search: z.string().optional(),
   page: z.number().int().positive().default(1),
   limit: z.number().int().positive().default(20),
@@ -522,8 +617,8 @@ export const communityGoalFilterSchema = z.object({
 
 // Participation input schemas
 export const createParticipationInputSchema = z.object({
-  communityGoalId: z.string().uuid(),
-  groupId: z.string().uuid().optional(),
+  communityGoalId: z.string().cuid(),
+  groupId: z.string().cuid().optional(),
 });
 
 export const updateParticipationInputSchema = z.object({
@@ -532,7 +627,7 @@ export const updateParticipationInputSchema = z.object({
 
 // Contribution input schema
 export const createContributionInputSchema = z.object({
-  participationId: z.string().uuid(),
+  participationId: z.string().cuid(),
   amount: z.number().positive('Amount must be positive'),
   paymentMethod: z.string().optional(),
   notes: z.string().optional(),
@@ -540,7 +635,7 @@ export const createContributionInputSchema = z.object({
 
 // Review input schemas
 export const createReviewInputSchema = z.object({
-  communityGoalId: z.string().uuid(),
+  communityGoalId: z.string().cuid(),
   rating: z.number().int().min(1).max(5, 'Rating must be between 1 and 5'),
   comment: z.string().optional(),
 });
@@ -552,7 +647,7 @@ export const updateReviewInputSchema = z.object({
 
 // Group input schemas
 export const createGroupInputSchema = z.object({
-  communityGoalId: z.string().uuid(),
+  communityGoalId: z.string().cuid(),
   name: z.string().min(1, 'Group name is required'),
   description: z.string().optional(),
   maxMembers: z.number().int().positive().optional(),
@@ -565,9 +660,9 @@ export const updateGroupInputSchema = createGroupInputSchema
 
 // Invitation input schemas
 export const createInvitationInputSchema = z.object({
-  communityGoalId: z.string().uuid(),
-  groupId: z.string().uuid().optional(),
-  inviteeId: z.string().uuid(),
+  communityGoalId: z.string().cuid(),
+  groupId: z.string().cuid().optional(), // Optional - can create invitation before group
+  inviteeId: z.string().cuid(),
   expiresAt: z.date().or(z.string()).optional(),
 });
 
@@ -607,11 +702,8 @@ export type ReviewStatus = z.infer<typeof ReviewStatusEnum>;
 export type GroupMemberStatus = z.infer<typeof GroupMemberStatusEnum>;
 
 // Core entity types
-export type CommunityGoalAmount = z.infer<typeof communityGoalAmountSchema>;
-export type CommunityGoalDurationItem = z.infer<
-  typeof communityGoalDurationItemSchema
->;
-export type CommunityGoalDuration = z.infer<typeof communityGoalDurationSchema>;
+export type ItineraryContent = z.infer<typeof itineraryContentSchema>;
+export type Agency = z.infer<typeof agencySchema>;
 export type CommunityGoal = z.infer<typeof communityGoalSchema>;
 export type CommunityGoalWithRelations = z.infer<
   typeof communityGoalWithRelationsSchema
@@ -727,7 +819,8 @@ export type CommunityGoalCard = Pick<
   | 'name'
   | 'description'
   | 'categoryName'
-  | 'durationDetails'
+  | 'days'
+  | 'nights'
   | 'city'
   | 'bannerImageUrl'
   | 'maxParticipants'
