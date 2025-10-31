@@ -51,3 +51,4 @@ export * from './userProfile';
 export * from './ifsc';
 export * from './order';
 export * from './sms';
+export * from './communityGoal';
