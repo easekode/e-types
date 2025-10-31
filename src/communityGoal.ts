@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { any, z } from 'zod';
 
 /**
  * Community Goal Schemas and Types
@@ -114,96 +114,6 @@ export const communityGoalSubCategorySchema = z.object({
   updatedAt: z.date().or(z.string()),
 });
 
-// Itinerary Content Schema - Flexible CMS-style structure
-// All itinerary data is stored in a single JSON field for maximum flexibility
-export const itineraryContentSchema = z.object({
-  // Basic info
-  day: z.number().int().positive(),
-  title: z.string().min(1),
-  description: z.string().optional(),
-  order: z.number().int().default(0),
-
-  // Time
-  startTime: z.string().optional(), // e.g., "09:00 AM"
-  endTime: z.string().optional(), // e.g., "05:00 PM"
-  duration: z.string().optional(), // e.g., "8 hours"
-
-  // Location
-  location: z.string().optional(),
-  coordinates: z
-    .object({
-      lat: z.number(),
-      lng: z.number(),
-    })
-    .optional(),
-
-  // Media
-  images: z.array(z.string().url()).optional(),
-  videos: z.array(z.string().url()).optional(),
-  coverImage: z.string().url().optional(),
-
-  // Rich content sections
-  sections: z
-    .array(
-      z.object({
-        type: z.enum([
-          'text',
-          'image',
-          'video',
-          'gallery',
-          'activity',
-          'meal',
-          'transport',
-        ]),
-        title: z.string().optional(),
-        content: z.any(),
-        order: z.number().int(),
-      }),
-    )
-    .optional(),
-
-  // Activities
-  activities: z
-    .array(
-      z.object({
-        time: z.string(),
-        title: z.string(),
-        description: z.string().optional(),
-        icon: z.string().optional(),
-        duration: z.string().optional(),
-      }),
-    )
-    .optional(),
-
-  // Meals
-  meals: z
-    .object({
-      breakfast: z.string().optional(),
-      lunch: z.string().optional(),
-      dinner: z.string().optional(),
-      notes: z.string().optional(),
-    })
-    .optional(),
-
-  // Transport
-  transport: z
-    .object({
-      mode: z.string().optional(),
-      details: z.string().optional(),
-      pickupTime: z.string().optional(),
-      dropoffTime: z.string().optional(),
-    })
-    .optional(),
-
-  // Custom fields (extensible)
-  customFields: z.record(z.any()).optional(),
-
-  // Meta
-  tags: z.array(z.string()).optional(),
-  highlights: z.array(z.string()).optional(),
-  notes: z.string().optional(),
-});
-
 // Itinerary schema - CMS-style with minimal fields
 // All content data is stored in the 'content' JSON field
 export const communityGoalItinerarySchema = z.object({
@@ -214,7 +124,7 @@ export const communityGoalItinerarySchema = z.object({
   isActive: z.boolean().default(true),
 
   // Flexible CMS content field - stores all itinerary data as JSON
-  content: itineraryContentSchema,
+  content: z.any().optional(), // for now
 
   createdAt: z.date().or(z.string()).optional(),
   updatedAt: z.date().or(z.string()).optional(),
@@ -702,7 +612,6 @@ export type ReviewStatus = z.infer<typeof ReviewStatusEnum>;
 export type GroupMemberStatus = z.infer<typeof GroupMemberStatusEnum>;
 
 // Core entity types
-export type ItineraryContent = z.infer<typeof itineraryContentSchema>;
 export type Agency = z.infer<typeof agencySchema>;
 export type CommunityGoal = z.infer<typeof communityGoalSchema>;
 export type CommunityGoalWithRelations = z.infer<
