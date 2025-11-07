@@ -25,34 +25,141 @@ export enum HoldingNature {
 }
 
 export enum TaxCode {
-  RESIDENT_INDIVIDUAL = '01',
-  RESIDENT_INDIVIDUAL_MINOR = '02',
-  NRI_NRO_REPATRIABLE = '03',
-  NRI_NRO_NON_REPATRIABLE = '04',
-  NRI_NRE = '05',
-  FII = '06',
-  FOREIGN_NATIONAL = '07',
-  COMPANY = '08',
-  HINDU_UNDIVIDED_FAMILY = '09',
-  PARTNERSHIP_FIRM = '10',
-  TRUST = '11',
-  LIMITED_LIABILITY_PARTNERSHIP = '12',
-  ASSOCIATION_OF_PERSONS = '13',
-  BODY_OF_INDIVIDUALS = '14',
-  SOCIETY = '15',
-  OVERSEAS_CORPORATE_BODIES = '16',
-  FPI_CORPORATE = '17',
-  FPI_INDIVIDUAL = '18',
-  FPI_TRUST = '19',
-  NRI_MINOR = '24',
-  NRI_CHILD = '26'
+  INDIVIDUAL = '01',
+  ON_BEHALF_OF_MINOR = '02',
+  HUF = '03',
+  COMPANY = '04',
+  AOP = '05',
+  PARTNERSHIP_FIRM = '06',
+  BODY_CORPORATE = '07',
+  TRUST = '08',
+  SOCIETY = '09',
+  OTHERS = '10',
+  NRI_OTHERS = '11',
+  DFI = '12',
+  SOLE_PROPRIETORSHIP = '13',
+  NRE = '21',
+  OCB = '22',
+  FII = '23',
+  NRO = '24',
+  OVERSEAS_CORP_BODY_OTHERS = '25',
+  NRI_CHILD = '26',
+  NRI_HUF_NRO = '27',
+  NRI_MINOR_NRO = '28',
+  NRI_HUF_NRE = '29',
+  PROVIDENT_FUND = '31',
+  SUPER_ANNUATION_FUND = '32',
+  GRATUITY_FUND = '33',
+  PENSION_FUND = '34',
+  MUTUAL_FUNDS_FOF_SCHEMES = '36',
+  NPS_TRUST = '37',
+  GLOBAL_DEVELOPMENT_NETWORK = '38',
+  FCRA = '39',
+  QFI_INDIVIDUAL = '41',
+  QFI_MINORS = '42',
+  QFI_CORPORATE = '43',
+  QFI_PENSION_FUNDS = '44',
+  QFI_HEDGE_FUNDS = '45',
+  QFI_MUTUAL_FUNDS = '46',
+  LLP = '47',
+  NON_PROFIT_ORGANIZATION_NPO = '48',
+  PUBLIC_LIMITED_COMPANY = '51',
+  PRIVATE_LIMITED_COMPANY = '52',
+  UNLISTED_COMPANY = '53',
+  MUTUAL_FUNDS = '54',
+  FPI_CATEGORY_I = '55',
+  FPI_CATEGORY_II = '56',
+  FPI_CATEGORY_III = '57',
+  FINANCIAL_INSTITUTIONS = '58',
+  BODY_OF_INDIVIDUALS = '59',
+  INSURANCE_COMPANY = '60',
+  OCI_REPATRIATION = '61',
+  OCI_NON_REPATRIATION = '62',
+  PERSON_OF_INDIAN_ORIGIN = '70',
+  GOVERNMENT_BODY = '72',
+  DEFENSE_ESTABLISHMENT = '73',
+  NON_GOVERNMENT_ORGANISATION = '74',
+  BANK_CO_OPERATIVE_BANK = '75',
+  ARTIFICIAL_JURIDICAL_PERSON = '76',
+  SEAFARER_NRE = '77',
+  SEAFARER_NRO = '78'
 }
 
-export enum RedemptionPaymentMode {
-  NEFT = '01',
-  RTGS = '02',
-  CHEQUE = '03',
-  DIRECT_CREDIT = '04'
+export enum TaxStatus {
+  INDIVIDUAL = 'Individual',
+  ON_BEHALF_OF_MINOR = 'On behalf of minor',
+  HUF = 'HUF',
+  COMPANY = 'Company',
+  AOP = 'AOP',
+  PARTNERSHIP_FIRM = 'Partnership Firm',
+  BODY_CORPORATE = 'Body Corporate',
+  TRUST = 'Trust',
+  SOCIETY = 'Society',
+  OTHERS = 'Others',
+  NRI_OTHERS = 'NRI-Others',
+  DFI = 'DFI',
+  SOLE_PROPRIETORSHIP = 'Sole Proprietorship',
+  NRE = 'NRE',
+  OCB = 'OCB',
+  FII = 'FII',
+  NRO = 'NRO',
+  OVERSEAS_CORP_BODY_OTHERS = 'Overseas Corp. Body - Others',
+  NRI_CHILD = 'NRI Child',
+  NRI_HUF_NRO = 'NRI - HUF NRO',
+  NRI_MINOR_NRO = 'NRI - Minor NRO',
+  NRI_HUF_NRE = 'NRI - HUF NRE',
+  PROVIDENT_FUND = 'Provident Fund',
+  SUPER_ANNUATION_FUND = 'Super Annuation Fund',
+  GRATUITY_FUND = 'Gratuity Fund',
+  PENSION_FUND = 'Pension Fund',
+  MUTUAL_FUNDS_FOF_SCHEMES = 'Mutual Funds FOF Schemes',
+  NPS_TRUST = 'NPS Trust',
+  GLOBAL_DEVELOPMENT_NETWORK = 'Global Development Network',
+  FCRA = 'FCRA',
+  QFI_INDIVIDUAL = 'QFI - Individual',
+  QFI_MINORS = 'QFI - Minors',
+  QFI_CORPORATE = 'QFI - Corporate',
+  QFI_PENSION_FUNDS = 'QFI - Pension Funds',
+  QFI_HEDGE_FUNDS = 'QFI - Hedge Funds',
+  QFI_MUTUAL_FUNDS = 'QFI - Mutual Funds',
+  LLP = 'LLP',
+  NON_PROFIT_ORGANIZATION_NPO = 'Non-Profit organization (NPO)',
+  PUBLIC_LIMITED_COMPANY = 'Public Limited Company',
+  PRIVATE_LIMITED_COMPANY = 'Private Limited Company',
+  UNLISTED_COMPANY = 'Unlisted Company',
+  MUTUAL_FUNDS = 'Mutual Funds',
+  FPI_CATEGORY_I = 'FPI - Category I',
+  FPI_CATEGORY_II = 'FPI - Category II',
+  FPI_CATEGORY_III = 'FPI - Category III',
+  FINANCIAL_INSTITUTIONS = 'Financial Institutions',
+  BODY_OF_INDIVIDUALS = 'Body of Individuals',
+  INSURANCE_COMPANY = 'Insurance Company',
+  OCI_REPATRIATION = 'OCI - Repatriation',
+  OCI_NON_REPATRIATION = 'OCI - Non Repatriation',
+  PERSON_OF_INDIAN_ORIGIN = 'Person of Indian Origin',
+  GOVERNMENT_BODY = 'Government Body',
+  DEFENSE_ESTABLISHMENT = 'Defense Establishment',
+  NON_GOVERNMENT_ORGANISATION = 'Non - Government Organisation',
+  BANK_CO_OPERATIVE_BANK = 'Bank/Co-Operative Bank',
+  ARTIFICIAL_JURIDICAL_PERSON = 'Artificial Juridical person',
+  SEAFARER_NRE = 'Seafarer NRE',
+  SEAFARER_NRO = 'Seafarer NRO'
+}
+
+export enum RdmpIdcwPayModeLabel {
+  CHEQUE = 'Cheque',
+  DIRECT_CREDIT = 'Direct Credit',
+  ELECTRONIC_CLEARING_SERVICE = 'Electronic Clearing Service',
+  NATIONAL_ELECTRONIC_FUND_TRANSFER = 'National Electronic Fund Transfer',
+  REAL_TIME_GROSS_SETTLEMENT = 'Real-Time Gross Settlement'
+}
+
+export enum RdmpIdcwPayModeValue {
+  CHEQUE = '01',
+  DIRECT_CREDIT = '02',
+  ELECTRONIC_CLEARING_SERVICE = '03',
+  NATIONAL_ELECTRONIC_FUND_TRANSFER = '04',
+  REAL_TIME_GROSS_SETTLEMENT = '05'
 }
 
 export enum UCCStatus {
@@ -64,10 +171,16 @@ export enum UCCStatus {
   INACTIVE = 'INACTIVE'
 }
 
-export enum CommunicationMode {
+export enum CommunicationModeLabel {
+  PHYSICAL = 'Physical',
+  MOBILE = 'Mobile',
+  EMAIL = 'Email'
+}
+
+export enum CommunicationModeValue {
   PHYSICAL = 'P',
-  EMAIL = 'E',
-  BOTH = 'B'
+  MOBILE = 'M',
+  EMAIL = 'E'
 }
 
 export enum OnboardingType {
@@ -75,37 +188,50 @@ export enum OnboardingType {
   PAPERLESS = 'Z'
 }
 
+export enum HolderRankType {
+
+  PRIMARY = 'Primary Holder',
+  SECOND = 'Second Holder',
+  THIRD = 'Third Holder',
+  GUARDIAN = 'Guardian'
+}
+
 export enum HolderRank {
   PRIMARY = 1,
   SECOND = 2,
-  THIRD = 3
+  THIRD = 3,
+  GUARDIAN = -1
 }
 
 export enum OccupationCode {
-  BUSINESS = '01',
-  SERVICE = '02',
-  PROFESSIONAL = '03',
-  AGRICULTURIST = '04',
-  RETIRED = '05',
-  HOUSEWIFE = '06',
-  STUDENT = '07',
-  OTHERS = '08',
-  PRIVATE_SECTOR_SERVICE = '41',
-  PUBLIC_SECTOR = '42',
-  GOVERNMENT_SERVICE = '43',
-  FOREX_DEALER = '44'
+  Business = "01",
+  Service = "02",
+  Professional = "03",
+  Agriculturist = "04",
+  Retired = "05",
+  Housewife = "06",
+  Student = "07",
+  Others = "08",
+  Doctor = "09",
+  PrivateSectorService = "41",
+  PublicSectorService = "42",
+  ForexDealer = "43",
+  GovernmentService = "44",
+  UnknownOrNotApplicable = "99",
 }
+
+
 
 export enum AuthMode {
-  MANUAL = 'M',
-  PHYSICAL_SIGN = 'P',
-  ESIGN = 'E',
-  AADHAAR_OTP = 'A',
-  DIGIT_SIGNATURE = 'D'
+  'MOBILE' = 'M',
+  'EMAIL' = 'E',
+  'BOTH' = 'B'
 }
 
+
+
 export enum NominationAuthMode {
-  OFFLINE = 'O',
+  OTP_AUTHENTICATION = 'O',
   DIGITAL_WET_SIGNATURE = 'W',
   ESIGN = 'E'
 }
@@ -125,22 +251,23 @@ export enum DepositoryCode {
 }
 
 export enum KYCType {
-  CKYC = 'ckyc',
-  KRA = 'kra',
-  AADHAAR = 'aadhaar',
-  BIOMETRIC = 'biometric'
+  KRA_COMPLIANT = "K",
+  CKYC_COMPLIANT = "C",
+  BIOMETRIC_KYC = "B",
+  AADHAAR_EKYC_PAN = "E",
 }
 
 export enum Gender {
   MALE = 'M',
   FEMALE = 'F',
-  TRANSGENDER = 'T'
+  OTHER = 'O'
 }
 
 export enum ContactType {
-  MOBILE = 'M',
-  RESIDENCE = 'RE',
-  OFFICE = 'OF'
+  RESIDENTIAL = 'RE',
+  OFFICE = 'OF',
+  PRIMARY = 'PR',
+  OTHER = 'OT'
 }
 
 export enum IdentifierType {
@@ -422,3 +549,29 @@ export enum ContentType {
 // ===============================
 // End of All BSE Enums
 // ===============================
+
+export enum WhoseContact {
+  SELF = "SE",
+  SPOUSE = "SP",
+  DEPENDENT_CHILDREN = "DC",
+  DEPENDENT_SIBLINGS = "DS",
+  DEPENDENT_PARENTS = "DP",
+  GUARDIAN = "GD",
+  PMS = "PM",
+  CUSTODIAN = "CD",
+  POA = "PO",
+  NOT_APPLICABLE = "NA",
+}
+
+export const WHoseContactLabel: Record<WhoseContact, string> = {
+  [WhoseContact.SELF]: "Self",
+  [WhoseContact.SPOUSE]: "Spouse",
+  [WhoseContact.DEPENDENT_CHILDREN]: "Dependent Children",
+  [WhoseContact.DEPENDENT_SIBLINGS]: "Dependent Siblings",
+  [WhoseContact.DEPENDENT_PARENTS]: "Dependent Parents",
+  [WhoseContact.GUARDIAN]: "Guardian",
+  [WhoseContact.PMS]: "PMS",
+  [WhoseContact.CUSTODIAN]: "Custodian",
+  [WhoseContact.POA]: "POA",
+  [WhoseContact.NOT_APPLICABLE]: "Not Applicable",
+};

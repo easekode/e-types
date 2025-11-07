@@ -7,6 +7,7 @@
 
 // Export all schemas and types
 export * from './ucc-registration.schema';
+export * from './ucc-api.schema';
 export * from './order.schema';
 export * from './sip.schema';
 export * from './mandate.schema';
