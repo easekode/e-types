@@ -9,7 +9,7 @@
 // ===============================
 export enum ApiStatus {
   SUCCESS = 'success',
-  ERROR = 'error'
+  ERROR = 'error',
 }
 
 // ===============================
@@ -21,7 +21,7 @@ export enum HoldingNature {
   ANYONE_OR_SURVIVOR = 'AS',
   MINOR = 'MI',
   INSTITUTION = 'IN',
-  CUSTODY = 'CU'
+  CUSTODY = 'CU',
 }
 
 export enum TaxCode {
@@ -82,7 +82,7 @@ export enum TaxCode {
   BANK_CO_OPERATIVE_BANK = '75',
   ARTIFICIAL_JURIDICAL_PERSON = '76',
   SEAFARER_NRE = '77',
-  SEAFARER_NRO = '78'
+  SEAFARER_NRO = '78',
 }
 
 export enum TaxStatus {
@@ -143,7 +143,7 @@ export enum TaxStatus {
   BANK_CO_OPERATIVE_BANK = 'Bank/Co-Operative Bank',
   ARTIFICIAL_JURIDICAL_PERSON = 'Artificial Juridical person',
   SEAFARER_NRE = 'Seafarer NRE',
-  SEAFARER_NRO = 'Seafarer NRO'
+  SEAFARER_NRO = 'Seafarer NRO',
 }
 
 export enum RdmpIdcwPayModeLabel {
@@ -151,7 +151,7 @@ export enum RdmpIdcwPayModeLabel {
   DIRECT_CREDIT = 'Direct Credit',
   ELECTRONIC_CLEARING_SERVICE = 'Electronic Clearing Service',
   NATIONAL_ELECTRONIC_FUND_TRANSFER = 'National Electronic Fund Transfer',
-  REAL_TIME_GROSS_SETTLEMENT = 'Real-Time Gross Settlement'
+  REAL_TIME_GROSS_SETTLEMENT = 'Real-Time Gross Settlement',
 }
 
 export enum RdmpIdcwPayModeValue {
@@ -159,81 +159,79 @@ export enum RdmpIdcwPayModeValue {
   DIRECT_CREDIT = '02',
   ELECTRONIC_CLEARING_SERVICE = '03',
   NATIONAL_ELECTRONIC_FUND_TRANSFER = '04',
-  REAL_TIME_GROSS_SETTLEMENT = '05'
+  REAL_TIME_GROSS_SETTLEMENT = '05',
 }
 
 export enum UCCStatus {
   ACTIVE = 'ACTIVE',
+  INACTIVE = 'INACTIVE',
+  SUSPENDED = 'SUSPENDED',
+  PENDING_AUTH = 'PENDING_AUTH',
+  PENDING_VERIFICATION = 'PENDING_VERIFICATION',
   DRAFT = 'DRAFT',
   PENDING_APPROVAL = 'PENDING_APPROVAL',
-  PENDING_VERIFICATION = 'PENDING_VERIFICATION',
   REJECTED = 'REJECTED',
-  INACTIVE = 'INACTIVE'
+  APPROVED = 'APPROVED',
 }
 
 export enum CommunicationModeLabel {
   PHYSICAL = 'Physical',
   MOBILE = 'Mobile',
-  EMAIL = 'Email'
+  EMAIL = 'Email',
 }
 
 export enum CommunicationModeValue {
   PHYSICAL = 'P',
   MOBILE = 'M',
-  EMAIL = 'E'
+  EMAIL = 'E',
 }
 
 export enum OnboardingType {
   PAPER = 'P',
-  PAPERLESS = 'Z'
+  PAPERLESS = 'Z',
 }
 
 export enum HolderRankType {
-
   PRIMARY = 'Primary Holder',
   SECOND = 'Second Holder',
   THIRD = 'Third Holder',
-  GUARDIAN = 'Guardian'
+  GUARDIAN = 'Guardian',
 }
 
 export enum HolderRank {
-  PRIMARY = 1,
-  SECOND = 2,
-  THIRD = 3,
-  GUARDIAN = -1
+  PRIMARY = "1",
+  SECOND = "2",
+  THIRD = "3",
+  GUARDIAN = "-1",
 }
 
 export enum OccupationCode {
-  Business = "01",
-  Service = "02",
-  Professional = "03",
-  Agriculturist = "04",
-  Retired = "05",
-  Housewife = "06",
-  Student = "07",
-  Others = "08",
-  Doctor = "09",
-  PrivateSectorService = "41",
-  PublicSectorService = "42",
-  ForexDealer = "43",
-  GovernmentService = "44",
-  UnknownOrNotApplicable = "99",
+  Business = '01',
+  Service = '02',
+  Professional = '03',
+  Agriculturist = '04',
+  Retired = '05',
+  Housewife = '06',
+  Student = '07',
+  Others = '08',
+  Doctor = '09',
+  PrivateSectorService = '41',
+  PublicSectorService = '42',
+  ForexDealer = '43',
+  GovernmentService = '44',
+  UnknownOrNotApplicable = '99',
 }
-
-
 
 export enum AuthMode {
   'MOBILE' = 'M',
   'EMAIL' = 'E',
-  'BOTH' = 'B'
+  'BOTH' = 'B',
 }
-
-
 
 export enum NominationAuthMode {
   OTP_AUTHENTICATION = 'O',
   DIGITAL_WET_SIGNATURE = 'W',
-  ESIGN = 'E'
+  ESIGN = 'E',
 }
 
 export enum BankAccountType {
@@ -242,32 +240,32 @@ export enum BankAccountType {
   CASH_CREDIT = 'CC',
   OVERDRAFT = 'OD',
   NRE = 'NE',
-  NRO = 'NO'
+  NRO = 'NO',
 }
 
 export enum DepositoryCode {
   CDSL = 'CDSL',
-  NSDL = 'NSDL'
+  NSDL = 'NSDL',
 }
 
 export enum KYCType {
-  KRA_COMPLIANT = "K",
-  CKYC_COMPLIANT = "C",
-  BIOMETRIC_KYC = "B",
-  AADHAAR_EKYC_PAN = "E",
+  KRA_COMPLIANT = 'K',
+  CKYC_COMPLIANT = 'C',
+  BIOMETRIC_KYC = 'B',
+  AADHAAR_EKYC_PAN = 'E',
 }
 
 export enum Gender {
   MALE = 'M',
   FEMALE = 'F',
-  OTHER = 'O'
+  OTHER = 'O',
 }
 
 export enum ContactType {
   RESIDENTIAL = 'RE',
   OFFICE = 'OF',
   PRIMARY = 'PR',
-  OTHER = 'OT'
+  OTHER = 'OT',
 }
 
 export enum IdentifierType {
@@ -289,7 +287,7 @@ export enum IdentifierType {
   WET_SIGNATURE = 'wetsignature',
   AADHAAR_ESIGN = 'aadhaaresign',
   ELOG = 'elog',
-  SUPPORTING_DOCUMENT = 'supportingdocument'
+  SUPPORTING_DOCUMENT = 'supportingdocument',
 }
 
 // ===============================
@@ -298,7 +296,7 @@ export enum IdentifierType {
 export enum OrderType {
   PURCHASE = 'purchase',
   REDEMPTION = 'redemption',
-  SWITCH = 'switch'
+  SWITCH = 'switch',
 }
 
 export enum OrderSource {
@@ -306,17 +304,17 @@ export enum OrderSource {
   NFO = 'nfo',
   SIP = 'sip',
   SWP = 'swp',
-  STP = 'stp'
+  STP = 'stp',
 }
 
 export enum PhysicalOrDemat {
   PHYSICAL = 'p',
-  DEMAT = 'd'
+  DEMAT = 'd',
 }
 
 export enum OrderStatus {
   OPEN = 'o',
-  CLOSED = 'c'
+  CLOSED = 'c',
 }
 
 export enum OrderLifecycleStatus {
@@ -340,7 +338,7 @@ export enum OrderLifecycleStatus {
   REFUND_PENDING = 'refund_pending',
   EXCH_REFUND_INIT = 'exch_refund_init',
   EXCH_REFUND_ATTEMPTED = 'exch_refund_attempted',
-  EXCH_REFUND_FAILED = 'exch_refund_failed'
+  EXCH_REFUND_FAILED = 'exch_refund_failed',
 }
 
 // ===============================
@@ -351,7 +349,7 @@ export enum SxPType {
   SWP = 'swp',
   STP = 'stp',
   SPECIAL_PRODUCT = 'sprod',
-  TOPUP = 'topup'
+  TOPUP = 'topup',
 }
 
 export enum SxPFrequency {
@@ -360,7 +358,7 @@ export enum SxPFrequency {
   MONTHLY = 'm',
   QUARTERLY = 'q',
   HALF_YEARLY = 'h',
-  YEARLY = 'y'
+  YEARLY = 'y',
 }
 
 export enum SxPStatus {
@@ -368,7 +366,7 @@ export enum SxPStatus {
   ACTIVE = 'active',
   PAUSED = 'paused',
   CANCELLED = 'cancelled',
-  COMPLETED = 'completed'
+  COMPLETED = 'completed',
 }
 
 // ===============================
@@ -377,12 +375,12 @@ export enum SxPStatus {
 export enum MandateType {
   UPI_AUTOPAY = 'U',
   ENACH = 'N',
-  NACH = 'X'
+  NACH = 'X',
 }
 
 export enum MandateMode {
   ACH = 'ACH',
-  DIRECT_DEBIT = 'DD'
+  DIRECT_DEBIT = 'DD',
 }
 
 export enum MandateFrequency {
@@ -392,19 +390,19 @@ export enum MandateFrequency {
   MONTHLY = 'MONTHLY',
   QUARTERLY = 'QUARTERLY',
   HALF_YEARLY = 'HALF_YEARLY',
-  YEARLY = 'YEARLY'
+  YEARLY = 'YEARLY',
 }
 
 export enum MandateRequestType {
   REGISTRATION = 'REGISTRATION',
-  ENTRY = 'ENTRY'
+  ENTRY = 'ENTRY',
 }
 
 export enum MandateStatus {
   PENDING = 'P',
   VERIFIED = 'V',
   CANCELLED = 'C',
-  REJECTED = 'R'
+  REJECTED = 'R',
 }
 
 // ===============================
@@ -419,19 +417,19 @@ export enum PaymentMode {
   NACH = 'NACH',
   ENACH = 'ENACH',
   CHEQUE = 'CHEQUE',
-  DIRECT_DEBIT = 'DIRECT_DEBIT'
+  DIRECT_DEBIT = 'DIRECT_DEBIT',
 }
 
 export enum PaymentGatewayRequestMethod {
   EXCHPG_PAGE = 'exchpg_page',
-  PAYMENT_INFO_DATA = 'payment_info_data'
+  PAYMENT_INFO_DATA = 'payment_info_data',
 }
 
 export enum PaymentStatus {
   INITIATED = 'initiated',
   IN_PROGRESS = 'INPROGRESS',
   SUCCESS = 'success',
-  FAILED = 'failed'
+  FAILED = 'failed',
 }
 
 export enum MISType {
@@ -442,7 +440,7 @@ export enum MISType {
   NACH = 'NACH',
   ENACH = 'ENACH',
   CHEQUE = 'CHEQUE',
-  DIRECT_DEBIT = 'DIRECT_DEBIT'
+  DIRECT_DEBIT = 'DIRECT_DEBIT',
 }
 
 // ===============================
@@ -482,32 +480,32 @@ export enum ErrorCode {
   ORDER_CREATION_FAILED = '3813',
   ENDPOINT_NOT_FOUND = '3520',
   MISSING = '3517',
-  ID_DOES_NOT_EXIST = '3663'
+  ID_DOES_NOT_EXIST = '3663',
 }
 
 // ===============================
 // Additional Enums
 // ===============================
 export enum Currency {
-  INR = 'INR'
+  INR = 'INR',
 }
 
 export enum VerificationStatus {
   TRUE = 'TRUE',
   FALSE = 'FALSE',
-  PENDING = 'PENDING'
+  PENDING = 'PENDING',
 }
 
 export enum RTACode {
   CAMS = 'CAMS',
   KFIN = 'KFIN',
   KARVY = 'KARVY',
-  FRANKLIN = 'Franklin'
+  FRANKLIN = 'Franklin',
 }
 
 export enum YesNo {
   YES = 'Y',
-  NO = 'N'
+  NO = 'N',
 }
 
 export enum APIEndpoint {
@@ -538,12 +536,12 @@ export enum APIEndpoint {
   GET_PAYMENT_DETAIL = '/v2/get_payment_detail',
   SCHEME_LIST = '/v2/master_scheme_list',
   NAV_MASTER_LIST = '/v2/nav_master_list',
-  GET_2FA_LINK = '/v2/get_2fa_link'
+  GET_2FA_LINK = '/v2/get_2fa_link',
 }
 
 export enum ContentType {
   JSON = 'application/json',
-  JOSE = 'application/jose'
+  JOSE = 'application/jose',
 }
 
 // ===============================
@@ -551,27 +549,209 @@ export enum ContentType {
 // ===============================
 
 export enum WhoseContact {
-  SELF = "SE",
-  SPOUSE = "SP",
-  DEPENDENT_CHILDREN = "DC",
-  DEPENDENT_SIBLINGS = "DS",
-  DEPENDENT_PARENTS = "DP",
-  GUARDIAN = "GD",
-  PMS = "PM",
-  CUSTODIAN = "CD",
-  POA = "PO",
-  NOT_APPLICABLE = "NA",
+  SELF = 'SE',
+  SPOUSE = 'SP',
+  DEPENDENT_CHILDREN = 'DC',
+  DEPENDENT_SIBLINGS = 'DS',
+  DEPENDENT_PARENTS = 'DP',
+  GUARDIAN = 'GD',
+  PMS = 'PM',
+  CUSTODIAN = 'CD',
+  POA = 'PO',
+  NOT_APPLICABLE = 'NA',
 }
 
 export const WHoseContactLabel: Record<WhoseContact, string> = {
-  [WhoseContact.SELF]: "Self",
-  [WhoseContact.SPOUSE]: "Spouse",
-  [WhoseContact.DEPENDENT_CHILDREN]: "Dependent Children",
-  [WhoseContact.DEPENDENT_SIBLINGS]: "Dependent Siblings",
-  [WhoseContact.DEPENDENT_PARENTS]: "Dependent Parents",
-  [WhoseContact.GUARDIAN]: "Guardian",
-  [WhoseContact.PMS]: "PMS",
-  [WhoseContact.CUSTODIAN]: "Custodian",
-  [WhoseContact.POA]: "POA",
-  [WhoseContact.NOT_APPLICABLE]: "Not Applicable",
+  [WhoseContact.SELF]: 'Self',
+  [WhoseContact.SPOUSE]: 'Spouse',
+  [WhoseContact.DEPENDENT_CHILDREN]: 'Dependent Children',
+  [WhoseContact.DEPENDENT_SIBLINGS]: 'Dependent Siblings',
+  [WhoseContact.DEPENDENT_PARENTS]: 'Dependent Parents',
+  [WhoseContact.GUARDIAN]: 'Guardian',
+  [WhoseContact.PMS]: 'PMS',
+  [WhoseContact.CUSTODIAN]: 'Custodian',
+  [WhoseContact.POA]: 'POA',
+  [WhoseContact.NOT_APPLICABLE]: 'Not Applicable',
+};
+
+export enum CountryCode {
+  INDIA = 'IND',
+}
+
+export enum PhoneCountryCode {
+  INDIA = '91',
+}
+
+export enum BankAccOwner {
+  SELF = 'SELF',
+  GUARDIAN = 'GUARDIAN',
+}
+
+export enum FatcaInvestorType {
+  INDIVIDUAL = 'Individual',
+  ENTITY = 'Entity',
+  NRI = 'NRI',
+}
+
+export enum FatcaAddressType {
+  RESIDENTIAL_OR_BUSINESS = '1',
+  RESIDENTIAL = '2',
+  BUSINESS = '3',
+  REGISTERED_OFFICE = '4',
+  UNSPECIFIED = '5',
+  RESIDENT_OR_BUSINESS_FOREIGN = '6',
+  RESIDENTIAL_FOREIGN = '7',
+  BUSINESS_FOREIGN = '8',
+  REGISTERED_OFFICE_FOREIGN = '9',
+  UNSPECIFIED_FOREIGN = '10',
+}
+
+export const FatcaAddressTypeLabel: Record<FatcaAddressType, string> = {
+  [FatcaAddressType.RESIDENTIAL_OR_BUSINESS]: 'Residential or Business',
+  [FatcaAddressType.RESIDENTIAL]: 'Residential',
+  [FatcaAddressType.BUSINESS]: 'Business',
+  [FatcaAddressType.REGISTERED_OFFICE]: 'Registered Office',
+  [FatcaAddressType.UNSPECIFIED]: 'Unspecified',
+  [FatcaAddressType.RESIDENT_OR_BUSINESS_FOREIGN]: 'Resident Or Business Foreign',
+  [FatcaAddressType.RESIDENTIAL_FOREIGN]: 'Residential Foreign',
+  [FatcaAddressType.BUSINESS_FOREIGN]: 'Business Foreign',
+  [FatcaAddressType.REGISTERED_OFFICE_FOREIGN]: 'Registered Office Foreign',
+  [FatcaAddressType.UNSPECIFIED_FOREIGN]: 'Unspecified Foreign',
+};
+
+export enum FatcaOccType {
+  BUSINESS = 'B',
+  SERVICE = 'S',
+  OTHERS = 'O',
+}
+
+export enum FatcaTaxStatus {
+  INDIVIDUAL = 'Individual',
+  COMPANY = 'Company'
+}
+
+export enum CorporateServiceSector {
+  FOREIGN_EXCHANGE_MONEY_CHANGER_SERVICES = '1',
+  GAMING_GAMBLING_LOTTERY_SERVICES = '2',
+  MONEY_LAUNDERING_PAWNING = '3',
+  NOT_APPLICABLE = '4'
+}
+
+export enum WealthSource {
+  SALARY = '1',
+  BUSINESS_INCOME = '2',
+  GIFT = '3',
+  ANCESTRAL_PROPERTY = '4',
+  RENTAL_INCOME = '5',
+  PRIZE_MONEY = '6',
+  ROYALTY = '7',
+  OTHERS = '8',
+}
+
+export const WealthSourceLabel: Record<WealthSource, string> = {
+  [WealthSource.SALARY]: 'Salary',
+  [WealthSource.BUSINESS_INCOME]: 'Business Income',
+  [WealthSource.GIFT]: 'Gift',
+  [WealthSource.ANCESTRAL_PROPERTY]: 'Ancestral Property',
+  [WealthSource.RENTAL_INCOME]: 'Rental Income',
+  [WealthSource.PRIZE_MONEY]: 'Prize Money',
+  [WealthSource.ROYALTY]: 'Royalty',
+  [WealthSource.OTHERS]: 'Others',
+};
+
+export enum IncomeSlab {
+  BELOW_1_LAKH = '31',
+  GREATER_THAN_1_LESS_EQUAL_5_LACS = '32',
+  GREATER_THAN_5_LESS_EQUAL_10_LACS = '33',
+  GREATER_THAN_10_LESS_EQUAL_25_LACS = '34',
+  GREATER_THAN_25_LESS_EQUAL_1_CRORE = '35',
+  ABOVE_1_CRORE = '36',
+}
+
+export const IncomeSlabLabel: Record<IncomeSlab, string> = {
+  [IncomeSlab.BELOW_1_LAKH]: 'Below 1 Lakh',
+  [IncomeSlab.GREATER_THAN_1_LESS_EQUAL_5_LACS]: '> 1 <=5 Lacs',
+  [IncomeSlab.GREATER_THAN_5_LESS_EQUAL_10_LACS]: '>5 <=10 Lacs',
+  [IncomeSlab.GREATER_THAN_10_LESS_EQUAL_25_LACS]: '>10 <= 25 Lacs',
+  [IncomeSlab.GREATER_THAN_25_LESS_EQUAL_1_CRORE]: '> 25 Lacs < = 1 Crore',
+  [IncomeSlab.ABOVE_1_CRORE]: 'Above 1 Crore',
+};
+
+export enum PoliticallyExposed {
+  YES = 'Y',
+  NO = 'N',
+  RELATIVE = 'R',
+}
+
+export const PoliticallyExposedLabel: Record<PoliticallyExposed, string> = {
+  [PoliticallyExposed.YES]: 'The investor is a politically exposed person',
+  [PoliticallyExposed.NO]: 'The investor is not a politically exposed person',
+  [PoliticallyExposed.RELATIVE]: 'The investor is a relative of a politically exposed person',
+};
+
+export enum FatcaDataSource {
+  PHYSICAL = 'P',
+  ELECTRONICALLY = 'E',
+}
+
+export const FatcaDataSourceLabel: Record<FatcaDataSource, string> = {
+  [FatcaDataSource.PHYSICAL]: 'Physical',
+  [FatcaDataSource.ELECTRONICALLY]: 'Electronically',
+};
+
+export enum FatcaIdentifierType {
+  PASSPORT = 'A',
+  ELECTION_ID = 'B',
+  PAN_CARD = 'C',
+  ID_CARD = 'D',
+  DRIVING_LICENSE = 'E',
+  UIDAI_AADHAR_LETTER = 'G',
+  NREGA_JOB_CARD = 'H',
+  OTHERS = 'O',
+  NOT_CATEGORIZED = 'X',
+  TIN = 'T',
+  COMPANY_IDENTIFICATION_NUMBER = 'C1',
+  US_GIIN = 'G1',
+  GLOBAL_ENTITY_IDENTIFICATION_NUMBER = 'E1',
+}
+
+export const FatcaIdentifierTypeLabel: Record<FatcaIdentifierType, string> = {
+  [FatcaIdentifierType.PASSPORT]: 'Passport',
+  [FatcaIdentifierType.ELECTION_ID]: 'Election ID Card',
+  [FatcaIdentifierType.PAN_CARD]: 'PAN Card',
+  [FatcaIdentifierType.ID_CARD]: 'ID Card',
+  [FatcaIdentifierType.DRIVING_LICENSE]: 'Driving License',
+  [FatcaIdentifierType.UIDAI_AADHAR_LETTER]: 'UIDIA / Aadhar letter',
+  [FatcaIdentifierType.NREGA_JOB_CARD]: 'NREGA Job Card',
+  [FatcaIdentifierType.OTHERS]: 'Others',
+  [FatcaIdentifierType.NOT_CATEGORIZED]: 'Not categorized',
+  [FatcaIdentifierType.TIN]: 'TIN [Tax Payer Identification Number]',
+  [FatcaIdentifierType.COMPANY_IDENTIFICATION_NUMBER]: 'Company Identification Number',
+  [FatcaIdentifierType.US_GIIN]: 'US GIIN',
+  [FatcaIdentifierType.GLOBAL_ENTITY_IDENTIFICATION_NUMBER]: 'Global Entity Identification Number',
+};
+
+// ===============================
+// FATCA Entity Types (FFI / DRNFE)
+// ===============================
+export enum FatcaEntityType {
+  FFI = 'FFI',
+  DRNFE = 'DRNFE',
+}
+
+export const FatcaEntityTypeLabel: Record<FatcaEntityType, string> = {
+  [FatcaEntityType.FFI]: 'Foreign Financial Institution (FFI)',
+  [FatcaEntityType.DRNFE]: 'Deemed/Relevant Non-Financial Entity (DRNFE)',
+};
+
+export enum FatcaGiinAvailability {
+  APPLIED_FOR = 'AF',
+  NOT_REQUIRED = 'NR',
+  NOT_OBTAINED = 'NO',
+}
+
+export const FatcaGiinAvailabilityLabel: Record<FatcaGiinAvailability, string> = {
+  [FatcaGiinAvailability.APPLIED_FOR]: 'Applied for',
+  [FatcaGiinAvailability.NOT_REQUIRED]: 'Not required to apply for',
+  [FatcaGiinAvailability.NOT_OBTAINED]: 'Not obtained - Non-participating FI',
 };

@@ -1,6 +1,24 @@
 import { z } from 'zod';
-import { AuthMode, CommunicationModeValue, ContactType, Gender, HolderRank, KYCType, NominationAuthMode, OccupationCode, OnboardingType, RdmpIdcwPayModeValue, TaxCode, TaxStatus, WhoseContact } from '../enums/v2Enums';
+import {
+  AuthMode,
+  BankAccOwner,
+  CommunicationModeValue,
+  ContactType,
+  FatcaIdentifierType,
+  Gender,
+  HolderRank,
+  IdentifierType,
+  KYCType,
+  NominationAuthMode,
+  OccupationCode,
+  OnboardingType,
+  RdmpIdcwPayModeValue,
+  TaxCode,
+  TaxStatus,
+  WhoseContact,
+} from '../enums/v2Enums';
 import { panSchema } from '../../pan';
+import { CountryCode } from '../enums/countryCode';
 
 /**
  * BSE StARMF v2 API - UCC Management Schemas
@@ -95,7 +113,7 @@ export const BseMemberSchema = z.object({
  * Contains client code (UCC)
  */
 export const BseInvestorSchema = z.object({
-  clientcode: z.string().min(1).max(20),
+  client_code: z.string().min(1).max(20),
 });
 
 /**
@@ -103,9 +121,9 @@ export const BseInvestorSchema = z.object({
  * Personal details of a holder
  */
 export const BsePersonSchema = z.object({
-  firstname: z.string().min(1).max(100),
-  middlename: z.string().max(100).optional(),
-  lastname: z.string().max(100).optional(),
+  first_name: z.string().min(1).max(100),
+  middle_name: z.string().max(100).optional(),
+  last_name: z.string().max(100).optional(),
   gender: z.nativeEnum(Gender),
   dob: z.string().regex(DATE_REGEX, 'Date must be in YYYY-MM-DD format'),
 });
@@ -115,14 +133,14 @@ export const BsePersonSchema = z.object({
  * Contact details of a holder
  */
 export const BseContactSchema = z.object({
-  contactNumber: z.string().max(20),
-  countryCode: z.string().max(5), //91 for India
-  whoseContactNumber: z.nativeEnum(WhoseContact),
-  contactType: z.nativeEnum(ContactType),
-  emailAddress: z.string().email().max(255),
+  contact_number: z.string().max(20),
+  country_code: z.string().max(5), //91 for India
+  whose_contact_number: z.nativeEnum(WhoseContact),
+  contact_type: z.nativeEnum(ContactType),
+  email_address: z.string().email().max(255),
   extension: z.string().max(10).optional(),
-  faxNo: z.string().max(20).optional(),
-  whoseEmailAddress: z.nativeEnum(WhoseContact),
+  fax_no: z.string().max(20).optional(),
+  whose_email_address: z.nativeEnum(WhoseContact),
 });
 
 /**
@@ -130,23 +148,23 @@ export const BseContactSchema = z.object({
  * Used for PAN, Aadhaar, passport, cancelled cheque, etc.
  */
 export const BseIdentifierSchema = z.object({
-  identifiertype: z.string().min(1).max(50),
-  identifiervalue: z.string().max(100).optional(),
-  filename: z.string().max(255).optional(),
-  filesize: z.number().int().positive().optional(),
-  fileblob: z.string().optional(), // Base64 encoded
+  identifier_type: z.nativeEnum(IdentifierType),
+  identifier_number: z.string().max(100),
+  file_name: z.string().max(255).optional(),
+  file_size: z.number().int().positive().optional(),
+  file_blob: z.string().optional(), // Base64 encoded
 });
 
 /**
  * BSE Nomination Object
  */
 export const BseNominationSchema = z.object({
-  nomineerank: z.number().int().min(1).max(3),
-  nomineename: z.string().min(1).max(255),
-  nomineerelation: z.string().max(50),
-  nomineepercent: z.number().min(0).max(100),
-  nomineedob: z.string().regex(DATE_REGEX).optional(),
-  nomineeguardian: z.string().max(255).optional(),
+  nominee_rank: z.number().int().min(1).max(3),
+  nominee_name: z.string().min(1).max(255),
+  nominee_relation: z.string().max(50),
+  nominee_percent: z.number().min(0).max(100),
+  nominee_dob: z.string().regex(DATE_REGEX).optional(),
+  nominee_guardian: z.string().max(255).optional(),
   identifier: z.array(BseIdentifierSchema).optional(),
 });
 
@@ -155,18 +173,18 @@ export const BseNominationSchema = z.object({
  * Complete holder information (max 5 holders allowed)
  */
 export const BseHolderSchema = z.object({
-  holderRank: z.nativeEnum(HolderRank),
-  occCode: z.nativeEnum(OccupationCode),
-  authMode: z.nativeEnum(AuthMode),
-  isPanExempt: z.boolean(),
-  panExemptCategory: z.string().max(10).optional(),
+  holder_rank: z.nativeEnum(HolderRank),
+  occ_code: z.nativeEnum(OccupationCode),
+  auth_mode: z.nativeEnum(AuthMode),
+  is_pan_exempt: z.boolean(),
+  pan_exempt_category: z.string().max(10).optional(),
 
   identifier: z.array(BseIdentifierSchema).min(1), // At least PAN required
-  kyctype: z.nativeEnum(KYCType),
-  ckycnumber: z.string().max(20).optional(),
+  kyc_type: z.nativeEnum(KYCType),
+  ckyc_number: z.string().max(20).optional(),
   person: BsePersonSchema,
   contact: z.array(BseContactSchema).min(1),
-  nomination: z.array(BseNominationSchema).optional(), //TODO nomination is optional, verify later
+  nomination: z.array(BseNominationSchema).optional(), // TODO nomination is optional, verify later
 });
 
 /**
@@ -174,12 +192,12 @@ export const BseHolderSchema = z.object({
  * CRITICAL: Used only for BSE API calls - NEVER stored locally
  */
 export const BseBankAccountSchema = z.object({
-  ifsccode: z.string().regex(IFSC_REGEX, 'Invalid IFSC code format'),
-  bankaccnum: z
+  ifsc_code: z.string().regex(IFSC_REGEX, 'Invalid IFSC code format'),
+  bank_acc_num: z
     .string()
     .regex(ACCOUNT_NUMBER_REGEX, 'Account number must be 9-20 digits'),
-  bankacctype: BankAccountTypeEnum,
-  bankaccowner: z.string().max(1).optional(),
+  bank_acc_type: BankAccountTypeEnum,
+  account_owner: z.nativeEnum(BankAccOwner),
   identifier: z.array(BseIdentifierSchema).min(1), // Cancelled cheque, bank statement, etc.
 });
 
@@ -187,9 +205,9 @@ export const BseBankAccountSchema = z.object({
  * BSE Communication Address Object
  */
 export const BseCommAddrSchema = z.object({
-  addressline1: z.string().min(10).max(120),
-  addressline2: z.string().min(10).max(120).optional(),
-  addressline3: z.string().min(10).max(120).optional(),
+  address_line_1: z.string().min(10).max(120),
+  address_line_2: z.string().min(10).max(120).optional(),
+  address_line_3: z.string().min(10).max(120).optional(),
   city: z.string().min(1).max(100),
   state: z.string().min(1).max(100),
   country: z.string().length(3, 'Country must be 3-letter ISO code'),
@@ -213,365 +231,430 @@ export const BseForeignAddrSchema = z.object({
  * BSE Depository Object
  */
 export const BseDepositorySchema = z.object({
-  depositorycode: z.enum(['NSDL', 'CDSL']),
-  dpid: z.string().min(1).max(20),
-  clientid: z.string().min(1).max(20),
-  cmbpid: z.string().max(20).optional(),
-  bankaccount: z.string().max(20).optional(),
-  accountowner: z.string().max(1).optional(),
-  isdefault: z.boolean().optional(),
+  depository_code: z.enum(['NSDL', 'CDSL']),
+  dp_id: z.string().min(1).max(20),
+  client_id: z.string().min(1).max(20),
+  cmbp_id: z.string().max(20).optional(),
+  bank_account: z.string().max(20).optional(),
+  account_owner: z.string().max(1).optional(),
+  is_default: z.boolean().optional(),
   identifier: z.array(BseIdentifierSchema).optional(),
 });
 
 const TaxResidencySchema = z.object({
-  country: z.string()
-    .min(2)
-    .max(3)
+  country: z.nativeEnum(CountryCode)
     .describe('Country code of residency e.g. IND'),
-  taxIdNo: z.string()
-    .min(10)
-    .max(50)
-    .describe('Tax ID Number'),
-  taxIdType: z.string()
-    .describe('Tax ID Type from fatcaidentifiertype enum')
+  tax_id_no: z.string().min(10).max(50).describe('Tax ID Number'),
+  tax_id_type: z.nativeEnum(FatcaIdentifierType),
 });
 
 // UBO Person Schema
 const UBOPersonSchema = z.object({
-  firstName: z.string()
-    .min(2)
-    .max(70)
-    .describe('First name of UBO'),
-  middleName: z.string()
+  firstName: z.string().min(2).max(70).describe('First name of UBO'),
+  middleName: z
+    .string()
     .min(2)
     .max(70)
     .optional()
     .describe('Middle name of UBO'),
-  lastName: z.string()
-    .min(2)
-    .max(70)
-    .describe('Last name of UBO'),
-  dob: z.string()
+  lastName: z.string().min(2).max(70).describe('Last name of UBO'),
+  dob: z
+    .string()
     .regex(/^\d{4}-\d{2}-\d{2}$/)
     .describe('Date of birth in YYYY-MM-DD format'),
-  gender: z.enum(['M', 'F', 'T'])
-    .optional()
-    .describe('Gender'),
-  taxResidency: z.array(TaxResidencySchema)
+  gender: z.enum(['M', 'F', 'T']).optional().describe('Gender'),
+  taxResidency: z
+    .array(TaxResidencySchema)
     .min(1)
     .max(5)
-    .describe('Tax residency details')
+    .describe('Tax residency details'),
 });
 
 // UBO Detail Schema
 const UBODetailSchema = z.object({
-  person: UBOPersonSchema
-    .describe('UBO person details'),
-  placeOfBirth: z.string()
-    .min(2)
-    .max(60)
-    .describe('Place of Birth'),
-  countryOfBirth: z.string()
+  person: UBOPersonSchema.describe('UBO person details'),
+  placeOfBirth: z.string().min(2).max(60).describe('Place of Birth'),
+  countryOfBirth: z
+    .string()
     .min(2)
     .max(3)
     .describe('Country of Birth e.g. IND'),
-  occCode: z.string()
-    .describe('Occupation code from occcode enum'),
-  occType: z.string()
-    .describe('Occupation type from occtype enum'),
-  beneficiaryPercent: z.number()
+  occCode: z.string().describe('Occupation code from occcode enum'),
+  occType: z.string().describe('Occupation type from occtype enum'),
+  beneficiaryPercent: z
+    .number()
     .min(0)
     .max(100)
     .describe('Beneficiary percentage of UBO'),
-  uboTypeCode: z.string()
-    .describe('Type of UBO from ubotypecode enum'),
-  addr: z.object({
-    addressLine1: z.string().min(10).max(120),
-    addressLine2: z.string().min(1).max(60).optional(),
-    addressLine3: z.string().min(1).max(60).optional(),
-    city: z.string().min(2).max(60),
-    state: z.string().min(2).max(60),
-    country: z.string().min(2).max(3),
-    postalCode: z.string().min(4).max(10)
-  }).describe('UBO address'),
-  uboAddrType: z.string()
-    .describe('Type of address from uboaddrtype enum'),
-  contact: z.object({
-    countryCode: z.string().min(1).max(4),
-    contactType: z.string(),
-    contactNumber: z.string().min(7).max(15),
-    emailAddress: z.string().email(),
-    whoseContactNumber: z.string(),
-    whoseEmailAddress: z.string()
-  }).describe('UBO contact details'),
-  identifier: z.array(z.object({
-    identifierType: z.enum(['pan', 'panexemptrefno']),
-    identifierNumber: z.string(),
-    fileName: z.string().optional(),
-    fileSize: z.number().optional(),
-    fileBlob: z.string().optional()
-  }))
+  uboTypeCode: z.string().describe('Type of UBO from ubotypecode enum'),
+  addr: z
+    .object({
+      addressLine1: z.string().min(10).max(120),
+      addressLine2: z.string().min(1).max(60).optional(),
+      addressLine3: z.string().min(1).max(60).optional(),
+      city: z.string().min(2).max(60),
+      state: z.string().min(2).max(60),
+      country: z.string().min(2).max(3),
+      postalCode: z.string().min(4).max(10),
+    })
+    .describe('UBO address'),
+  uboAddrType: z.string().describe('Type of address from uboaddrtype enum'),
+  contact: z
+    .object({
+      countryCode: z.string().min(1).max(4),
+      contactType: z.string(),
+      contactNumber: z.string().min(7).max(15),
+      emailAddress: z.string().email(),
+      whoseContactNumber: z.string(),
+      whoseEmailAddress: z.string(),
+    })
+    .describe('UBO contact details'),
+  identifier: z
+    .array(
+      z.object({
+        identifierType: z.enum(['pan', 'panexemptrefno']),
+        identifierNumber: z.string(),
+        fileName: z.string().optional(),
+        fileSize: z.number().optional(),
+        fileBlob: z.string().optional(),
+      }),
+    )
     .min(1)
     .max(1)
     .describe('PAN identifier for UBO'),
-  uboDeclarationFlag: z.boolean()
-    .optional()
-    .describe('UBO declaration flag'),
-  exchangeName: z.string()
-    .optional()
-    .describe('Name of Exchange'),
-  isin: z.string()
-    .optional()
-    .describe('ISIN code'),
-  nameOfRelatedListedCompany: z.string()
+  uboDeclarationFlag: z.boolean().optional().describe('UBO declaration flag'),
+  exchangeName: z.string().optional().describe('Name of Exchange'),
+  isin: z.string().optional().describe('ISIN code'),
+  nameOfRelatedListedCompany: z
+    .string()
     .optional()
     .describe('Name of related listed company'),
-  uboCategory: z.string()
+  uboCategory: z
+    .string()
     .optional()
     .describe('UBO Category from ubocategory enum'),
-  uboEmailId: z.string()
-    .email()
-    .optional()
-    .describe('UBO Email ID'),
-  smoDesignation: z.string()
+  uboEmailId: z.string().email().optional().describe('UBO Email ID'),
+  smoDesignation: z
+    .string()
     .min(5)
     .max(20)
     .optional()
-    .describe('SMO Designation')
+    .describe('SMO Designation'),
 });
 
 // UBO Schema
-const UBOSchema = z.object({
-  isUboApplicable: z.boolean()
-    .describe('Is UBO Applicable?'),
-  uboCount: z.number()
-    .int()
-    .min(0)
-    .describe('Number of UBOs present'),
-  uboDetail: z.array(UBODetailSchema)
-    .optional()
-    .describe('UBO details - conditional mandatory if isUboApplicable is true')
-}).refine(
-  (data) => {
-    // If UBO is applicable, uboDetail must be provided and count must match
-    if (data.isUboApplicable) {
-      return data.uboDetail && data.uboDetail.length === data.uboCount && data.uboCount > 0;
-    }
-    return true;
-  },
-  {
-    message: 'When isUboApplicable is true, uboDetail must be provided and match uboCount',
-    path: ['uboDetail']
-  }
-);
+const UBOSchema = z
+  .object({
+    isUboApplicable: z.boolean().describe('Is UBO Applicable?'),
+    uboCount: z.number().int().min(0).describe('Number of UBOs present'),
+    uboDetail: z
+      .array(UBODetailSchema)
+      .optional()
+      .describe(
+        'UBO details - conditional mandatory if isUboApplicable is true',
+      ),
+  })
+  .refine(
+    data => {
+      // If UBO is applicable, uboDetail must be provided and count must match
+      if (data.isUboApplicable) {
+        return (
+          data.uboDetail &&
+          data.uboDetail.length === data.uboCount &&
+          data.uboCount > 0
+        );
+      }
+      return true;
+    },
+    {
+      message:
+        'When isUboApplicable is true, uboDetail must be provided and match uboCount',
+      path: ['uboDetail'],
+    },
+  );
 
 // NPO Schema
 const NPOSchema = z.object({
-  npoForm: z.boolean()
-    .describe('Is NPO Form submitted'),
-  npoDcl: z.boolean()
-    .describe('Is NPO declaration provided'),
-  npoRgNo: z.string()
-    .describe('NPO registration number')
+  npoForm: z.boolean().describe('Is NPO Form submitted'),
+  npoDcl: z.boolean().describe('Is NPO declaration provided'),
+  npoRgNo: z.string().describe('NPO registration number'),
 });
 
 /**
  * BSE FATCA Object
  */
-export const BseFatcaSchema = z.object({
-  holderRank: z.number()
-    .int()
-    .min(1)
-    .max(3)
-    .describe('Holder rank (1=Primary, 2=Second, 3=Third)'),
-  
-  placeOfBirth: z.string()
-    .min(2)
-    .max(60)
-    .describe('Place of Birth e.g. New York'),
-  
-  countryOfBirth: z.string()
-    .min(2)
-    .max(3)
-    .describe('Country of Birth e.g. USA'),
-  
-  clientName: z.string()
-    .min(2)
-    .max(70)
-    .describe('Name of person declaring FATCA (should match holder)'),
-  
-  investorType: z.string()
-    .describe('Type of Investor from investortype enum'),
-  
-  dob: z.string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .describe('Date of birth in YYYY-MM-DD format'),
-  
-  fatherName: z.string()
-    .min(2)
-    .max(70)
-    .optional()
-    .describe('Name of Father - conditional mandatory based on tax status'),
-  
-  spouseName: z.string()
-    .min(2)
-    .max(70)
-    .optional()
-    .describe('Name of Spouse - conditional mandatory based on tax status'),
-  
-  addressType: z.string()
-    .describe('Type of Address from addresstype enum'),
-  
-  occCode: z.string()
-    .describe('Occupation Code from occcode enum'),
-  
-  occType: z.string()
-    .describe('Occupation Type from occtype enum'),
-  
-  taxStatus: z.string()
-    .describe('Tax Status from taxstatus enum'),
-  
-  exemptionCode: z.string()
-    .optional()
-    .describe('Exemption Code - mandatory for non-individual'),
-  
-  identifier: z.array(z.object({
-    identifierType: z.enum(['pan', 'panexemptrefno']),
-    identifierNumber: z.string(),
-    fileName: z.string().optional(),
-    fileSize: z.number().optional(),
-    fileBlob: z.string().optional()
-  }))
-    .min(1)
-    .describe('PAN identifier (must match holder PAN)'),
-  
-  corporateServiceSector: z.string()
-    .describe('Corporate Service Sector from corporateservicesector enum'),
-  
-  wealthSource: z.string()
-    .describe('Wealth Source from wealthsource enum'),
-  
-  incomeSlab: z.string()
-    .describe('Income Slab from incomeslab enum'),
-  
-  netWorth: z.number()
-    .int()
-    .min(3)
-    .max(20)
-    .describe('Net Worth (3-20 digits)'),
-  
-  dateOfNetWorth: z.string()
-    .regex(/^\d{4}-\d{2}-\d{2}$/)
-    .describe('Date of net worth calculation in YYYY-MM-DD format'),
-  
-  politicallyExposed: z.string()
-    .describe('Is politically exposed from politicallyexposed enum'),
-  
-  isSelfDeclared: z.boolean()
-    .optional()
-    .describe('Is declaration self-declared'),
-  
-  dataSource: z.string()
-    .describe('Data Source from datasource enum'),
-  
-  logName: z.string()
-    .optional()
-    .describe('Mandatory if dataSource is Electronic - e.g. 196.15.16.10723-Nov-15164'),
-  
-  taxResidency: z.array(TaxResidencySchema)
-    .min(1)
-    .max(5)
-    .describe('Country of Tax Residencies'),
-  
-  // Non-Individual specific fields (Conditional Mandatory)
-  ffidRnfe: z.string()
-    .optional()
-    .describe('FFI/DRNFE - mandatory for non-individual tax status'),
-  
-  isGiinAvail: z.string()
-    .optional()
-    .describe('Is GIIN available - mandatory if giinNo not provided'),
-  
-  giinNo: z.string()
-    .length(19)
-    .optional()
-    .describe('GIIN number (exactly 19 characters) - mandatory if isGiinAvail not selected'),
-  
-  sprName: z.string()
-    .min(2)
-    .max(70)
-    .optional()
-    .describe('Sponsor Name - mandatory if giinNo is provided'),
-  
-  nfeCategory: z.string()
-    .optional()
-    .describe('NFE Category - mandatory for non-individual tax status'),
-  
-  nfeSubCategory: z.string()
-    .optional()
-    .describe('NFE Subcategory - mandatory if nfeCategory is selected'),
-  
-  natureOfBusiness: z.string()
-    .min(2)
-    .max(70)
-    .optional()
-    .describe('Nature of Business - mandatory if nfeCategory is Active/Passive NFFE'),
-  
-  natureOfRelation: z.string()
-    .optional()
-    .describe('Nature of Relation - mandatory if nfeCategory is related to listed entity (RL)'),
-  
-  // UBO - Conditional Mandatory for Non-Individual
-  ubo: UBOSchema
-    .optional()
-    .describe('UBO details - mandatory for non-individual tax status'),
-  
-  // NPO - Conditional Mandatory for Non-Individual
-  npo: NPOSchema
-    .optional()
-    .describe('NPO details - mandatory for non-individual tax status')
-}).refine(
-  (data) => {
-    // Conditional validation for non-individual tax status
-    const nonIndividualTaxCodes = ['04', '05', '06', '07', '08', '09', '10', '11', '12', '13', '14', '15', '22', '23', '25', '27', '29', '31', '32', '33', '34', '36', '37', '38', '39', '43', '44', '45', '46', '47', '48', '51', '52', '53', '54', '55', '56', '57', '58', '59', '60', '72', '73', '74', '75', '76'];
-    
-    if (nonIndividualTaxCodes.includes(data.taxStatus)) {
-      return data.ffidRnfe && data.nfeCategory && data.ubo && data.npo;
-    }
-    return true;
-  },
-  {
-    message: 'For non-individual tax status, ffidRnfe, nfeCategory, ubo, and npo are mandatory',
-    path: ['taxStatus']
-  }
-).refine(
-  (data) => {
-    // If dataSource is Electronic, logName is mandatory
-    if (data.dataSource === 'E' || data.dataSource === 'Electronic') {
-      return !!data.logName;
-    }
-    return true;
-  },
-  {
-    message: 'logName is mandatory when dataSource is Electronic',
-    path: ['logName']
-  }
-).refine(
-  (data) => {
-    // GIIN validation logic
-    if (data.giinNo) {
-      return !!data.sprName; // If GIIN provided, sponsor name mandatory
-    }
-    if (!data.isGiinAvail && !data.giinNo) {
-      return false; // Either GIIN or isGiinAvail must be provided
-    }
-    return true;
-  },
-  {
-    message: 'If giinNo is provided, sprName is mandatory. Either giinNo or isGiinAvail must be selected.',
-    path: ['giinNo']
-  }
-);
+export const BseFatcaSchema = z
+  .object({
+    HolderRank: z
+      .number()
+      .int()
+      .min(1)
+      .max(3)
+      .describe('Holder rank (1=Primary, 2=Second, 3=Third)'),
+
+    place_of_birth: z
+      .string()
+      .min(2)
+      .max(60)
+      .describe('Place of Birth e.g. New York'),
+
+    country_of_birth: z
+      .string()
+      .min(2)
+      .max(3)
+      .describe('Country of Birth e.g. USA'),
+
+    client_name: z
+      .string()
+      .min(2)
+      .max(70)
+      .describe('Name of person declaring FATCA (should match holder)'),
+
+    investor_type: z
+      .string()
+      .describe('Type of Investor from investortype enum'),
+
+    dob: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .describe('Date of birth in YYYY-MM-DD format'),
+
+    father_name: z
+      .string()
+      .min(2)
+      .max(70)
+      .optional()
+      .describe('Name of Father - conditional mandatory based on tax status'),
+
+    spouse_name: z
+      .string()
+      .min(2)
+      .max(70)
+      .optional()
+      .describe('Name of Spouse - conditional mandatory based on tax status'),
+
+    address_type: z.string().describe('Type of Address from addresstype enum'),
+
+    occ_code: z.string().describe('Occupation Code from occcode enum'),
+
+    occ_type: z.string().describe('Occupation Type from occtype enum'),
+
+    tax_status: z.string().describe('Tax Status from taxstatus enum'),
+
+    exemption_code: z
+      .string()
+      .optional()
+      .describe('Exemption Code - mandatory for non-individual'),
+
+    identifier: 
+        z.object({
+          identifier_type: z.nativeEnum(IdentifierType),
+          identifier_number: z.string(),
+          file_name: z.string().optional(),
+          file_size: z.number().optional(),
+          file_blob: z.string().optional(),
+        })
+      .describe('PAN identifier (must match holder PAN)'),
+
+    corporate_service_sector: z
+      .string()
+      .describe('Corporate Service Sector from corporateservicesector enum'),
+
+    wealth_source: z.string().describe('Wealth Source from wealthsource enum'),
+
+    income_slab: z.string().describe('Income Slab from incomeslab enum'),
+
+    net_worth: z
+      .number()
+      .int()
+      .min(3)
+      .max(20)
+      .describe('Net Worth (3-20 digits)'),
+
+    date_of_net_worth: z
+      .string()
+      .regex(/^\d{4}-\d{2}-\d{2}$/)
+      .describe('Date of net worth calculation in YYYY-MM-DD format'),
+
+    politically_exposed: z
+      .string()
+      .describe('Is politically exposed from politicallyexposed enum'),
+
+    is_self_declared: z
+      .boolean()
+      .optional()
+      .describe('Is declaration self-declared'),
+
+    data_source: z.string().describe('Data Source from datasource enum'),
+
+    log_name: z
+      .string()
+      .optional()
+      .describe(
+        'Mandatory if dataSource is Electronic - e.g. 196.15.16.10723-Nov-15164',
+      ),
+
+    tax_residency: z
+      .array(TaxResidencySchema)
+      .min(1)
+      .max(5)
+      .describe('Country of Tax Residencies'),
+
+    // Non-Individual specific fields (Conditional Mandatory)
+    ffid_rnfe: z
+      .string()
+      .optional()
+      .describe('FFI/DRNFE - mandatory for non-individual tax status'),
+
+    is_giin_avail: z
+      .string()
+      .optional()
+      .describe('Is GIIN available - mandatory if giinNo not provided'),
+
+    giin_no: z
+      .string()
+      .length(19)
+      .optional()
+      .describe(
+        'GIIN number (exactly 19 characters) - mandatory if isGiinAvail not selected',
+      ),
+
+    spr_name: z
+      .string()
+      .min(2)
+      .max(70)
+      .optional()
+      .describe('Sponsor Name - mandatory if giinNo is provided'),
+
+    nfe_category: z
+      .string()
+      .optional()
+      .describe('NFE Category - mandatory for non-individual tax status'),
+
+    nfe_sub_category: z
+      .string()
+      .optional()
+      .describe('NFE Subcategory - mandatory if nfeCategory is selected'),
+
+    nature_of_business: z
+      .string()
+      .min(2)
+      .max(70)
+      .optional()
+      .describe(
+        'Nature of Business - mandatory if nfeCategory is Active/Passive NFFE',
+      ),
+
+    nature_of_relation: z
+      .string()
+      .optional()
+      .describe(
+        'Nature of Relation - mandatory if nfeCategory is related to listed entity (RL)',
+      ),
+
+    // UBO - Conditional Mandatory for Non-Individual
+    ubo: UBOSchema.optional().describe(
+      'UBO details - mandatory for non-individual tax status',
+    ),
+
+    // NPO - Conditional Mandatory for Non-Individual
+    npo: NPOSchema.optional().describe(
+      'NPO details - mandatory for non-individual tax status',
+    ),
+  })
+  .refine(
+    data => {
+      // Conditional validation for non-individual tax status
+      const nonIndividualTaxCodes = [
+        '04',
+        '05',
+        '06',
+        '07',
+        '08',
+        '09',
+        '10',
+        '11',
+        '12',
+        '13',
+        '14',
+        '15',
+        '22',
+        '23',
+        '25',
+        '27',
+        '29',
+        '31',
+        '32',
+        '33',
+        '34',
+        '36',
+        '37',
+        '38',
+        '39',
+        '43',
+        '44',
+        '45',
+        '46',
+        '47',
+        '48',
+        '51',
+        '52',
+        '53',
+        '54',
+        '55',
+        '56',
+        '57',
+        '58',
+        '59',
+        '60',
+        '72',
+        '73',
+        '74',
+        '75',
+        '76',
+      ];
+
+      if (nonIndividualTaxCodes.includes(data.tax_status)) {
+        return data.ffid_rnfe && data.nfe_category && data.ubo && data.npo;
+      }
+      return true;
+    },
+    {
+      message:
+        'For non-individual tax status, ffid_rnfe, nfe_category, ubo, and npo are mandatory',
+      path: ['tax_status'],
+    },
+  )
+  .refine(
+    data => {
+      // If dataSource is Electronic, log_name is mandatory
+      if (data.data_source === 'E' || data.data_source === 'Electronic') {
+        return !!data.log_name;
+      }
+      return true;
+    },
+    {
+      message: 'log_name is mandatory when data_source is Electronic',
+      path: ['log_name'],
+    },
+  )
+  .refine(
+    data => {
+      // GIIN validation logic
+      if (data.giin_no) {
+        return !!data.spr_name; // If GIIN provided, sponsor name mandatory
+      }
+      if (!data.is_giin_avail && !data.giin_no) {
+        return false; // Either GIIN or is_giin_avail must be provided
+      }
+      return true;
+    },
+    {
+      message:
+        'If giin_no is provided, spr_name is mandatory. Either giin_no or is_giin_avail must be selected.',
+      path: ['giin_no'],
+    },
+  );
 
 // ============================================================================
 // BSE v2 API Request Schemas
@@ -583,35 +666,74 @@ export const BseFatcaSchema = z.object({
  *
  * Creates new UCC registration with complete investor details
  */
-export const BseAddUccRequestSchema = z.object({
-  data: z.object({
-    investor: BseInvestorSchema,
-    isMultiUcc: z.boolean().default(false),
-    parentClientCode: z.string().max(20).optional(),
-    pmsClient: z.boolean().optional(),
-    pmsCode: z.string().max(20).optional(),
-    holdingNature: HoldingNatureEnum,
-    taxCode: z.nativeEnum(TaxCode),
-    taxStatus: z.nativeEnum(TaxStatus).optional(),
-    rdmpIdcwPayMode: z.nativeEnum(RdmpIdcwPayModeValue).optional(),
-    isClientPhysical: z.boolean(),
-    isClientDemat: z.boolean(),
-    nominationSoa: z.boolean().optional(),
-    isNominationOpted: z.boolean(),
-    nominationAuthMode: z.nativeEnum(NominationAuthMode).optional(),
-    commMode: z.nativeEnum(CommunicationModeValue),
-    onboarding: z.nativeEnum(OnboardingType),
-    holder: z.array(BseHolderSchema).min(1).max(5),
 
-    commAddr: BseCommAddrSchema.optional(),
-    depository: z.array(BseDepositorySchema).max(5).optional(), //TODO only req when is_client_demat true
-    bankAccount: z.array(BseBankAccountSchema).min(1).max(5),
-    // foreignAddr: BseForeignAddrSchema.optional(),
-    fatca: BseFatcaSchema.optional(),
-    identifiers: z.array(BseIdentifierSchema),
-    // aof: BseIdentifierSchema.optional(),
-    // aofria: BseIdentifierSchema.optional(),
-  }),
+export const BseUccReqDataSchema = z.object({
+  investor: BseInvestorSchema,
+  is_multi_ucc: z.boolean().default(false),
+  parent_client_code: z.string().max(20).optional(),
+  pms_client: z.boolean().optional(),
+  pms_code: z.string().max(20).optional(),
+  holding_nature: HoldingNatureEnum,
+  tax_code: z.nativeEnum(TaxCode),
+  tax_status: z.nativeEnum(TaxStatus).optional(),
+  rdmp_idcw_pay_mode: z.nativeEnum(RdmpIdcwPayModeValue).optional(),
+  is_client_physical: z.boolean(),
+  is_client_demat: z.boolean(),
+  nomination_soa: z.boolean().optional(),
+  is_nomination_opted: z.boolean(),
+  nomination_auth_mode: z.nativeEnum(NominationAuthMode).optional(),
+  comm_mode: z.nativeEnum(CommunicationModeValue),
+  onboarding: z.nativeEnum(OnboardingType),
+  holder: z.array(BseHolderSchema).min(1).max(5),
+
+  comm_addr: BseCommAddrSchema,
+  depository: z.array(BseDepositorySchema).max(5).optional(), //TODO only req when is_client_demat true
+  bank_account: z.array(BseBankAccountSchema).min(1).max(5),
+  // foreign_addr: BseForeignAddrSchema.optional(),
+  fatca: z.array(BseFatcaSchema).optional(),
+  identifiers: z.array(BseIdentifierSchema),
+  aof: BseIdentifierSchema.optional(),
+  aof_ria: BseIdentifierSchema.optional(),
+});
+
+export const BseAddUccRequestSchema = z.object({
+  data: BseUccReqDataSchema,
+});
+
+/**
+ * UCC Form Data Schema
+ * Used for update operations where all fields are optional
+ * 
+ * This is a deep partial version of BseUccReqDataSchema where every field 
+ * (including nested schemas) is optional.
+ * Useful for UCC update APIs where users can modify specific fields without 
+ * providing the complete payload.
+ */
+export const UccFormDataSchema = z.object({
+  investor: BseInvestorSchema.partial().optional(),
+  is_multi_ucc: z.boolean().optional(),
+  parent_client_code: z.string().max(20).optional(),
+  pms_client: z.boolean().optional(),
+  pms_code: z.string().max(20).optional(),
+  holding_nature: HoldingNatureEnum.optional(),
+  tax_code: z.nativeEnum(TaxCode).optional(),
+  tax_status: z.nativeEnum(TaxStatus).optional(),
+  rdmp_idcw_pay_mode: z.nativeEnum(RdmpIdcwPayModeValue).optional(),
+  is_client_physical: z.boolean().optional(),
+  is_client_demat: z.boolean().optional(),
+  nomination_soa: z.boolean().optional(),
+  is_nomination_opted: z.boolean().optional(),
+  nomination_auth_mode: z.nativeEnum(NominationAuthMode).optional(),
+  comm_mode: z.nativeEnum(CommunicationModeValue).optional(),
+  onboarding: z.nativeEnum(OnboardingType).optional(),
+  holder: z.array(BseHolderSchema.deepPartial()).optional(),
+  comm_addr: BseCommAddrSchema.partial().optional(),
+  depository: z.array(BseDepositorySchema.deepPartial()).optional(),
+  bank_account: z.array(BseBankAccountSchema.deepPartial()).optional(),
+  fatca: z.array(z.any()).optional(), // BseFatcaSchema has refinements, making all optional
+  identifiers: z.array(BseIdentifierSchema.partial()).optional(),
+  aof: BseIdentifierSchema.partial().optional(),
+  aof_ria: BseIdentifierSchema.partial().optional(),
 });
 
 /**
@@ -949,17 +1071,15 @@ export const UccDetailsResponseSchema = z.object({
  *
  * Response for successful UCC registration
  */
-export const UccRegisterResponseSchema = z.object({
-  success: z.literal(true),
-  message: z.string(),
+export const UccRegisterSuccessResSchema = z.object({
+  status: z.enum(['success', 'error']),
   data: z.object({
-    /** BSE-assigned UCC (10 characters) */
-    clientCode: z.string(),
-    /** BSE member code */
-    memberCode: z.string(),
-    /** Initial UCC status from BSE */
-    uccStatus: z.string(),
+    client_code: z.string().min(1).max(20),
+    member_code: z.string().min(1).max(20),
+    parent_client_code: z.string().optional(),
+    status: z.string().min(1).max(50),
   }),
+  messages: z.array(BseApiMessageSchema),
 });
 
 /**
@@ -1154,6 +1274,8 @@ export const UccDetailsForUserResponseSchema = z.object({
 // ============================================================================
 
 // BSE v2 API Types
+export type BseUccReqData = z.infer<typeof BseUccReqDataSchema>;
+export type UccFormData = z.infer<typeof UccFormDataSchema>;
 export type BseAddUccRequest = z.infer<typeof BseAddUccRequestSchema>;
 export type BseUpdateUccRequest = z.infer<typeof BseUpdateUccRequestSchema>;
 export type BseGetUccRequest = z.infer<typeof BseGetUccRequestSchema>;
@@ -1172,7 +1294,7 @@ export type BseUccStatusObject = z.infer<typeof BseUccStatusObjectSchema>;
 // User-Facing API Types
 export type AddBankAccountRequest = z.infer<typeof AddBankAccountRequestSchema>;
 export type UccRegisterRequest = z.infer<typeof UccRegisterRequestSchema>;
-export type UccRegisterResponse = z.infer<typeof UccRegisterResponseSchema>;
+export type UccRegisterSuccessRes = z.infer<typeof UccRegisterSuccessResSchema>;
 export type UccDetailsResponse = z.infer<typeof UccDetailsResponseSchema>;
 export type UccDetailsForUserResponse = z.infer<
   typeof UccDetailsForUserResponseSchema
