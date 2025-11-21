@@ -43,4 +43,5 @@ export enum NAVIGATION {
   REQUEST_DETAILS = 'request-details',
   GOAL_COMMUNITY = 'goal-community',
   GOAL_DETAILS = 'goal-details',
+  MUTUAL_FUND_SUMMARY = 'mutual-fund-summary',
 }

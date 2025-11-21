@@ -50,3 +50,5 @@ export * from './fundApi';
 export * from './userProfile';
 export * from './ifsc';
 export * from './order';
+export * from './goals';
+export * from './groupInvestment';
