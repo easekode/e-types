@@ -41,4 +41,6 @@ export enum NAVIGATION {
   MY_PROFILE = 'my-profile',
   MY_REQUESTS = 'my-requests',
   REQUEST_DETAILS = 'request-details',
+  MY_BANKS = 'my-banks',
+  TRANSACTION_DETAILS = 'transaction-details',
 }

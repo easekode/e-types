@@ -199,10 +199,10 @@ export enum HolderRankType {
 }
 
 export enum HolderRank {
-  PRIMARY = "1",
-  SECOND = "2",
-  THIRD = "3",
-  GUARDIAN = "-1",
+  PRIMARY = '1',
+  SECOND = '2',
+  THIRD = '3',
+  GUARDIAN = '-1'
 }
 
 export enum OccupationCode {
@@ -340,6 +340,13 @@ export enum OrderLifecycleStatus {
   EXCH_REFUND_ATTEMPTED = 'exch_refund_attempted',
   EXCH_REFUND_FAILED = 'exch_refund_failed',
 }
+
+//this order status internal is for our system internal tracking
+export enum OrderStatusInternal {
+  DRAFT = 'DRAFT',
+}
+
+
 
 // ===============================
 // SIP/SWP/STP Module
@@ -514,7 +521,7 @@ export enum APIEndpoint {
   UPDATE_UCC = '/v2/update_ucc',
   GET_UCC = '/v2/get_ucc',
   LIST_UCC = '/v2/list_ucc',
-  ORDER_NEW = '/v2/order_new',
+  ORDER_NEW = '/order_new',
   ORDER_UPDATE = '/v2/order_update',
   ORDER_CANCEL = '/v2/order_cancel',
   ORDER_GET = '/v2/order_get',
@@ -755,3 +762,8 @@ export const FatcaGiinAvailabilityLabel: Record<FatcaGiinAvailability, string> =
   [FatcaGiinAvailability.NOT_REQUIRED]: 'Not required to apply for',
   [FatcaGiinAvailability.NOT_OBTAINED]: 'Not obtained - Non-participating FI',
 };
+
+export enum MaritalStatus {
+  SINGLE = 'S',
+  MARRIED = 'M',
+}
