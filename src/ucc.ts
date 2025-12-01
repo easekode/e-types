@@ -1,6 +1,17 @@
 import { z } from 'zod';
 
 /**
+ * Communication Address Schema
+ */
+export const CommAddressSchema = z.object({
+  address_line_1: z.string(),
+  city: z.string(),
+  state: z.string(),
+  postalcode: z.string(),
+  country: z.string(), // CountryCode enum value (e.g., 'IND')
+});
+
+/**
  * UCC Details Response Schema
  * Returns user's UCC registration details in a flat structure
  */
@@ -16,7 +27,13 @@ export const UccDetailsResponseSchema = z.object({
   maritalStatus: z.string().nullable(),
   incomeRange: z.string().nullable(),
   fatherName: z.string().nullable(),
+  comm_addr: CommAddressSchema.nullable(),
 });
+
+/**
+ * Type for Communication Address
+ */
+export type CommAddress = z.infer<typeof CommAddressSchema>;
 
 /**
  * Type for UCC Details Response

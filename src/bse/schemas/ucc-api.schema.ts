@@ -9,6 +9,7 @@ import {
   HolderRank,
   IdentifierType,
   KYCType,
+  MaritalStatus,
   NominationAuthMode,
   OccupationCode,
   OnboardingType,
@@ -242,7 +243,8 @@ export const BseDepositorySchema = z.object({
 });
 
 const TaxResidencySchema = z.object({
-  country: z.nativeEnum(CountryCode)
+  country: z
+    .nativeEnum(CountryCode)
     .describe('Country code of residency e.g. IND'),
   tax_id_no: z.string().min(10).max(50).describe('Tax ID Number'),
   tax_id_type: z.nativeEnum(FatcaIdentifierType),
@@ -446,14 +448,14 @@ export const BseFatcaSchema = z
       .optional()
       .describe('Exemption Code - mandatory for non-individual'),
 
-    identifier: 
-        z.object({
-          identifier_type: z.nativeEnum(IdentifierType),
-          identifier_number: z.string(),
-          file_name: z.string().optional(),
-          file_size: z.number().optional(),
-          file_blob: z.string().optional(),
-        })
+    identifier: z
+      .object({
+        identifier_type: z.nativeEnum(IdentifierType),
+        identifier_number: z.string(),
+        file_name: z.string().optional(),
+        file_size: z.number().optional(),
+        file_blob: z.string().optional(),
+      })
       .describe('PAN identifier (must match holder PAN)'),
 
     corporate_service_sector: z
@@ -703,10 +705,10 @@ export const BseAddUccRequestSchema = z.object({
 /**
  * UCC Form Data Schema
  * Used for update operations where all fields are optional
- * 
- * This is a deep partial version of BseUccReqDataSchema where every field 
+ *
+ * This is a deep partial version of BseUccReqDataSchema where every field
  * (including nested schemas) is optional.
- * Useful for UCC update APIs where users can modify specific fields without 
+ * Useful for UCC update APIs where users can modify specific fields without
  * providing the complete payload.
  */
 export const UccFormDataSchema = z.object({
@@ -734,6 +736,8 @@ export const UccFormDataSchema = z.object({
   identifiers: z.array(BseIdentifierSchema.partial()).optional(),
   aof: BseIdentifierSchema.partial().optional(),
   aof_ria: BseIdentifierSchema.partial().optional(),
+  //internal
+  maritalStatus: z.nativeEnum(MaritalStatus).optional(),
 });
 
 /**

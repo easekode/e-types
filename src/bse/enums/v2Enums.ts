@@ -202,7 +202,7 @@ export enum HolderRank {
   PRIMARY = '1',
   SECOND = '2',
   THIRD = '3',
-  GUARDIAN = '-1'
+  GUARDIAN = '-1',
 }
 
 export enum OccupationCode {
@@ -221,6 +221,23 @@ export enum OccupationCode {
   GovernmentService = '44',
   UnknownOrNotApplicable = '99',
 }
+
+export const OccupationCodeLabel: Record<OccupationCode, string> = {
+  [OccupationCode.Business]: 'Business',
+  [OccupationCode.Service]: 'Service',
+  [OccupationCode.Professional]: 'Professional',
+  [OccupationCode.Agriculturist]: 'Agriculturist',
+  [OccupationCode.Retired]: 'Retired',
+  [OccupationCode.Housewife]: 'Housewife',
+  [OccupationCode.Student]: 'Student',
+  [OccupationCode.Others]: 'Others',
+  [OccupationCode.Doctor]: 'Doctor',
+  [OccupationCode.PrivateSectorService]: 'Private Sector Service',
+  [OccupationCode.PublicSectorService]: 'Public Sector Service',
+  [OccupationCode.ForexDealer]: 'Forex Dealer',
+  [OccupationCode.GovernmentService]: 'Government Service',
+  [OccupationCode.UnknownOrNotApplicable]: 'Unknown / Not Applicable',
+};
 
 export enum AuthMode {
   'MOBILE' = 'M',
@@ -260,6 +277,12 @@ export enum Gender {
   FEMALE = 'F',
   OTHER = 'O',
 }
+
+export const GenderLabel: Record<Gender, string> = {
+  [Gender.MALE]: 'Male',
+  [Gender.FEMALE]: 'Female',
+  [Gender.OTHER]: 'Other',
+};
 
 export enum ContactType {
   RESIDENTIAL = 'RE',
@@ -345,8 +368,6 @@ export enum OrderLifecycleStatus {
 export enum OrderStatusInternal {
   DRAFT = 'DRAFT',
 }
-
-
 
 // ===============================
 // SIP/SWP/STP Module
@@ -619,7 +640,8 @@ export const FatcaAddressTypeLabel: Record<FatcaAddressType, string> = {
   [FatcaAddressType.BUSINESS]: 'Business',
   [FatcaAddressType.REGISTERED_OFFICE]: 'Registered Office',
   [FatcaAddressType.UNSPECIFIED]: 'Unspecified',
-  [FatcaAddressType.RESIDENT_OR_BUSINESS_FOREIGN]: 'Resident Or Business Foreign',
+  [FatcaAddressType.RESIDENT_OR_BUSINESS_FOREIGN]:
+    'Resident Or Business Foreign',
   [FatcaAddressType.RESIDENTIAL_FOREIGN]: 'Residential Foreign',
   [FatcaAddressType.BUSINESS_FOREIGN]: 'Business Foreign',
   [FatcaAddressType.REGISTERED_OFFICE_FOREIGN]: 'Registered Office Foreign',
@@ -634,14 +656,14 @@ export enum FatcaOccType {
 
 export enum FatcaTaxStatus {
   INDIVIDUAL = 'Individual',
-  COMPANY = 'Company'
+  COMPANY = 'Company',
 }
 
 export enum CorporateServiceSector {
   FOREIGN_EXCHANGE_MONEY_CHANGER_SERVICES = '1',
   GAMING_GAMBLING_LOTTERY_SERVICES = '2',
   MONEY_LAUNDERING_PAWNING = '3',
-  NOT_APPLICABLE = '4'
+  NOT_APPLICABLE = '4',
 }
 
 export enum WealthSource {
@@ -677,10 +699,10 @@ export enum IncomeSlab {
 
 export const IncomeSlabLabel: Record<IncomeSlab, string> = {
   [IncomeSlab.BELOW_1_LAKH]: 'Below 1 Lakh',
-  [IncomeSlab.GREATER_THAN_1_LESS_EQUAL_5_LACS]: '> 1 <=5 Lacs',
-  [IncomeSlab.GREATER_THAN_5_LESS_EQUAL_10_LACS]: '>5 <=10 Lacs',
-  [IncomeSlab.GREATER_THAN_10_LESS_EQUAL_25_LACS]: '>10 <= 25 Lacs',
-  [IncomeSlab.GREATER_THAN_25_LESS_EQUAL_1_CRORE]: '> 25 Lacs < = 1 Crore',
+  [IncomeSlab.GREATER_THAN_1_LESS_EQUAL_5_LACS]: '1 Lakh to 5 Lakhs',
+  [IncomeSlab.GREATER_THAN_5_LESS_EQUAL_10_LACS]: '5 Lakhs to 10 Lakhs',
+  [IncomeSlab.GREATER_THAN_10_LESS_EQUAL_25_LACS]: '10 Lakhs to 25 Lakhs',
+  [IncomeSlab.GREATER_THAN_25_LESS_EQUAL_1_CRORE]: '25 Lakhs to 1 Crore',
   [IncomeSlab.ABOVE_1_CRORE]: 'Above 1 Crore',
 };
 
@@ -693,7 +715,8 @@ export enum PoliticallyExposed {
 export const PoliticallyExposedLabel: Record<PoliticallyExposed, string> = {
   [PoliticallyExposed.YES]: 'The investor is a politically exposed person',
   [PoliticallyExposed.NO]: 'The investor is not a politically exposed person',
-  [PoliticallyExposed.RELATIVE]: 'The investor is a relative of a politically exposed person',
+  [PoliticallyExposed.RELATIVE]:
+    'The investor is a relative of a politically exposed person',
 };
 
 export enum FatcaDataSource {
@@ -733,9 +756,11 @@ export const FatcaIdentifierTypeLabel: Record<FatcaIdentifierType, string> = {
   [FatcaIdentifierType.OTHERS]: 'Others',
   [FatcaIdentifierType.NOT_CATEGORIZED]: 'Not categorized',
   [FatcaIdentifierType.TIN]: 'TIN [Tax Payer Identification Number]',
-  [FatcaIdentifierType.COMPANY_IDENTIFICATION_NUMBER]: 'Company Identification Number',
+  [FatcaIdentifierType.COMPANY_IDENTIFICATION_NUMBER]:
+    'Company Identification Number',
   [FatcaIdentifierType.US_GIIN]: 'US GIIN',
-  [FatcaIdentifierType.GLOBAL_ENTITY_IDENTIFICATION_NUMBER]: 'Global Entity Identification Number',
+  [FatcaIdentifierType.GLOBAL_ENTITY_IDENTIFICATION_NUMBER]:
+    'Global Entity Identification Number',
 };
 
 // ===============================
@@ -757,13 +782,19 @@ export enum FatcaGiinAvailability {
   NOT_OBTAINED = 'NO',
 }
 
-export const FatcaGiinAvailabilityLabel: Record<FatcaGiinAvailability, string> = {
-  [FatcaGiinAvailability.APPLIED_FOR]: 'Applied for',
-  [FatcaGiinAvailability.NOT_REQUIRED]: 'Not required to apply for',
-  [FatcaGiinAvailability.NOT_OBTAINED]: 'Not obtained - Non-participating FI',
-};
+export const FatcaGiinAvailabilityLabel: Record<FatcaGiinAvailability, string> =
+  {
+    [FatcaGiinAvailability.APPLIED_FOR]: 'Applied for',
+    [FatcaGiinAvailability.NOT_REQUIRED]: 'Not required to apply for',
+    [FatcaGiinAvailability.NOT_OBTAINED]: 'Not obtained - Non-participating FI',
+  };
 
 export enum MaritalStatus {
   SINGLE = 'S',
   MARRIED = 'M',
 }
+
+export const MaritalStatusLabel: Record<MaritalStatus, string> = {
+  [MaritalStatus.SINGLE]: 'Single',
+  [MaritalStatus.MARRIED]: 'Married',
+};
