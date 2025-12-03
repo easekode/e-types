@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { UCCStatus } from './bse/enums/v2Enums';
 
 /**
  * Communication Address Schema
@@ -28,6 +29,7 @@ export const UccDetailsSchema = z.object({
     incomeRange: z.string().nullable(),
     fatherName: z.string().nullable(),
     comm_addr: CommAddressSchema.nullable(),
+    uccStatus: z.nativeEnum(UCCStatus).nullable(),
 });
 
 export const UccDetailsResponseSchema = z.object({
