@@ -202,6 +202,9 @@ export const BseBankAccountSchema = z.object({
   identifier: z.array(BseIdentifierSchema).min(1), // Cancelled cheque, bank statement, etc.
 });
 
+export const BseBankAccountListSchema = z.array(BseBankAccountSchema).min(1).max(5);
+export type BseBankAccountList = z.infer<typeof BseBankAccountListSchema>;
+
 /**
  * BSE Communication Address Object
  */
