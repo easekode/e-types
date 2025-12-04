@@ -43,4 +43,5 @@ export enum NAVIGATION {
   REQUEST_DETAILS = 'request-details',
   MY_BANKS = 'my-banks',
   TRANSACTION_DETAILS = 'transaction-details',
+  ADD_NEW_BANK = 'add-new-bank',
 }

@@ -199,14 +199,15 @@ export const BseBankAccountSchema = z.object({
     .regex(ACCOUNT_NUMBER_REGEX, 'Account number must be 9-20 digits'),
   bank_acc_type: BankAccountTypeEnum,
   account_owner: z.nativeEnum(BankAccOwner),
-  identifier: z.array(BseIdentifierSchema).min(1), // Cancelled cheque, bank statement, etc.
+  identifier: z.array(BseIdentifierSchema).optional(), // Cancelled cheque, bank statement, etc.
+  bank_name: z.string().min(1).max(100),
 });
 
 export const BseBankAccountListSchema = z.array(BseBankAccountSchema).min(1).max(5);
 export type BseBankAccountList = z.infer<typeof BseBankAccountListSchema>;
 
 /**
- * BSE Communication Address Object
+ * BSE Communication Address Object (for requests)
  */
 export const BseCommAddrSchema = z.object({
   address_line_1: z.string().min(10).max(120),
@@ -219,15 +220,29 @@ export const BseCommAddrSchema = z.object({
 });
 
 /**
+ * BSE Communication Address Response Object (for API responses)
+ */
+export const BseCommAddrResponseSchema = z.object({
+  address_line_1: z.string(),
+  address_line_2: z.string().optional(),
+  address_line_3: z.string().optional(),
+  city: z.string(),
+  state: z.string(),
+  country: z.string(),
+  postalcode: z.string().optional(),
+  postalcodestr: z.string().optional(), // BSE returns this variant in some responses
+});
+
+/**
  * BSE Foreign Address Object
  */
 export const BseForeignAddrSchema = z.object({
-  addressline1: z.string().min(1).max(255),
-  addressline2: z.string().max(255).optional(),
-  addressline3: z.string().max(255).optional(),
-  city: z.string().min(1).max(100),
+  address_line_1: z.string().max(255),
+  address_line_2: z.string().max(255).optional(),
+  address_line_3: z.string().max(255).optional(),
+  city: z.string().max(100),
   state: z.string().max(100).optional(),
-  country: z.string().length(3, 'Country must be 3-letter ISO code'),
+  country: z.union([z.string(), z.number()]), // Can be string code or numeric
   postalcode: z.string().max(20),
 });
 
@@ -817,25 +832,34 @@ export const BseGetUccRequestSchema = z.object({
  * Returned from BSE get_ucc - includes verification status
  */
 export const BseBankAccountResponseSchema = z.object({
-  bankaccnum: z.string(),
-  ifsccode: z.string(),
-  bankacctype: z.string(),
-  bankname: z.string().optional(),
-  verifiedstatus: z.string().optional(),
-  verificationfailedreason: z.string().optional(),
-  verifiedat: z.string().optional(),
+  ifsc_code: z.string(),
+  bank_acc_num: z.string(),
+  bank_acc_type: z.string(),
+  account_owner: z.string().optional(),
+  bank_name: z.string().optional(),
+  verified_status: z.string().optional(),
+  verification_failed_reason: z.string().optional(),
+  verified_at: z.string().optional(),
+  created_at: z.string().optional(),
 });
+
+export type BseBankAccountResponse = z.infer<typeof BseBankAccountResponseSchema>;
 
 /**
  * BSE Holder Response Object
  */
 export const BseHolderResponseSchema = z.object({
-  holderrank: z.number(),
-  person: BsePersonSchema,
-  contact: BseContactSchema,
+  holder_rank: z.string(),
+  occ_code: z.string(),
+  auth_mode: z.string(),
+  is_pan_exempt: z.boolean(),
+  pan_exempt_category: z.string().optional(),
+  is_pan_verified: z.boolean().optional(),
   identifier: z.array(BseIdentifierSchema),
-  kyctype: z.string(),
-  ckycnumber: z.string().optional(),
+  kyc_type: z.string(),
+  ckyc_number: z.string().optional(),
+  person: BsePersonSchema,
+  contact: z.array(BseContactSchema),
 });
 
 /**
@@ -843,39 +867,87 @@ export const BseHolderResponseSchema = z.object({
  * Contains verification status per RTA and transaction readiness
  */
 export const BseUccStatusObjectSchema = z.object({
+  client_code: z.string().optional(),
+  member_code: z.string().optional(),
   holders: z
     .array(
       z.object({
-        holderrank: z.number(),
-        verifiedstatus: z.string(),
-        verificationfailedreason: z.string().optional(),
+        holder_rank: z.string(),
+        holder_pan: z.string().optional(),
+        aof: z.any().nullable().optional(),
+        aof_ria: z.any().nullable().optional(),
+        pan_verification: z.object({
+          verified_status: z.string(),
+          verification_failed_reason: z.string().optional(),
+          verified_at: z.string().optional(),
+          created_at: z.string().optional(),
+        }).optional(),
+        kyc_status: z.object({
+          kyc_type: z.string(),
+          verified_status: z.string(),
+          verification_failed_reason: z.string().optional(),
+          verified_at: z.string().optional(),
+          created_at: z.string().optional(),
+        }).optional(),
+        fatca_status: z.array(z.object({
+          rta_type: z.string(),
+          verified_status: z.string(),
+          verification_failed_reason: z.string().optional(),
+          verified_at: z.string().optional(),
+          created_at: z.string().optional(),
+        })).optional(),
+        nominee_2fa: z.object({
+          verified_status: z.string(),
+          verification_failed_reason: z.string().optional(),
+          verified_at: z.string().optional(),
+          created_at: z.string().optional(),
+        }).optional(),
+        elog: z.object({
+          status: z.string(),
+          accepted_at: z.string().optional(),
+          ip: z.string().optional(),
+          rta_verification: z.array(z.object({
+            rta_type: z.string(),
+            verified_status: z.string(),
+            verification_failed_reason: z.string().optional(),
+            verified_at: z.string().optional(),
+            created_at: z.string().optional(),
+          })).optional(),
+        }).optional(),
       }),
     )
     .optional(),
-  bankaccount: z
+  bank_account: z
     .array(
       z.object({
-        bankaccnum: z.string(),
-        verifiedstatus: z.string(),
-        verificationfailedreason: z.string().optional(),
+        bank_acc_num: z.string(),
+        ifsc_code: z.string(),
+        verified_status: z.string(),
+        verification_failed_reason: z.string().optional(),
+        verified_at: z.string().optional(),
+        created_at: z.string().optional(),
       }),
     )
     .optional(),
   depository: z
     .array(
       z.object({
-        dpid: z.string(),
-        verifiedstatus: z.string(),
-        verificationfailedreason: z.string().optional(),
+        dp_id: z.string(),
+        verified_status: z.string(),
+        verification_failed_reason: z.string().optional(),
+        verified_at: z.string().optional(),
+        created_at: z.string().optional(),
       }),
     )
     .optional(),
-  transactionready: z
+  transaction_ready: z
     .array(
       z.object({
-        rta: z.string(),
-        physical: z.string(), // Y/N
-        demat: z.string(), // Y/N
+        mode: z.string(), // PHYSICAL/DEMAT
+        verified_status: z.string(), // TRUE/FALSE
+        verification_failed_reason: z.string().optional(),
+        verified_at: z.string().optional(),
+        created_at: z.string().optional(),
       }),
     )
     .optional(),
@@ -899,26 +971,35 @@ export const BseUccResponseSchema = z.object({
   status: z.enum(['success', 'error']),
   data: z
     .object({
-      clientcode: z.string().optional(),
-      membercode: z.string().optional(),
-      status: z.string().optional(),
-      holdingnature: z.string().optional(),
-      taxstatus: z.string().optional(),
-      taxcode: z.string().optional(),
-      rdmpidcwpaymode: z.string().optional(),
-      isclientphysical: z.boolean().optional(),
-      isclientdemat: z.boolean().optional(),
-      isnominationopted: z.boolean().optional(),
-      commmode: z.string().optional(),
+      member: z.object({
+        member_id: z.string(),
+      }).optional(),
+      investor: z.object({
+        client_code: z.string(),
+      }).optional(),
+      holding_nature: z.string().optional(),
+      tax_status: z.string().optional(),
+      tax_code: z.string().optional(),
+      rdmp_idcw_pay_mode: z.string().optional(),
+      is_client_physical: z.boolean().optional(),
+      is_client_demat: z.boolean().optional(),
+      is_nomination_opted: z.boolean().optional(),
+      nominee_soa: z.any().nullable().optional(),
+      nomination_auth_mode: z.string().optional(),
+      comm_mode: z.string().optional(),
+      onboarding: z.string().optional(),
+      ucc_status: z.string().optional(),
       holder: z.array(BseHolderResponseSchema).optional(),
-      bankaccount: z.array(BseBankAccountResponseSchema).optional(),
+      bank_account: z.array(BseBankAccountResponseSchema).optional(),
       depository: z.array(z.any()).optional(),
-      commaddr: BseCommAddrSchema.optional(),
-      foreignaddr: BseForeignAddrSchema.optional(),
-      uccstatusobj: BseUccStatusObjectSchema.optional(),
+      comm_addr: BseCommAddrResponseSchema.optional(),
+      foreign_addr: BseForeignAddrSchema.optional(),
+      fatca: z.array(z.any()).optional(),
+      identifiers: z.array(z.any()).optional(),
+      ucc_status_object: BseUccStatusObjectSchema.optional(),
     })
     .optional(),
-  messages: z.array(BseApiMessageSchema),
+  messages: z.union([z.array(BseApiMessageSchema), z.null()]),
 });
 
 // ============================================================================
