@@ -80,6 +80,41 @@ export const goalSchema = z.object({
     .nullable(),
 });
 
+ // Group Creation
+export const createGroupSchema = z.object({
+  name: z.string().min(1).max(255),
+  description: z.string().optional(),
+  communityGoalId: z.string().cuid().optional(),
+  maxMembers: z.number().int().positive().optional(),
+  isPrivate: z.boolean().optional(),
+
+  // NEW: Array of member objects to invite
+  members: z
+    .array(
+      z.object({
+        email: z.string().email().optional(),
+        phone: z.string().optional(),
+        userId: z.string().optional(),
+        message: z.string().optional(),
+      }),
+    )
+    .optional()
+    .default([]),
+
+  // NEW: Optional invite expiry
+  inviteExpiresAt: z.coerce.date().optional(),
+
+  // Package and service selection
+  selectedPackages: z.array(z.string().cuid()).optional().default([]),
+  selectedServices: z.array(z.string().cuid()).optional().default([]),
+  selectedDateId: z.string().cuid().optional().nullable(),
+  targetDate: z.coerce.date(),
+  targetAmount: z.number().positive().optional(),
+  customAmount: z.number().positive().optional().nullable(),
+  investmentGoalType: z.string()?.optional(),
+});
+
+export type CreateGroupInput = z.infer<typeof createGroupSchema>;
 export type GoalFiltersInput = z.infer<typeof goalFiltersSchema>;
 export type UpdateGoalStatusInput = z.infer<typeof updateGoalStatusSchema>;
 export type GoalAnalyticsOutput = z.infer<typeof goalAnalyticsSchema>;
