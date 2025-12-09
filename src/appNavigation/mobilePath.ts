@@ -44,4 +44,9 @@ export enum NAVIGATION {
   MY_BANKS = 'my-banks',
   TRANSACTION_DETAILS = 'transaction-details',
   ADD_NEW_BANK = 'add-new-bank',
+  GOAL_COMMUNITY = 'goal-community',
+  GOAL_DETAILS = 'goal-details',
+  MUTUAL_FUND_SUMMARY = 'mutual-fund-summary',
+  INVESTMENT_GOAL_DETAILS = 'investment-goal-details',
+  MEMBER_MANAGEMENT = 'member-management',
 }
