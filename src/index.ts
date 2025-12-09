@@ -52,3 +52,6 @@ export * from './ifsc';
 export * from './order';
 export * from './goals';
 export * from './groupInvestment';
+export * from './sms';
+export * from './communityGoal';
+export * from './ucc';
