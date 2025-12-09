@@ -14,6 +14,13 @@ export interface LumpSumParams {
   years: number; // Investment duration in years
 }
 
+// Interface for calculating required SIP from target
+export interface TargetSIPParams {
+  targetAmount: number; // Target amount to achieve
+  years: number; // Investment duration in years
+  annualReturnRate?: number; // Optional: Annual return rate in % (default 0 for simple calculation)
+}
+
 // SIP: Calculate estimated return (already implemented)
 export function calculateSIPReturn({
   monthlyInvestment,
@@ -95,4 +102,68 @@ export function calculateLumpSumDetails(
     rate: params.annualReturnRate,
     tenureMonths: params.years * 12,
   };
+}
+
+// Calculate required monthly SIP to reach a target amount
+// Simple version: Divides target by months (no returns assumed)
+export function calculateRequiredSIPSimple(
+  targetAmount: number,
+  years: number,
+): number {
+  const target = new Decimal(targetAmount);
+  const months = new Decimal(Math.max(1, years * 12));
+  const monthlySIP = target.div(months);
+  
+  return monthlySIP.toDecimalPlaces(0, Decimal.ROUND_HALF_UP).toNumber();
+}
+
+// Calculate required monthly SIP to reach a target amount (with expected returns)
+// Uses reverse SIP formula: P = M / (((1 + i)^n - 1) / i) × (1 + i))
+export function calculateRequiredSIP({
+  targetAmount,
+  years,
+  annualReturnRate = 0,
+}: TargetSIPParams): number {
+  // If no return rate, use simple division
+  if (annualReturnRate === 0) {
+    return calculateRequiredSIPSimple(targetAmount, years);
+  }
+
+  const M = new Decimal(targetAmount); // Target maturity amount
+  const i = new Decimal(annualReturnRate).div(100).div(12); // monthly rate
+  const n = new Decimal(years).times(12); // total months
+
+  // Reverse formula: P = M / (((1 + i)^n - 1) / i × (1 + i))
+  const growthFactor = i.add(1).pow(n).sub(1).div(i).times(i.add(1));
+  const monthlyInvestment = M.div(growthFactor);
+
+  return monthlyInvestment.toDecimalPlaces(0, Decimal.ROUND_HALF_UP).toNumber();
+}
+
+// Helper: Calculate months difference between today and target date
+export function calculateMonthsDifference(targetDateString: string): number {
+  const today = new Date();
+  const targetDate = new Date(targetDateString);
+  const monthsDiff = Math.max(
+    1,
+    (targetDate.getFullYear() - today.getFullYear()) * 12 +
+      (targetDate.getMonth() - today.getMonth()),
+  );
+  return monthsDiff;
+}
+
+// Calculate required monthly SIP from target date string
+export function calculateRequiredSIPFromDate(
+  targetAmount: number,
+  targetDateString: string,
+  annualReturnRate?: number,
+): number {
+  const monthsDiff = calculateMonthsDifference(targetDateString);
+  const years = monthsDiff / 12;
+
+  return calculateRequiredSIP({
+    targetAmount,
+    years,
+    annualReturnRate,
+  });
 }
