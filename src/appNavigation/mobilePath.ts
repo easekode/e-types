@@ -49,4 +49,6 @@ export enum NAVIGATION {
   ADD_NEW_BANK = 'add-new-bank',
   INVESTMENT_GOAL_DETAILS = 'investment-goal-details',
   MEMBER_MANAGEMENT = 'member-management',
+  GOAL_SUMMARY = 'goal-summary',
+  GOAL_INVITE = 'goal-invite',
 }

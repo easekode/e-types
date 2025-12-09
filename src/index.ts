@@ -55,3 +55,4 @@ export * from './groupInvestment';
 export * from './sms';
 export * from './communityGoal';
 export * from './ucc';
+export * from './sipCalculator';
