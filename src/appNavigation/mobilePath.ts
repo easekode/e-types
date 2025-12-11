@@ -51,4 +51,8 @@ export enum NAVIGATION {
   MEMBER_MANAGEMENT = 'member-management',
   GOAL_SUMMARY = 'goal-summary',
   GOAL_INVITE = 'goal-invite',
+  CHOOSE_PAYMENT_METHOD = 'choose-payment-method',
+  AUTOPAY_SETUP = 'autopay-setup',
+  APPROVE_AUTOPAY_MANDATE = 'approve-autopay-mandate',
+  SIP_SETUP_SUCCESSFUL = 'sip-setup-successful',
 }

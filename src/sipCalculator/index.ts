@@ -167,3 +167,29 @@ export function calculateRequiredSIPFromDate(
     annualReturnRate,
   });
 }
+
+// Interface for calculating monthly SIP from target amount
+export interface TargetMonthlySIPParams {
+  targetAmount: number; // Desired maturity amount
+  annualReturnRate: number; // Annual return rate in %
+  years: number; // Investment duration in years
+}
+
+// Calculate monthly SIP amount needed to reach a target amount
+// Formula: P = M / (((1 + i)^n - 1) / i) × (1 + i))
+// Where P = monthly investment, M = target maturity amount, i = monthly rate, n = months
+export function calculateMonthlySIPFromTarget({
+  targetAmount,
+  annualReturnRate,
+  years,
+}: TargetMonthlySIPParams): number {
+  const M = new Decimal(targetAmount);
+  const i = new Decimal(annualReturnRate).div(100).div(12); // monthly rate
+  const n = new Decimal(years).times(12); // total months
+
+  // P = M / (((1 + i)^n - 1) / i × (1 + i))
+  const growthFactor = i.add(1).pow(n).sub(1).div(i).times(i.add(1));
+  const monthlyInvestment = M.div(growthFactor);
+
+  return monthlyInvestment.toDecimalPlaces(0, Decimal.ROUND_HALF_UP).toNumber();
+}
