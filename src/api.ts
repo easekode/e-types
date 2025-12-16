@@ -22,10 +22,10 @@ export enum HttpStatusCode {
 }
 
 // API response status
-export enum ApiStatus {
+export enum ApiStatusInternal {
   SUCCESS = 'success',
   ERROR = 'error',
-  LOADING = 'loading',
+  LOADING = 'pending',
   IDLE = 'idle',
 }
 

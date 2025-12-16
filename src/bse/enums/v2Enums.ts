@@ -7,6 +7,7 @@
 // ===============================
 // API Response Status
 // ===============================
+//bse api status enum
 export enum ApiStatus {
   SUCCESS = 'success',
   ERROR = 'error',
@@ -432,6 +433,13 @@ export enum MandateStatus {
   CANCELLED = 'C',
   REJECTED = 'R',
 }
+
+export const MandateStatusLabel: Record<MandateStatus, string> = {
+  [MandateStatus.PENDING]: 'Pending',
+  [MandateStatus.VERIFIED]: 'Verified',
+  [MandateStatus.CANCELLED]: 'Cancelled',
+  [MandateStatus.REJECTED]: 'Rejected',
+};
 
 // ===============================
 // Payment Gateway Module

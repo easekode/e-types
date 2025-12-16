@@ -1,152 +1,141 @@
-/**
- * BSE StARMF v2 Webhook Event Types
- * 
- * Comprehensive enum of all webhook events sent by BSE platform
- * for UCC, Order, SxP (SIP/SWP/STP), Mandate, NFT, and Payment Gateway operations.
- * 
- * @see specs/003-bse-webhook-events/contracts/openapi.yaml
- */
-
-export enum WebhookEvent {
-  // ===============================
-  // UCC (Unique Client Code) Events
-  // ===============================
-  UCC_NEW = 'ucc_new',
-  UCC_UPDATE = 'ucc_update',
-  UCC_APPROVED = 'ucc_approved',
-  UCC_REJECTED = 'ucc_rejected',
-  UCC_VERIFY = 'ucc_verify',
-  UCC_INACTIVE = 'ucc_inactive',
-  UCC_AUTH_UCC = 'ucc_auth_ucc',
-  UCC_AUTH_ELOG = 'ucc_auth_elog',
-
-  // ===============================
-  // Order Lifecycle Events
-  // ===============================
-  ORDER_NEW = 'order_new',
-  ORDER_UPDATE = 'order_update',
-  ORDER_CANCEL = 'order_cancel',
-  MATCHED = 'matched',
-  ORDER_RTA_RESPONSE = 'order_rta_response',
-  ORDER_ALLOTTED = 'order_allotted',
-  ORDER_REDEEMED = 'order_redeemed',
-  ORDER_REFUND = 'order_refund',
-  ORDER_REJECTED = 'order_rejected',
-  OPS_REJECTED = 'ops_rejected',
-  RECEIVED = 'received',
-  ORDER_2FA_PENDING = 'order_2fa_pending',
-  BANK_TPV_PENDING = 'bank_tpv_pending',
-  QUEUED_FOR_RTA = 'queued_for_rta',
-  SENT_TO_RTA = 'sent_to_rta',
-  RTA_RESP_RCVD = 'rta_resp_rcvd',
-  UNITS_PAYOUT_SENT = 'units_payout_sent',
-  DP_UNITS_MATCHED = 'dp_units_matched',
-  UNITS_RTA_SETTLED = 'units_rta_settled',
-  DONE = 'done',
-  PARTIAL_UNITS_DONE = 'partial_units_done',
-  REDEMPT_RTA_SETTLED = 'redempt_rta_settled',
-  QUEUED_FOR_DP = 'queued_for_dp',
-  RTA_REJECTED = 'rta_rejected',
-  REFUND_PENDING = 'refund_pending',
-  EXCH_REFUND_INIT = 'exch_refund_init',
-
-  // ===============================
-  // SxP (SIP/SWP/STP) Events
-  // ===============================
-  SXP_REGISTERED = 'sxp_registered',
-  SXP_CANCELLED = 'sxp_cancelled',
-  SXP_PAUSED = 'sxp_paused',
-  SXP_RESUMED = 'sxp_resumed',
-  SXP_TOPUP = 'sxp_topup',
-  SXP_INSTALLMENT_GENERATED = 'sxp_installment_generated',
-
-  // ===============================
-  // Mandate Events
-  // ===============================
-  MANDATE_REGISTERED = 'mandate_registered',
-  MANDATE_UPDATED = 'mandate_updated',
-  MANDATE_CANCELLED = 'mandate_cancelled',
-  MANDATE_VERIFIED = 'mandate_verified',
-  MANDATE_LINKED = 'mandate_linked',
-  MANDATE_DELINKED = 'mandate_delinked',
-  
-  // Mandate Status Events
-  ACTIVE = 'active',
-  INVESTOR_AUTH_AWAITED = 'investor_auth_awaited',
-  SCAN_UPLOAD_PENDING = 'scan_upload_pending',
-  REJECTED = 'rejected',
-  IN_PROCESS_AGENCY = 'in_process_agency',
-  AUTO_REJECTED = 'auto_rejected',
-  PRE_DEBIT_NOTIFICATION_SENT_SUCCESSFULLY = 'pre_debit_notification_sent_successfully',
-  COMPLETED = 'completed',
-
-  // ===============================
-  // NFT (Nominee/Contact/Bank) Events
-  // ===============================
-  NFT_NOMINEE_CHANGE = 'nft_nominee_change',
-  NFT_CONTACT_CHANGE = 'nft_contact_change',
-  NFT_BANK_CHANGE = 'nft_bank_change',
-
-  // ===============================
-  // Payment Gateway Events
-  // ===============================
-  PG_PAYMENT_INITIATED = 'pg_payment_initiated',
-  PG_PAYMENT_SUCCESS = 'pg_payment_success',
-  PG_PAYMENT_FAILED = 'pg_payment_failed',
-  
-  // Agency Payment Events
-  AGENCY_PENDING = 'agency_pending',
-  AGENCY_IN_PROCESS = 'agency_in_process',
-  AGENCY_APPROVED = 'agency_approved',
-  AGENCY_REJECTED = 'agency_rejected',
-  AGENCY_CANCELLED = 'agency_cancelled',
-  AGENCY_PAYMENT_COMPLETE = 'agency_payment_complete',
+export enum WebhookEventType {
+  UCC = 'UCC',
+  ORDER = 'ORDER',
+  SXP = 'SXP',
+  MANDATES = 'MANDATES',
+  PAYMENT_GATEWAY = 'PAYMENT GATEWAY',
 }
 
-/**
- * Helper function to check if an event belongs to a specific category
- */
-export const WebhookEventCategory = {
-  isUccEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('ucc_');
-  },
+export enum UccWebhookEvent {
+  // State 0: User registered, awaiting authentication
+  PENDING_AUTHENTICATION = 'PENDING_AUTHENTICATION',
   
-  isOrderEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('order_') || 
-           event === WebhookEvent.MATCHED ||
-           event === WebhookEvent.RECEIVED ||
-           event === WebhookEvent.OPS_REJECTED ||
-           event === WebhookEvent.DONE ||
-           event === WebhookEvent.RTA_REJECTED ||
-           event === WebhookEvent.REFUND_PENDING ||
-           event === WebhookEvent.EXCH_REFUND_INIT ||
-           event.includes('rta_') ||
-           event.includes('units_') ||
-           event.includes('dp_') ||
-           event.includes('queued_');
-  },
+  // State 1: Authentication completed
+  UCC_AUTH_UCC = 'ucc_auth_ucc',
   
-  isSxpEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('sxp_');
-  },
+  // State 1: Demat account verification (for demat clients)
+  UCC_DP_ACC = 'ucc_dp_acc',
   
-  isMandateEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('mandate_') ||
-           event === WebhookEvent.ACTIVE ||
-           event === WebhookEvent.INVESTOR_AUTH_AWAITED ||
-           event === WebhookEvent.SCAN_UPLOAD_PENDING ||
-           event === WebhookEvent.REJECTED ||
-           event === WebhookEvent.IN_PROCESS_AGENCY ||
-           event === WebhookEvent.AUTO_REJECTED ||
-           event === WebhookEvent.PRE_DEBIT_NOTIFICATION_SENT_SUCCESSFULLY ||
-           event === WebhookEvent.COMPLETED;
-  },
+  // State 2: Submitted to KRA/Bank for verification
+  PENDING_VERIFICATION = 'PENDING_VERIFICATION',
   
-  isNftEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('nft_');
-  },
+  // State 3: Parallel verification steps
+  UCC_KYC_VERIFICATION = 'ucc_kyc_verification',
+  UCC_PAN_VERIFICATION = 'ucc_pan_verification',
+  UCC_BANK_ACC = 'ucc_bank_acc',
   
-  isPaymentEvent: (event: WebhookEvent): boolean => {
-    return event.startsWith('pg_') || event.startsWith('agency_');
-  },
-};
+  // State 4: All verifications complete - Ready to trade
+  ACTIVE = 'active',
+  
+  // State S: Account suspended
+  SUSPENDED = 'suspended',
+}
+
+export enum OrderWebhookEvent {
+  // State 0: Order received at exchange
+  RECEIVED = 'received',
+  
+  // State 1: Two-factor authentication pending (if enabled)
+  ORDER_2FA_PENDING = 'order_2fa_pending',
+  
+  // State 2: Awaiting payment confirmation
+  PAYMENT_PENDING = 'payment_pending',
+  
+  // State 3: Payment received, matching in progress
+  MATCH_PENDING = 'match_pending',
+  
+  // State 4: Order matched with AMC scheme
+  MATCHED = 'matched',
+  
+  // State 5: Order sent to RTA for unit allocation
+  SENT_TO_RTA = 'sent_to_rta',
+  
+  // State 8: Units allocated by RTA
+  UNITS_RTA_SETTLED = 'units_rta_settled',
+  
+  // State 9: Order complete
+  DONE = 'done',
+}
+
+export enum SxpWebhookEvent {
+  // State 0: SIP registration initiated
+  INITIATED = 'initiated',
+  
+  // State 1: Awaiting BSE approval
+  PENDING_APPROVAL = 'pending_approval',
+  
+  // State 2: SIP active, installments will execute
+  ACTIVE = 'active',
+  
+  // State 3: Installment order created (contains order_id for child order)
+  SXP_ORDER_TRIGGERED = 'sxp_order_triggered',
+  
+  // State S: Auto-cancelled after 3 consecutive failures
+  AUTOCANCELLED = 'autocancelled',
+}
+
+export enum MandateWebhookEnachEvent {
+  // State 0: Mandate registration initiated
+  INITIATED = 'initiated',
+  
+  // State 1: Awaiting investor authentication via bank
+  INVESTOR_AUTH_AWAITED = 'investor_auth_awaited',
+  
+  // State 2: Mandate authenticated and active (required for SIP registration)
+  ACTIVE = 'active',
+  
+  // State 2: Mandate authentication failed/rejected
+  REJECTED = 'rejected',
+  
+  // State S: Mandate cancelled by the investor
+  CANCELLED = 'cancelled',
+  
+  // State S: Mandate completed (end date reached)
+  COMPLETED = 'completed',
+}
+
+export enum MandateWebhookUpiEvent {
+  // State 0: Mandate registration process initiated
+  INITIATED = 'initiated',
+  
+  // State 1: Investor authentication pending
+  IN_PROCESS_AGENCY = 'in_process_agency',
+  
+  // State 2: Mandate successfully active at agency
+  ACTIVE = 'active',
+  
+  // State 2: Mandate registration process not completed at agency
+  REJECTED = 'rejected',
+  
+  // State S: Mandate cancelled by the investor
+  CANCELLED = 'cancelled',
+  
+  // State S: Mandate completed (end date reached)
+  COMPLETED = 'completed',
+  
+  // State S: Mandate rejected by agency
+  AUTO_REJECTED = 'auto_rejected',
+  
+  // State S: Amount successfully pre-debited from the account
+  PRE_DEBIT_NOTIFICATION_SENT_SUCCESSFULLY = 'pre_debit_notification_sent_successfully',
+  
+  // State S: Investor wants to cancel the mandate (2FA enabled members)
+  INVESTOR_AUTH_AWAITED = 'investor_auth_awaited',
+}
+
+export enum PaymentGatewayWebhookEvent {
+  // State 3: Payment captured successfully (resumes order processing)
+  AGENCY_APPROVED = 'agency_approved',
+  
+  // State 3: Payment failed/declined
+  AGENCY_REJECTED = 'agency_rejected',
+}
+
+export type WebhookEvent = 
+  | UccWebhookEvent 
+  | OrderWebhookEvent 
+  | SxpWebhookEvent 
+  | MandateWebhookEnachEvent
+  | MandateWebhookUpiEvent
+  | PaymentGatewayWebhookEvent;
+

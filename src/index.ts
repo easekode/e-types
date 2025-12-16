@@ -56,3 +56,4 @@ export * from './sms';
 export * from './communityGoal';
 export * from './ucc';
 export * from './sipCalculator';
+export * from './bankAccount'
