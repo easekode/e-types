@@ -193,6 +193,7 @@ export const BseOrderDataSchema = z.object({
   status: z.string().optional(),
   member: z.string().optional(),
   scheme: z.string().optional(),
+  scheme_name: z.string().optional().nullable(), // Added: scheme name from SchemeCodeMaster
   amount: z.number().optional(),
   cur: z.string().optional(),
   is_units: z.boolean().optional(),
