@@ -56,4 +56,5 @@ export enum NAVIGATION {
   AUTOPAY_SETUP = 'autopay-setup',
   APPROVE_AUTOPAY_MANDATE = 'approve-autopay-mandate',
   SIP_SETUP_SUCCESSFUL = 'sip-setup-successful',
+  ORDER_DETAILS_LISTING = 'order-details-listing',
 }
