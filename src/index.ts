@@ -57,3 +57,4 @@ export * from './communityGoal';
 export * from './ucc';
 export * from './sipCalculator';
 export * from './bankAccount'
+export * from './sip';

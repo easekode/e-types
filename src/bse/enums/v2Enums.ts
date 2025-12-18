@@ -370,6 +370,12 @@ export enum OrderStatusInternal {
   DRAFT = 'DRAFT',
 }
 
+export enum StatusInternal {
+  DRAFT = 'DRAFT',
+  FAILED = 'FAILED',
+  SUBMITTED = 'SUBMITTED',
+}
+
 // ===============================
 // SIP/SWP/STP Module
 // ===============================
