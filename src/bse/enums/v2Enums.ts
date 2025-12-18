@@ -413,6 +413,12 @@ export enum MandateType {
   NACH = 'X',
 }
 
+export const MandateTypeLabel: Record<MandateType, string> = {
+  [MandateType.UPI_AUTOPAY]: 'UPI Autopay',
+  [MandateType.ENACH]: 'ENACH',
+  [MandateType.NACH]: 'NACH',
+};
+
 export enum MandateMode {
   ACH = 'ACH',
   DIRECT_DEBIT = 'DD',
