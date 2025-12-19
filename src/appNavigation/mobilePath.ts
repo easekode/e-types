@@ -58,4 +58,5 @@ export enum NAVIGATION {
   SIP_SETUP_SUCCESSFUL = 'sip-setup-successful',
   ACTIVE_MANDATE_DETAIL_SCREEN = 'active-mandate-detail-screen',
   ORDER_DETAILS_LISTING = 'order-details-listing',
+  LUMPSUM_PAYMENT_SCREEN = 'lumpsum-payment-screen',
 }
