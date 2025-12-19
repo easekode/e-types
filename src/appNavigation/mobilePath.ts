@@ -50,6 +50,7 @@ export enum NAVIGATION {
   INVESTMENT_GOAL_DETAILS = 'investment-goal-details',
   MEMBER_MANAGEMENT = 'member-management',
   SIP_HISTORY_LISTING = 'sip-history-listing',
+  ORDER_DETAILS = 'order-details',
   GOAL_SUMMARY = 'goal-summary',
   GOAL_INVITE = 'goal-invite',
   CHOOSE_PAYMENT_METHOD = 'choose-payment-method',
