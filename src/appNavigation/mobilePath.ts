@@ -58,6 +58,7 @@ export enum NAVIGATION {
   APPROVE_AUTOPAY_MANDATE = 'approve-autopay-mandate',
   SIP_SETUP_SUCCESSFUL = 'sip-setup-successful',
   ACTIVE_MANDATE_DETAIL_SCREEN = 'active-mandate-detail-screen',
+  APPROVE_ENACH_MANDATE = 'approve-enach-mandate',
   ORDER_DETAILS_LISTING = 'order-details-listing',
   LUMPSUM_PAYMENT_SCREEN = 'lumpsum-payment-screen',
 }
