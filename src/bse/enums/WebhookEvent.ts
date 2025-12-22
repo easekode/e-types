@@ -59,20 +59,61 @@ export enum OrderWebhookEvent {
 
 export enum SxpWebhookEvent {
   // State 0: SIP registration initiated
-  INITIATED = 'initiated',
+  // This will be initial event indicating SXP has been successfully registered at BSE
+  REG = 'reg',
   
-  // State 1: Awaiting BSE approval
-  PENDING_APPROVAL = 'pending_approval',
-  
-  // State 2: SIP active, installments will execute
+  // State 1: Two-factor authentication pending (for 2FA included members)
+  SXP_2FA_PENDING = 'sxp_2fa_pending',
+  // State 1,2: SIP active, installments will execute
+  // For 2FA Included Member: Triggered after client completes 2FA authentication
+  // For 2FA Excluded Members: The SXP order will be default in active state
   ACTIVE = 'active',
-  
+
   // State 3: Installment order created (contains order_id for child order)
+  // This event will be triggered when child orders are initiated for the registered SXPs
   SXP_ORDER_TRIGGERED = 'sxp_order_triggered',
   
+  // State S: SIP paused by client
+  // This event will be triggered depending upon client initiation
+  PAUSED = 'paused',
+  
+  // State S: SIP cancelled by investor
+  // This event will be triggered depending upon client initiation
+  SXP_INVESTOR_CANC = 'sxp_investor_canc',
+  
+  // State S: SIP cancelled by the exchange
+  // This event will be triggered if the SXP order is cancelled by the exchange
+  CANCELLED = 'cancelled',
+  
+  // State S: Mandate unlinked from SIP
+  // This event will be triggered depending upon client initiation
+  MANDATE_UNLINK = 'mandate_unlink',
+  
   // State S: Auto-cancelled after 3 consecutive failures
+  // This event will only trigger if three consecutive SIPs fail
   AUTOCANCELLED = 'autocancelled',
+  
+  // State S: SIP matured
+  // This event will only trigger if SXP order has matured
+  MATURED = 'matured',
 }
+
+/**
+ * Mapping between SxpWebhookEvent and SxPStatus from v2Enums
+ * Maps webhook events to their corresponding SIP status values
+ */
+export const SxpWebhookEventToStatusMap: Record<SxpWebhookEvent, string> = {
+  [SxpWebhookEvent.REG]: 'pending',
+  [SxpWebhookEvent.SXP_2FA_PENDING]: 'pending',
+  [SxpWebhookEvent.ACTIVE]: 'active',
+  [SxpWebhookEvent.SXP_ORDER_TRIGGERED]: 'active', // Remains active during installment execution
+  [SxpWebhookEvent.PAUSED]: 'paused',
+  [SxpWebhookEvent.SXP_INVESTOR_CANC]: 'cancelled',
+  [SxpWebhookEvent.CANCELLED]: 'cancelled',
+  [SxpWebhookEvent.MANDATE_UNLINK]: 'cancelled',
+  [SxpWebhookEvent.AUTOCANCELLED]: 'cancelled',
+  [SxpWebhookEvent.MATURED]: 'completed',
+};
 
 export enum MandateWebhookEnachEvent {
   // State 0: Mandate registration initiated
