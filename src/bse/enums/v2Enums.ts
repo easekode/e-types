@@ -323,6 +323,12 @@ export enum OrderType {
   SWITCH = 'switch',
 }
 
+export enum OrderTypeCode {
+  PURCHASE = 'p',
+  REDEMPTION = 'r',
+  SWITCH = 's',
+}
+
 export enum OrderSource {
   LUMPSUM = 'lumpsum',
   NFO = 'nfo',

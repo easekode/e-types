@@ -26,6 +26,7 @@ export enum ApiStatusInternal {
   SUCCESS = 'success',
   ERROR = 'error',
   LOADING = 'pending',
+  PENDING = 'pending',
   IDLE = 'idle',
 }
 

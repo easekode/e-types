@@ -74,3 +74,10 @@ export interface PurchaseRequestParams {
   filler5?: string;
   filler6?: string;
 }
+
+export const lumpSumOrderSchema = z.object({
+  investmentGoalId: z.string(),
+  planId: z.string(),
+  amount: z.number().positive('Amount must be greater than 0'),
+});
+export type LumpSumOrder = z.infer<typeof lumpSumOrderSchema>;
