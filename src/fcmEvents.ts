@@ -9,10 +9,9 @@
 
 export enum FCMEventType {
   MANDATE_SUCCESS = 'MANDATE_SUCCESS',
-
-  LUMPSUM_SUCCESS = 'LUMPSUM_SUCCESS',
-
   ENACH_ACTIVE = 'ACTIVE',
+  LUMPSUM_TWO_FA_SUCCESS = 'payment_pending',
+  LUMPSUM_SUCCESS = 'matched',
 }
 
 /**
