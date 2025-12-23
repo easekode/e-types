@@ -28,7 +28,6 @@ export const BseOrderSchema = z.object({
   is_fresh: z.boolean(),
   dst_folio: z.string(),
   phys_or_demat: z.nativeEnum(PhysicalOrDemat),
-  payment_ref_id: z.string(),
   src: z.nativeEnum(OrderSource),
   holder: z.array(OrderHolderSchema),
   is_nomination_opted: z.boolean(),
