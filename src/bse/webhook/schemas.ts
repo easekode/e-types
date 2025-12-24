@@ -107,6 +107,7 @@ const SxpActionSchema = BaseActionSchema.extend({
   event: z.nativeEnum(SxpWebhookEvent),
   sxp_reg_num: z.string().optional(), // SIP registration ID - persistent across installments
   order_id: z.union([z.string(), z.number()]).transform(String).optional(), // Present only when event == 'sxp_order_triggered'
+  mem_ord_ref_id: z.string().optional(),
 });
 
 // ===============================

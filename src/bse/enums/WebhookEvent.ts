@@ -32,29 +32,53 @@ export enum UccWebhookEvent {
 }
 
 export enum OrderWebhookEvent {
-  // State 0: Order received at exchange
+  // State 0: Order Received
   RECEIVED = 'received',
   
-  // State 1: Two-factor authentication pending (if enabled)
+  // State 1: Order 2FA Pending - In case of 2FA included member
   ORDER_2FA_PENDING = 'order_2fa_pending',
   
-  // State 2: Awaiting payment confirmation
+  // State 2: Bank TPV Pending
+  BANK_TPV_PENDING = 'bank_tpv_pending',
+  
+  // State 2: Payment Pending
   PAYMENT_PENDING = 'payment_pending',
   
-  // State 3: Payment received, matching in progress
+  // State 3: OMB Pending - ICCL
   MATCH_PENDING = 'match_pending',
   
-  // State 4: Order matched with AMC scheme
+  // State 4: OMB Completed - ICCL
   MATCHED = 'matched',
   
-  // State 5: Order sent to RTA for unit allocation
+  // State 5: Final CFF File reported to RTA
   SENT_TO_RTA = 'sent_to_rta',
   
-  // State 8: Units allocated by RTA
+  // State 6: CFF in RTA Processing
+  QUEUED_FOR_RTA = 'queued_for_rta',
+  
+  // State 7: In case of CFF Upload level failure - If Order need to be reprocessed
+  RTA_REPROCESS = 'rta_reprocess',
+  
+  // State 7: RFF Received from RTA
+  RTA_RESP_RCVD = 'rta_resp_rcvd',
+  
+  // State 7: Order Rejected by RTA
+  RTA_REJECTED = 'rta_rejected',
+  
+  // State 8: Units Settled by RTA
   UNITS_RTA_SETTLED = 'units_rta_settled',
   
-  // State 9: Order complete
+  // State 9: Order Cycle Complete
   DONE = 'done',
+  
+  // State S: Order rejected - Order placed exceeds threshold limit
+  PLATFORM_REJECTED = 'platform_rejected',
+  
+  // State S: Threshold approval pending - Threshold is in approval stage
+  THRESHOLD_APPROVAL_PENDING = 'threshold_approval_pending',
+  
+  // State S1: Ops rejected - Threshold is not approved by Ops team
+  OPS_REJECTED = 'ops_rejected',
 }
 
 export enum SxpWebhookEvent {
