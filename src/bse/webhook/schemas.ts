@@ -1,13 +1,13 @@
 import { z } from 'zod';
-import { 
+import {
   WebhookEventType,
   UccWebhookEvent,
   OrderWebhookEvent,
   SxpWebhookEvent,
   MandateWebhookEnachEvent,
   MandateWebhookUpiEvent,
-  PaymentGatewayWebhookEvent,
 } from '../enums/WebhookEvent';
+import { PaymentGatewayEvent } from '../enums/v2Enums';
 
 // ===============================
 // Common Base Structures
@@ -42,7 +42,12 @@ const BaseActionSchema = z.object({
   }),
   msgcode: z.number().int().positive('Message code must be a positive integer'),
   event: z.string().min(1, 'Event name is required'),
-  at: z.string().datetime({ offset: true, message: 'Invalid ISO 8601 datetime with timezone' }),
+  at: z
+    .string()
+    .datetime({
+      offset: true,
+      message: 'Invalid ISO 8601 datetime with timezone',
+    }),
   event_message: z.string().optional().default(''),
   data: z.any().nullable().optional().default(null),
 });
@@ -58,7 +63,7 @@ const BaseActionSchema = z.object({
 export const WebhookStateHistorySchema = z.array(
   z.object({
     event: z.string(),
-  })
+  }),
 );
 
 export type WebhookStateHistory = z.infer<typeof WebhookStateHistorySchema>;
@@ -121,7 +126,10 @@ const SxpActionSchema = BaseActionSchema.extend({
  */
 const MandateActionSchema = BaseActionSchema.extend({
   event_type: z.literal(WebhookEventType.MANDATES),
-  event: z.union([z.nativeEnum(MandateWebhookEnachEvent), z.nativeEnum(MandateWebhookUpiEvent)]),
+  event: z.union([
+    z.nativeEnum(MandateWebhookEnachEvent),
+    z.nativeEnum(MandateWebhookUpiEvent),
+  ]),
   mandate_id: z.union([z.string(), z.number()]).transform(String).optional(), // Unique e-mandate identifier
 });
 
@@ -136,7 +144,7 @@ const MandateActionSchema = BaseActionSchema.extend({
  */
 const PaymentGatewayActionSchema = BaseActionSchema.extend({
   event_type: z.literal(WebhookEventType.PAYMENT_GATEWAY),
-  event: z.nativeEnum(PaymentGatewayWebhookEvent),
+  event: z.nativeEnum(PaymentGatewayEvent),
   pg_order_ids: z.array(z.string()).optional(), // Array of order IDs - multiple orders may be settled in single payment
 });
 
@@ -225,7 +233,9 @@ export type UccWebhookPayload = z.infer<typeof UccWebhookPayloadSchema>;
 export type OrderWebhookPayload = z.infer<typeof OrderWebhookPayloadSchema>;
 export type SxpWebhookPayload = z.infer<typeof SxpWebhookPayloadSchema>;
 export type MandateWebhookPayload = z.infer<typeof MandateWebhookPayloadSchema>;
-export type PaymentGatewayWebhookPayload = z.infer<typeof PaymentGatewayWebhookPayloadSchema>;
+export type PaymentGatewayWebhookPayload = z.infer<
+  typeof PaymentGatewayWebhookPayloadSchema
+>;
 
 // Action types
 export type UccAction = z.infer<typeof UccActionSchema>;
@@ -335,13 +345,15 @@ export interface HandlerResult {
 
 /**
  * Extract webhook event type from payload
- * 
+ *
  * @param payload - Webhook payload with action.event_type field
  * @returns WebhookEventType enum value or null if invalid
  */
-export const getEventType = (payload: WebhookPayload): WebhookEventType | null => {
+export const getEventType = (
+  payload: WebhookPayload,
+): WebhookEventType | null => {
   const eventType = payload.action?.event_type;
-  
+
   switch (eventType) {
     case WebhookEventType.UCC:
       return WebhookEventType.UCC;

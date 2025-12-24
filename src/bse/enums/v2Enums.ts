@@ -497,6 +497,54 @@ export enum MISType {
   DIRECT_DEBIT = 'DIRECT_DEBIT',
 }
 
+/**
+ * Payment Gateway Event States
+ * Tracks the lifecycle of payment processing through BSE Payment Gateway
+ *
+ * Event Flow:
+ * exch_init → agency_pending → agency_inprocess → agency_approved/rejected → agency_payment_complete
+ *
+ * @see bulk-dump/bse.md - BSE Payment Gateway specification
+ */
+export enum PaymentGatewayEvent {
+  EXCH_INIT = 'exch_init', // Payment initiated at exchange
+  AGENCY_PENDING = 'agency_pending', // Payment request sent to agency, awaiting response
+  AGENCY_INPROCESS = 'agency_inprocess', // Payment request in process at agency
+  AGENCY_APPROVED = 'agency_approved', // Payment approved by agency (success)
+  AGENCY_REJECTED = 'agency_rejected', // Payment rejected by agency (failure)
+  AGENCY_CANCELLED = 'agency_cancelled', // Payment cancelled (no event triggered)
+  AGENCY_PAYMENT_COMPLETE = 'agency_payment_complete', // Payment process completed (final state)
+}
+
+/**
+ * Payment Gateway Event Labels
+ * Human-readable descriptions for each payment event state
+ */
+export const PaymentGatewayEventLabel: Record<PaymentGatewayEvent, string> = {
+  [PaymentGatewayEvent.EXCH_INIT]: 'Payment Initiated',
+  [PaymentGatewayEvent.AGENCY_PENDING]: 'Awaiting Agency Response',
+  [PaymentGatewayEvent.AGENCY_INPROCESS]: 'Processing at Agency',
+  [PaymentGatewayEvent.AGENCY_APPROVED]: 'Payment Approved',
+  [PaymentGatewayEvent.AGENCY_REJECTED]: 'Payment Rejected',
+  [PaymentGatewayEvent.AGENCY_CANCELLED]: 'Payment Cancelled',
+  [PaymentGatewayEvent.AGENCY_PAYMENT_COMPLETE]: 'Payment Completed',
+};
+
+/**
+ * Payment Gateway Event Flow Codes
+ * Numeric codes corresponding to each event state per BSE documentation
+ */
+export const PaymentGatewayEventFlowCode: Record<PaymentGatewayEvent, number> =
+  {
+    [PaymentGatewayEvent.EXCH_INIT]: 0,
+    [PaymentGatewayEvent.AGENCY_PENDING]: 1,
+    [PaymentGatewayEvent.AGENCY_INPROCESS]: 2,
+    [PaymentGatewayEvent.AGENCY_APPROVED]: 3,
+    [PaymentGatewayEvent.AGENCY_REJECTED]: 3,
+    [PaymentGatewayEvent.AGENCY_CANCELLED]: 3,
+    [PaymentGatewayEvent.AGENCY_PAYMENT_COMPLETE]: 4,
+  };
+
 // ===============================
 // Webhook Events
 // ===============================
