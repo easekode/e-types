@@ -81,3 +81,6 @@ export const lumpSumOrderSchema = z.object({
   amount: z.number().positive('Amount must be greater than 0'),
 });
 export type LumpSumOrder = z.infer<typeof lumpSumOrderSchema>;
+
+// Export order get schema
+export * from './orderGetSchema';
