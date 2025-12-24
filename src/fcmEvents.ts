@@ -8,10 +8,37 @@
  */
 
 export enum FCMEventType {
-  MANDATE_SUCCESS = 'MANDATE_SUCCESS',
-  ENACH_ACTIVE = 'ACTIVE',
-  LUMPSUM_TWO_FA_SUCCESS = 'payment_pending',
-  LUMPSUM_SUCCESS = 'matched',
+  UPI_MANDATE_SUCCESS = 'upi_mandate_success',
+  ENACH_MANDATE_SUCCESS = 'enach_mandate_success',
+  // ENACH_ACTIVE = 'ACTIVE',
+  LUMPSUM_TWO_FA_SUCCESS = 'lumpsum_2fa_success',
+  LUMPSUM_ORDER_MATCHED = 'matched',
+}
+
+/**
+ * UPI Mandate FCM Data
+ */
+
+export interface FcmDataBase {
+  type: FCMEventType;
+}
+
+export interface UpiMandateFcmData extends FcmDataBase {
+  mandateId: string;
+}
+
+/**
+ * eNACH Mandate FCM Data
+ */
+export interface EnachMandateFcmData extends FcmDataBase {
+  mandateId: string;
+}
+
+/**
+ * Lumpsum FCM Data
+ */
+export interface LumpsumFcmData extends FcmDataBase {
+  orderId: string;
 }
 
 /**
