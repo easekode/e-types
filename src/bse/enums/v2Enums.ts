@@ -421,7 +421,7 @@ export enum MandateType {
 
 export const MandateTypeLabel: Record<MandateType, string> = {
   [MandateType.UPI_AUTOPAY]: 'UPI Autopay',
-  [MandateType.ENACH]: 'ENACH',
+  [MandateType.ENACH]: 'eNACH',
   [MandateType.NACH]: 'NACH',
 };
 
