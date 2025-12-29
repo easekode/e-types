@@ -61,4 +61,5 @@ export enum NAVIGATION {
   APPROVE_ENACH_MANDATE = 'approve-enach-mandate',
   ORDER_DETAILS_LISTING = 'order-details-listing',
   LUMPSUM_PAYMENT_SCREEN = 'lumpsum-payment-screen',
+  REFER_AND_EARN = 'refer-and-earn',
 }
