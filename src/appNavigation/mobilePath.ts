@@ -62,4 +62,5 @@ export enum NAVIGATION {
   ORDER_DETAILS_LISTING = 'order-details-listing',
   LUMPSUM_PAYMENT_SCREEN = 'lumpsum-payment-screen',
   REFER_AND_EARN = 'refer-and-earn',
+  TERMS_AND_CONDITIONS = 'terms-and-conditions',
 }
