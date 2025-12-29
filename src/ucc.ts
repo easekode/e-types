@@ -36,7 +36,17 @@ export const UccDetailsResponseSchema = z.object({
   status: z.string(),
   missingFields: z.array(z.string()).optional(),
   data: UccDetailsSchema,
-})
+});
+
+export const UccStatusDataSchema = z.object({
+  uccStatus: z.nativeEnum(UCCStatus),
+  clientCode: z.string(),
+});
+
+export const UccStatusResponseSchema = z.object({
+  status: z.boolean(),
+  data: UccStatusDataSchema,
+});
 
 /**
  * Type for Communication Address
@@ -48,4 +58,5 @@ export type CommAddress = z.infer<typeof CommAddressSchema>;
  */
 export type UccDetails = z.infer<typeof UccDetailsSchema>;
 export type UccDetailsResponse = z.infer<typeof UccDetailsResponseSchema>;
-
+export type UccStatusData = z.infer<typeof UccStatusDataSchema>;
+export type UccStatusResponse = z.infer<typeof UccStatusResponseSchema>;
