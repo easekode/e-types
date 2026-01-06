@@ -17,21 +17,21 @@ export const CommAddressSchema = z.object({
  * Returns user's UCC registration details in a flat structure
  */
 export const UccDetailsSchema = z.object({
-    uccCode: z.string().nullable(),
-    name: z.string(),
-    dob: z.string().nullable(),
-    mobile: z.string(),
-    email: z.string().nullable(),
-    pan: z.string().nullable(), // Masked PAN (e.g., "****1234F")
-    occCode: z.string().nullable(), // Occupation code
-    gender: z.string().nullable(),
-    maritalStatus: z.string().nullable(),
-    incomeRange: z.string().nullable(),
-    fatherName: z.string().nullable(),
-    comm_addr: CommAddressSchema.nullable(),
-    uccStatus: z.nativeEnum(UCCStatus).nullable(),
-    primaryProfileComplete: z.boolean(),
-    primaryBankComplete: z.boolean(),
+  uccCode: z.string().nullable(),
+  name: z.string(),
+  dob: z.string().nullable(),
+  mobile: z.string(),
+  email: z.string().nullable(),
+  pan: z.string().nullable(), // Masked PAN (e.g., "****1234F")
+  occCode: z.string().nullable(), // Occupation code
+  gender: z.string().nullable(),
+  maritalStatus: z.string().nullable(),
+  incomeRange: z.string().nullable(),
+  fatherName: z.string().nullable(),
+  comm_addr: CommAddressSchema.nullable(),
+  uccStatus: z.nativeEnum(UCCStatus).nullable(),
+  primaryProfileComplete: z.boolean(),
+  primaryBankComplete: z.boolean(),
 });
 
 export const UccDetailsResponseSchema = z.object({
@@ -46,6 +46,8 @@ export const UccDetailsResponseSchema = z.object({
 export const UccStatusDataSchema = z.object({
   uccStatus: z.nativeEnum(UCCStatus),
   clientCode: z.string(),
+  primaryProfileComplete: z.boolean(),
+  primaryBankComplete: z.boolean(),
 });
 
 export const UccStatusResponseSchema = z.object({
