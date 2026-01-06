@@ -30,6 +30,8 @@ export const UccDetailsSchema = z.object({
     fatherName: z.string().nullable(),
     comm_addr: CommAddressSchema.nullable(),
     uccStatus: z.nativeEnum(UCCStatus).nullable(),
+    primaryProfileComplete: z.boolean(),
+    primaryBankComplete: z.boolean(),
 });
 
 export const UccDetailsResponseSchema = z.object({
