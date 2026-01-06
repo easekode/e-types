@@ -34,7 +34,10 @@ export const UccDetailsSchema = z.object({
 
 export const UccDetailsResponseSchema = z.object({
   status: z.string(),
+
   missingFields: z.array(z.string()).optional(),
+  primaryProfileFields: z.array(z.string()).optional(),
+  primaryBankFields: z.array(z.string()).optional(),
   data: UccDetailsSchema,
 });
 
