@@ -63,4 +63,5 @@ export enum NAVIGATION {
   LUMPSUM_PAYMENT_SCREEN = 'lumpsum-payment-screen',
   REFER_AND_EARN = 'refer-and-earn',
   TERMS_AND_CONDITIONS = 'terms-and-conditions',
+  MORE_INFORMATION = 'more-information',
 }
