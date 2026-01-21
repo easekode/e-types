@@ -4,7 +4,8 @@ import { z } from 'zod';
 export enum SmsCategory {
   REGISTRATION_OTP = 'registrationOtp',
   AUTH_OTP = 'authOtp',
-  GOAL_INVITE = 'goalInvite'
+  GOAL_INVITE = 'goalInvite',
+  GOAL_INVITE2 = 'goalInvite2'
 }
 
 export const sendSmsSchema = z.object({
