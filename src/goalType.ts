@@ -112,6 +112,6 @@ export const InvestmentGoalDetails: Record<
 };
 
 export enum InvestmentGoalTypeExtra {
-  CUSTOM_GROUP = 'CUSTOM_GROUP',
-  COMMUNITY_GOAL = 'COMMUNITY_GOAL',
+  CUSTOM_GROUP = 'c',
+  COMMUNITY_GOAL = 'g',
 }

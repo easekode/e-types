@@ -59,3 +59,4 @@ export * from './sipCalculator';
 export * from './bankAccount';
 export * from './sip';
 export * from './fcmEvents';
+export * from './oneLinkQueryKey'
