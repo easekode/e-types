@@ -44,9 +44,23 @@ const BaseActionSchema = z.object({
   event: z.string().min(1, 'Event name is required'),
   at: z
     .string()
-    .datetime({
-      offset: true,
-      message: 'Invalid ISO 8601 datetime with timezone',
+    .min(1, 'Timestamp is required')
+    .transform((val) => {
+      // Handle BSE's Go timestamp format: "2026-01-30 17:33:04.654768548 +0530 IST m=+74077.526663948"
+      // Extract the datetime part before " IST m=+" or just before " m=+"
+      const goTimestampMatch = val.match(/^(.+?)\s+[A-Z]{3}\s+m=\+/);
+      
+      if (goTimestampMatch) {
+        // Parse: "2026-01-30 17:33:04.654768548 +0530"
+        const dateTimeStr = goTimestampMatch[1].trim();
+        // Convert to ISO 8601: replace space with 'T', format timezone
+        const isoStr = dateTimeStr
+          .replace(/^(\d{4}-\d{2}-\d{2}) (\d{2}:\d{2}:\d{2}\.\d+) ([+-]\d{4})$/, '$1T$2$3')
+          .replace(/([+-]\d{2})(\d{2})$/, '$1:$2');
+        return isoStr;
+      }
+      // If already ISO 8601 or other format, return as-is
+      return val;
     }),
   event_message: z.string().optional().default(''),
   data: z.any().nullable().optional().default(null),
