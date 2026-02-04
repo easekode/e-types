@@ -23,12 +23,11 @@ export enum UccWebhookEvent {
   UCC_KYC_VERIFICATION = 'ucc_kyc_verification',
   UCC_PAN_VERIFICATION = 'ucc_pan_verification',
   UCC_BANK_ACC = 'ucc_bank_acc',
-  
   // State 4: All verifications complete - Ready to trade
-  ACTIVE = 'active',
-  
+  ACTIVE = 'ACTIVE',  
   // State S: Account suspended
   SUSPENDED = 'suspended',
+  UCC_AUTH_NOMINEE = 'ucc_auth_nominee',
 }
 
 export enum OrderWebhookEvent {
