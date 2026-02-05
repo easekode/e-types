@@ -159,7 +159,7 @@ const MandateActionSchema = BaseActionSchema.extend({
 const PaymentGatewayActionSchema = BaseActionSchema.extend({
   event_type: z.literal(WebhookEventType.PAYMENT_GATEWAY),
   event: z.nativeEnum(PaymentGatewayEvent),
-  pg_order_ids: z.array(z.string()).optional(), // Array of order IDs - multiple orders may be settled in single payment
+  pg_order_ids: z.array(z.union([z.string(), z.number()]).transform(String)).optional(), // Array of order IDs - multiple orders may be settled in single payment
 });
 
 // ===============================
