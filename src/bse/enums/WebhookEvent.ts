@@ -28,6 +28,7 @@ export enum UccWebhookEvent {
   // State S: Account suspended
   SUSPENDED = 'suspended',
   UCC_AUTH_NOMINEE = 'ucc_auth_nominee',
+  UCC_AUTH_ELOG = 'ucc_auth_elog',
 }
 
 export enum OrderWebhookEvent {
