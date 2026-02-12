@@ -410,6 +410,38 @@ export enum SxPStatus {
   COMPLETED = 'completed',
 }
 
+export enum SxPCancelReason {
+  NON_AVAILABILITY_OF_FUNDS = 'Non availability of Funds',
+  SCHEME_NOT_PERFORMING = 'Scheme not performing',
+  SERVICE_ISSUE = 'Service issue',
+  LOAD_REVISED = 'Load Revised',
+  WISH_TO_INVEST_IN_OTHER_SCHEMES = 'Wish to invest in other schemes',
+  CHANGE_IN_FUND_MANAGER = 'Change in Fund Manager',
+  GOAL_ACHIEVED = 'Goal Achieved',
+  NOT_COMFORTABLE_WITH_MARKET_VOLATILITY = 'Not comfortable with market volatility',
+  WILL_BE_RESTARTING_SIP_AFTER_FEW_MONTHS = 'Will be restarting SIP after few months',
+  MODIFICATIONS_IN_BANK_MANDATE_DATE = 'Modifications in bank/mandate/date etc',
+  I_HAVE_DECIDED_TO_INVEST_ELSEWHERE = 'I have decided to invest elsewhere',
+  THIS_IS_NOT_THE_RIGHT_TIME_TO_INVEST = 'This is not the right time to invest',
+  OTHERS = 'Others',
+}
+
+export const SxPCancelReasonMapping: Record<SxPCancelReason, number> = {
+  [SxPCancelReason.NON_AVAILABILITY_OF_FUNDS]: 1,
+  [SxPCancelReason.SCHEME_NOT_PERFORMING]: 2,
+  [SxPCancelReason.SERVICE_ISSUE]: 3,
+  [SxPCancelReason.LOAD_REVISED]: 4,
+  [SxPCancelReason.WISH_TO_INVEST_IN_OTHER_SCHEMES]: 5,
+  [SxPCancelReason.CHANGE_IN_FUND_MANAGER]: 6,
+  [SxPCancelReason.GOAL_ACHIEVED]: 7,
+  [SxPCancelReason.NOT_COMFORTABLE_WITH_MARKET_VOLATILITY]: 8,
+  [SxPCancelReason.WILL_BE_RESTARTING_SIP_AFTER_FEW_MONTHS]: 9,
+  [SxPCancelReason.MODIFICATIONS_IN_BANK_MANDATE_DATE]: 10,
+  [SxPCancelReason.I_HAVE_DECIDED_TO_INVEST_ELSEWHERE]: 11,
+  [SxPCancelReason.THIS_IS_NOT_THE_RIGHT_TIME_TO_INVEST]: 12,
+  [SxPCancelReason.OTHERS]: 13,
+};
+
 // ===============================
 // Mandate Module
 // ===============================
