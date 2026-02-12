@@ -64,4 +64,7 @@ export enum NAVIGATION {
   REFER_AND_EARN = 'refer-and-earn',
   TERMS_AND_CONDITIONS = 'terms-and-conditions',
   MORE_INFORMATION = 'more-information',
+  BANK_DETAILS = 'bank-details',
+  SIP_CANCEL = 'sip-cancel',
+  SIP_TOPUP = 'sip-topup',
 }
