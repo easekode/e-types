@@ -1,5 +1,6 @@
 import { z } from 'zod';
 import { DateObjOrString } from '../date';
+import { SxPCancelReasonMapping } from '../bse/enums/v2Enums';
 
 // Main SIP registration schema
 export const sxpDraftFormDataSchema = z.object({
@@ -22,8 +23,22 @@ export const updateDraftSipSchema = z.object({
   planId: z.string().optional(),
 });
 
+export const sxpCancelDataSchema = z.object({
+  sipId: z.string(),
+  reason_cd: z.nativeEnum(SxPCancelReasonMapping),
+  reason_cd_msg: z.string().optional(),
+});
+
+export const sxpTopupDataSchema = z.object({
+  sipId: z.string(),
+  amount: z.number().positive('Amount must be greater than 0'),
+  startDate: DateObjOrString,
+});
+
 // Type inference from the schema
 export type sxpDraftFormData = z.infer<typeof sxpDraftFormDataSchema>;
 export type sxpConfirmFormData = z.infer<typeof sxpConfirmFormDataSchema>;
 export type UpdateDraftSip = z.infer<typeof updateDraftSipSchema>;
+export type sxpCancelSip = z.infer<typeof sxpCancelDataSchema>;
+export type sxpTopupSip = z.infer<typeof sxpTopupDataSchema>;
 export * from './sxpRequest';
