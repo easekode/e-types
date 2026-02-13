@@ -4,6 +4,7 @@ import { UserSchema } from './auth';
 
 export enum InvestmentGoalStatus {
   DRAFT = 'DRAFT',
+  PENDING = 'PENDING',
   ACTIVE = 'ACTIVE',
   PAUSED = 'PAUSED',
   COMPLETED = 'COMPLETED',
